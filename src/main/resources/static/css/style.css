@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@600&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    background-image: url("../images/main_bg.png");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+#sample-text-card {
+    margin: 0 100px;
+    font-family: 'Comfortaa', cursive;
+    color: #fff;
+}
+
+#sample-text-card h1 {
+    font-size: 50px;
+}
+
+#sample-text-card p {
+    font-size: 14px;
+}
+
+.button-wrapper a {
+    padding: 15px;
+    width: 200px;
+    color: #fff;
+    box-shadow: 0 3px 6px rgb(0, 14, 53);
+}
+
+.register {
+    margin-right: 7px;
+    background-color: #ff4e00;
+    border: 1px solid #8b2800
+}
+
+.login {
+    background-color: #ffb114;
+    border: 1px solid #543800
+}
