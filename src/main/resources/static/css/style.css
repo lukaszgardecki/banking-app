@@ -43,3 +43,25 @@ body {
     background-color: #ffb114;
     border: 1px solid #543800
 }
+
+.card {
+    font-family: 'Comfortaa', cursive;;
+}
+
+.card .form-control {
+    margin: 10px 0;
+    box-shadow: 0 3px 6px rgb(0, 14, 53);
+}
+
+.card .card-title {
+    color: #fff;
+}
+
+.card button {
+    background-color: #ff4e00;
+    border: 1px solid #8b2800;
+    box-shadow: 0 3px 6px rgb(0, 14, 53);
+    color: #fff;
+    width: 200px;
+    margin: 10px 0;
+}
