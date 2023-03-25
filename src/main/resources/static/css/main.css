@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@600&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: 'Comfortaa', cursive;
+}
+
+body {
+    background-color: rgb(211, 217, 226);
+}
+
+.main-page-header {
+    padding: 10px 0;
+}
+
+.main-page-header .company-name {
+    font-weight: 600;
+    color: #fff;
+}
+
+.navigation {
+    /*border: 1px solid #fff;*/
+    margin-left: 20px;
+}
+
+.navigation li {
+    display: inline-block;
+    list-style-type: none;
+    margin: 0 15px;
+}
+
+.navigation a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.display-name i {
+    font-weight: 600;
+}
