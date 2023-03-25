@@ -37,3 +37,14 @@ body {
 .display-name i {
     font-weight: 600;
 }
+
+#transact-btn {
+    background-color: #ffb114;
+    border: 1px solid #543800
+}
+
+#add-account-btn {
+    background-color: #ff4e00;
+    border: 1px solid #8b2800;
+    color: #fff;
+}
