@@ -38,11 +38,129 @@
 
         <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+                <h5 class="offcanvas-title text-white" id="offcanvasExampleLabel">Transact</h5>
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
-                Transactions Form Container
+                <small class="card-text text-white">
+                    Choose an option below to perform a transaction
+                </small>
+
+                <select name="transact-type" class="form-control my-3" id="transact-type">
+                    <option value="">-- Select transaction type --</option>
+                    <option value="payment">Payment</option>
+                    <option value="transfer">Transfer</option>
+                    <option value="deposit">Deposit</option>
+                    <option value="withdraw">Withdraw</option>
+                </select>
+
+                <div class="card payment-card">
+                    <div class="card-body">
+                        <div class="form-group mb-2">
+                            <label>Account Holder / Beneficiary</label>
+                            <input type="text" name="beneficiary" class="form-control" placeholder="Enter Account holder / Beneficiary name">
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label>Beneficiary Account Number</label>
+                            <input type="text" name="account_number" class="form-control" placeholder="Enter Beneficiary Account No">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Select Account</label>
+                            <select name="account_id" class="form-control">
+                                <option value="">-- Select Account --</option>
+                            </select>
+                        </div>
+
+
+                        <div class="form-group mb-2">
+                            <label>Reference</label>
+                            <input type="text" name="reference" class="form-control" placeholder="Enter Reference">
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label>Enter Payment Amount</label>
+                            <input type="text" name="payment_amount" class="form-control" placeholder="Enter Payment Amount">
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <button class="btn btn-md transact-btn">Pay</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card transfer-card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Select Account</label>
+                            <select name="account_id" class="form-control">
+                                <option value="">-- Select Account --</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Select Account</label>
+                            <select name="account_id" class="form-control">
+                                <option value="">-- Select Account --</option>
+                            </select>
+                        </div>
+
+
+                        <div class="form-group mb-2">
+                            <label>Enter Transfer Amount</label>
+                            <input type="text" name="transfer_amount" class="form-control" placeholder="Enter Transfer Amount">
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <button class="btn btn-md transact-btn">Transfer</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card deposit-card">
+                    <div class="card-body">
+                        <form action="" class="deposit-form">
+                            <div class="form-group mb-2">
+                                <label>Enter Deposit Amount</label>
+                                <input type="text" name="deposit_amount" class="form-control" placeholder="Enter Deposit Amount">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Select Account</label>
+                                <select name="account_id" class="form-control">
+                                    <option value="">-- Select Account --</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group mb-2">
+                                <button class="btn btn-md transact-btn my-2">Deposit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card withdraw-card">
+                    <div class="card-body">
+                        <form action="" class="deposit-form">
+                            <div class="form-group mb-2">
+                                <label>Enter Withdrawal Amount</label>
+                                <input type="text" name="withdrawal_amount" class="form-control" placeholder="Enter Withdrawal Amount">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Select Account</label>
+                                <select name="account_id" class="form-control">
+                                    <option value="">-- Select Account --</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group mb-2">
+                                <button class="btn btn-md transact-btn my-2">Withdraw</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -137,5 +255,7 @@
 
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+        <script src="../static/scripts/script.js"></script>
     </body>
 </html>

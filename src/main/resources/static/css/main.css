@@ -52,3 +52,23 @@ body {
     border: 1px solid #8b2800;
     color: #fff;
 }
+
+.offcanvas {
+    background-image: url('../images/offcanvas_bg.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.transact-btn {
+    background-color: #ff4e00;
+    border: 1px solid #8b2800;
+    color: #fff;
+}
+
+.payment-card,
+.transfer-card,
+.deposit-card,
+.withdraw-card {
+    display: none;
+}
