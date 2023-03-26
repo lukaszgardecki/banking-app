@@ -9,6 +9,10 @@ body {
     background-color: rgb(211, 217, 226);
 }
 
+.container {
+    margin: 10px 0;
+}
+
 .main-page-header {
     padding: 10px 0;
 }
