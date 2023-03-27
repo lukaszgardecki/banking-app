@@ -1,4 +1,4 @@
-package com.example.app;
+package com.example.app.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,8 +18,7 @@ public class SecurityConfig {
                         "/css/**",
                         "/images/**",
                         "/scripts/**").permitAll()
-                .anyRequest().authenticated())
-                .csrf().disable();
+                .anyRequest().authenticated());
         return http.build();
     }
 }

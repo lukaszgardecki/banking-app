@@ -1,6 +1,7 @@
 package com.example.app;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -16,8 +17,15 @@ public class IndexController {
         return "login";
     }
 
-    @GetMapping("/register")
-    public String getRegister() {
-        return "registration";
-    }
+
+
+//    @GetMapping("/error")
+//    public String getError() {
+//        return "error";
+//    }
+
+//    @GetMapping("/verify")
+//    public String getVerify() {
+//
+//    }
 }
