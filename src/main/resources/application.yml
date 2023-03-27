@@ -1,0 +1,15 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/demo_bank_v1
+    username: root
+    password: admin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+server:
+  error:
+    whitelabel:
+      enabled: false
