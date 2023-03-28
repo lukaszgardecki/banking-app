@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@600&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: 'Comfortaa', cursive;
+}
+
+body {
+    height: 100vh;
+    background-image: url("../images/main_bg.png");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.card {
+    box-shadow: 0 3px 6px rgb(0, 14, 53);
+}
+
+
+.card .card-text {
+    font-size: 14px;
+}

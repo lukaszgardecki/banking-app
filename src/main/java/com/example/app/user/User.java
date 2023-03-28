@@ -32,6 +32,7 @@ public class User {
     private String token;
     private Integer code;
     private Integer verified;
-    private LocalDate verified_at;
+    private LocalDateTime verified_at;
+    private LocalDateTime created_at;
     private LocalDateTime updated_at;
 }

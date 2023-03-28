@@ -1,4 +1,4 @@
-package com.example.app.config;
+package com.example.app.mail;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -6,6 +6,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import java.util.Properties;
 
 public class MailConfig {
+
 
     @Bean
     public static JavaMailSenderImpl getMailConfig() {

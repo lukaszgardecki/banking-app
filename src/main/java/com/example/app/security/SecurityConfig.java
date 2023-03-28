@@ -1,4 +1,4 @@
-package com.example.app.config;
+package com.example.app.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +12,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(request -> request
+                .requestMatchers("/login", "/register", "/verify").permitAll()
                 .requestMatchers("/").permitAll()
-                .requestMatchers("/login", "/register").permitAll()
                 .requestMatchers(
                         "/css/**",
                         "/images/**",

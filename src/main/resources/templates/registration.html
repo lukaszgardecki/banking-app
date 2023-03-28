@@ -19,8 +19,8 @@
                   <ion-icon name="create"></ion-icon> Register
               </h1>
 
-              <div th:if="${successMsg}"  th:text="${successMsg}" class="alert alert-success text-center border border-danger"></div>
-              <div th:if="${confirm_pass}"  th:text="${confirm_pass}" class="alert alert-danger text-center border border-danger"></div>
+              <div th:if="${successMsg}"  th:text="${successMsg}" class="alert alert-success text-center border border-success"></div>
+              <div th:if="${formError}"  th:text="${formError}" class="alert alert-danger text-center border border-danger"></div>
 
               <form th:action="@{/register}" method="post" class="reg-form" th:object="${user}">
                   <div class="row">
@@ -60,7 +60,7 @@
                       <input type="password" name="confirm_password"
                              class="form-control form-control-lg"
                              placeholder="Confirm Password">
-                        <p th:error="*{password}" th:text="${confirm_pass}" class="text-white bg-danger"></p>
+                        <p th:error="*{password}" th:text="${formError}" class="text-white bg-danger"></p>
                     </div>
                   </div>
 

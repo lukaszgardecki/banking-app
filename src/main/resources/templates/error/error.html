@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,31 +9,7 @@
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
           crossorigin="anonymous"
     >
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@600&display=swap');
-
-        * {
-            box-sizing: border-box;
-            font-family: 'Comfortaa', cursive;
-        }
-
-        body {
-            height: 100vh;
-            background-image: url("../../static/images/main_bg.png");
-            background-size: cover;
-            background-position: center center;
-            background-repeat: no-repeat;
-        }
-
-        .card {
-            box-shadow: 0 3px 6px rgb(0, 14, 53);
-        }
-
-
-        .card .card-text {
-            font-size: 14px;
-        }
-    </style>
+    <link href="../../static/css/error.css" rel="stylesheet" th:href="@{/css/error.css}">
     <title>Error</title>
 </head>
 <body class="d-flex align-items-center justify-content-center text-danger">
@@ -43,11 +19,7 @@
         </h3>
         <hr>
         <div class="card-body">
-            <p class="card-text">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Quibusdam veniam, accusantium non culpa sapiente veritatis amet sit quis,
-                perferendis impedit aliquid cum ipsum consequuntur in voluptatum.
-            </p>
+            <div th:if="${error}"  th:text="${error}" class="card-text alert alert-danger text-center border border-danger"></div>
             <hr>
             <a href="login.html" class="btn btn-sm btn-danger">
                 <ion-icon name="arrow-undo" class="me-1"></ion-icon> Back

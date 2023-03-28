@@ -19,6 +19,8 @@
                     <ion-icon name="person-circle"></ion-icon>Login
                 </h1>
 
+                <div th:if="${successMsg}"  th:text="${successMsg}" class="alert alert-success text-center border border-success"></div>
+
                 <form action="#" class="login-form">
                     <div class="form-group col">
                         <input type="email" name="email" class="form-control form-control-lg" placeholder="Enter Email">

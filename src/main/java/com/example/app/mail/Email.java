@@ -1,10 +1,10 @@
-package com.example.app.helpers;
+package com.example.app.mail;
 
-public class HTML {
+public class Email {
 
 
-    public static String htmlEmailTemplate(String token, int code) {
-        String url = "http://localhost:8080/verify?token" + token + "&code=" + code;
+    public static String getHtmlEmailTemplate(String token, int code) {
+        String url = "http://localhost:8080/verify?token=" + token + "&code=" + code;
 
         return "<!DOCTYPE html>\n" +
                 "<html lang='en'>\n" +

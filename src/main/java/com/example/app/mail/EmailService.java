@@ -1,12 +1,11 @@
 package com.example.app.mail;
 
-import com.example.app.config.MailConfig;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
-public class MailMessenger {
+public class EmailService {
 
     public static void sendEmail(String from, String toMail, String subject, String body) throws MessagingException {
         JavaMailSenderImpl sender = MailConfig.getMailConfig();
