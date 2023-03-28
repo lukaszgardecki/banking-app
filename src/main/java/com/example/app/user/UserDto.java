@@ -1,6 +1,5 @@
-package com.example.app;
+package com.example.app.user;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,14 +7,9 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "users")
 @Getter
 @Setter
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class UserDto {
     @NotEmpty(message = "The first name field cannot be empty")
     @Size(min = 3, message = "The first name must be longer than 3 characters")
     private String first_name;
@@ -30,7 +24,7 @@ public class User {
     @NotNull
     private String password;
     private String token;
-    private String code;
+    private Integer code;
     private Integer verified;
     private LocalDate verified_at;
     private LocalDateTime updated_at;

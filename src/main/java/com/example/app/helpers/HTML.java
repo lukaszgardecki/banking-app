@@ -3,8 +3,8 @@ package com.example.app.helpers;
 public class HTML {
 
 
-    public static String htmlEmailTemplate(String token, String code) {
-        String url = "http://localhost:8080/verify?token" + token + "&code=";
+    public static String htmlEmailTemplate(String token, int code) {
+        String url = "http://localhost:8080/verify?token" + token + "&code=" + code;
 
         return "<!DOCTYPE html>\n" +
                 "<html lang='en'>\n" +
