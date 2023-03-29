@@ -11,14 +11,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.authorizeHttpRequests(request -> request
-                .requestMatchers("/login", "/register", "/verify").permitAll()
-                .requestMatchers("/").permitAll()
-                .requestMatchers(
-                        "/css/**",
-                        "/images/**",
-                        "/scripts/**").permitAll()
-                .anyRequest().authenticated());
+        http
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers( "/register", "/verify").permitAll()
+                        .requestMatchers("/").permitAll()
+                        .requestMatchers(
+                                "/css/**",
+                                "/images/**",
+                                "/scripts/**").permitAll()
+                        .anyRequest().authenticated())
+                .formLogin(login -> login
+                        .loginPage("/login")
+                        .permitAll());
         return http.build();
     }
 }
