@@ -1,6 +1,6 @@
 package com.example.app.web;
 
-import com.example.app.exceptions.form.ConfirmPassFieldIsEmpty;
+import com.example.app.exceptions.form.ConfirmPassFieldIsEmptyException;
 import com.example.app.exceptions.form.MissingFormFieldsException;
 import com.example.app.exceptions.form.PasswordsAreNotTheSameException;
 import com.example.app.exceptions.token.SessionHasExpiredException;
@@ -26,20 +26,20 @@ public class RegisterController {
 
     @GetMapping("/register")
     public String getRegister(Model model) {
-        UserDto user = new UserDto();
+        UserRegistrationDto user = new UserRegistrationDto();
         model.addAttribute("user", user);
         return "registration";
     }
 
     @PostMapping("/register")
-    public String register(@Valid @ModelAttribute("user") UserDto user,
+    public String register(@Valid @ModelAttribute("user") UserRegistrationDto user,
                            BindingResult result,
                            @RequestParam String confirm_password,
                            Model model) throws MessagingException {
 
         try {
             userService.checkFormErrors(result, user, confirm_password);
-        } catch (MissingFormFieldsException | PasswordsAreNotTheSameException | ConfirmPassFieldIsEmpty e) {
+        } catch (MissingFormFieldsException | PasswordsAreNotTheSameException | ConfirmPassFieldIsEmptyException e) {
             model.addAttribute("formError", e.getMessage());
             return "registration";
         }

@@ -1,6 +1,6 @@
 package com.example.app.user;
 
-import com.example.app.exceptions.form.ConfirmPassFieldIsEmpty;
+import com.example.app.exceptions.form.ConfirmPassFieldIsEmptyException;
 import com.example.app.exceptions.form.MissingFormFieldsException;
 import com.example.app.exceptions.form.PasswordsAreNotTheSameException;
 import com.example.app.exceptions.token.SessionHasExpiredException;
@@ -64,13 +64,13 @@ public class UserService {
         EmailService.sendEmail("alojz.kleks@company.com", user.getEmail(), "Verify Account", emailBody);
     }
 
-    public void checkFormErrors(BindingResult result, UserDto user, String confirmPassword) {
+    public void checkFormErrors(BindingResult result, UserRegistrationDto user, String confirmPassword) {
         String password = user.getPassword();
 
         if (result.hasErrors() && password.isEmpty()) {
             throw new MissingFormFieldsException();
         } else if (result.hasErrors() && confirmPassword.isEmpty()) {
-            throw new ConfirmPassFieldIsEmpty();
+            throw new ConfirmPassFieldIsEmptyException();
         } else if (result.hasErrors() && !password.equals(confirmPassword)) {
             throw new PasswordsAreNotTheSameException();
         } else if (result.hasErrors()) {
