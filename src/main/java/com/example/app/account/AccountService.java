@@ -15,7 +15,7 @@ public class AccountService {
 
 
     public List<Account> getAccountsByUserId(Long id) {
-        return accountRepository.findAccountsByUser_id(id);
+        return accountRepository.findAccountsByUserId(id);
     }
 
     public BigDecimal getTotalBalance(Long user_id) {
