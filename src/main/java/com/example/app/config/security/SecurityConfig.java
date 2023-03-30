@@ -21,10 +21,12 @@ public class SecurityConfig {
                         .requestMatchers("/add/**").authenticated()
                         .requestMatchers( "/register", "/verify").permitAll()
                         .requestMatchers("/").permitAll()
-                        .anyRequest().authenticated())
+                        .anyRequest().permitAll())
                 .formLogin(login -> login
                         .loginPage("/login").permitAll()
-                        .defaultSuccessUrl("/app/dashboard"))
+                        .loginProcessingUrl("/success-login")
+                        )
+
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout/**", HttpMethod.GET.name()))
                         .logoutSuccessUrl("/login?logout").permitAll());

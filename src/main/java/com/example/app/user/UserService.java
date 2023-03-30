@@ -9,9 +9,11 @@ import com.example.app.helpers.Token;
 import com.example.app.mail.Email;
 import com.example.app.mail.EmailService;
 import com.example.app.user.dto.UserCredentialsDto;
+import com.example.app.user.dto.UserDashboardDto;
 import com.example.app.user.dto.UserRegistrationDto;
 import com.example.app.user.dto.UserVerifyingDto;
 import com.example.app.user.mappers.UserCredentialsDtoMapper;
+import com.example.app.user.mappers.UserDashboardDtoMapper;
 import com.example.app.user.mappers.UserVerifyingDtoMapper;
 import jakarta.mail.MessagingException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -95,6 +97,17 @@ public class UserService {
     public Optional<UserCredentialsDto> findCredentialsByEmail(String email) {
         return userRepository.findUserByEmail(email)
                 .map(UserCredentialsDtoMapper::map);
+    }
+
+    public Optional<UserDashboardDto> findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email)
+                .map(UserDashboardDtoMapper::map);
+    }
+
+    public Boolean isUserVerified(String email) {
+        Integer verified = userRepository.isUserVerified(email);
+        if (verified == 1) return Boolean.TRUE;
+        else return Boolean.FALSE;
     }
 
     private User getUserToSaveWithDefaultRole(UserRegistrationDto userRegistration) {
