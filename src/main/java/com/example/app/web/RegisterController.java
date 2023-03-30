@@ -3,7 +3,8 @@ package com.example.app.web;
 import com.example.app.exceptions.form.ConfirmPassFieldIsEmpty;
 import com.example.app.exceptions.form.MissingFormFieldsException;
 import com.example.app.exceptions.form.PasswordsAreNotTheSameException;
-import com.example.app.user.UserDto;
+import com.example.app.exceptions.token.SessionHasExpiredException;
+import com.example.app.user.dto.UserRegistrationDto;
 import com.example.app.user.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -49,6 +50,22 @@ public class RegisterController {
         String successMessage = "Account Registered Successfully. Please check your email and verify account!";
         model.addAttribute("successMsg", successMessage);
         return "registration";
+    }
+
+    @GetMapping("/verify")
+    public String getVerify(@RequestParam("token") String token,
+                            @RequestParam("code") Integer code,
+                            Model model) {
+
+        try {
+            userService.verifyAccount(token, code);
+        } catch (SessionHasExpiredException e) {
+            model.addAttribute("error", e.getMessage());
+            return "error/error";
+        }
+
+        model.addAttribute("successMsg", "Account verified successfully. Please proceed to log in!");
+        return "login";
     }
 
 }

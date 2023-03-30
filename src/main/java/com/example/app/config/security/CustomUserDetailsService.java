@@ -1,11 +1,14 @@
-package com.example.app.security;
+package com.example.app.config.security;
 
 import com.example.app.user.UserService;
+import com.example.app.user.dto.UserCredentialsDto;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
     private final UserService userService;
 
