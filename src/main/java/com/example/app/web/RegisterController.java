@@ -6,6 +6,7 @@ import com.example.app.exceptions.form.PasswordsAreNotTheSameException;
 import com.example.app.exceptions.token.SessionHasExpiredException;
 import com.example.app.user.dto.UserRegistrationDto;
 import com.example.app.user.UserService;
+import com.example.app.user.dto.UserVerifyingDto;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -44,7 +45,7 @@ public class RegisterController {
             return "registration";
         }
 
-        UserDto registeredUser = userService.register(user);
+        UserVerifyingDto registeredUser = userService.register(user);
         userService.sendVerifyEmailTo(registeredUser);
 
         String successMessage = "Account Registered Successfully. Please check your email and verify account!";

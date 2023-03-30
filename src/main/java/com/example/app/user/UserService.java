@@ -57,7 +57,7 @@ public class UserService {
         );
     }
 
-    public void sendVerifyEmailTo(UserDto user) throws MessagingException {
+    public void sendVerifyEmailTo(UserVerifyingDto user) throws MessagingException {
         String token = user.getToken();
         Integer code = user.getCode();
         String emailBody = Email.getHtmlEmailTemplate(token, code);
