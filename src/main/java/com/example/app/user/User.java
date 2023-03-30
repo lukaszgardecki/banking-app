@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @NotEmpty(message = "The first name field cannot be empty")
     @Size(min = 3, message = "The first name must be longer than 3 characters")
     private String first_name;
