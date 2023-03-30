@@ -8,8 +8,13 @@ import com.example.app.helpers.Code;
 import com.example.app.helpers.Token;
 import com.example.app.mail.Email;
 import com.example.app.mail.EmailService;
+import com.example.app.user.dto.UserCredentialsDto;
+import com.example.app.user.dto.UserRegistrationDto;
+import com.example.app.user.dto.UserVerifyingDto;
+import com.example.app.user.mappers.UserCredentialsDtoMapper;
+import com.example.app.user.mappers.UserVerifyingDtoMapper;
 import jakarta.mail.MessagingException;
-import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -19,42 +24,49 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+    public static final String DEFAULT_USER_ROLE = "USER";
     private final UserRepository userRepository;
+    private final UserRoleRepository userRoleRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.userRoleRepository = userRoleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
-    public UserDto register(UserDto user) {
-        User userToSave = UserDtoMapper.map(user);
-        userToSave.setToken(Token.generateToken());
-        userToSave.setCode(Code.generateCode());
-        userToSave.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
-        userToSave.setVerified(0);
-        userToSave.setVerified_at(null);
-        userToSave.setUpdated_at(LocalDateTime.now());
-        userToSave.setCreated_at(LocalDateTime.now());
-
+    public UserVerifyingDto register(UserRegistrationDto userRegistration) {
+        User userToSave = getUserToSaveWithDefaultRole(userRegistration);
         User savedUser = userRepository.save(userToSave);
-        return UserDtoMapper.map(savedUser);
+        return UserVerifyingDtoMapper.map(savedUser);
     }
 
     @Transactional
     public void verifyAccount(String token, Integer code) {
-        Optional<User> optionalUser = userRepository.findUserByTokenAndCode(token, code);
-        optionalUser.ifPresentOrElse(
-                user -> {
-                    user.setToken(null);
-                    user.setCode(null);
-                    user.setVerified(1);
-                    user.setVerified_at(LocalDateTime.now());
-                    user.setUpdated_at(LocalDateTime.now());
-                },
-                () -> {
-                    throw new SessionHasExpiredException();
-                }
-        );
+//        userRepository.findUserByTokenAndCode(token, code)
+//            .ifPresentOrElse(
+//                user -> {
+//                    user.setToken(null);
+//                    user.setCode(null);
+//                    user.setVerified(1);
+//                    user.setVerified_at(LocalDateTime.now());
+//                    user.setUpdated_at(LocalDateTime.now());
+//                },
+//                    // TODO: 29.03.2023 Replace this to method reference
+//                () -> {
+//                    throw new SessionHasExpiredException();
+//                }
+//            );
+
+        userRepository.findUserByTokenAndCode(token, code)
+                .ifPresentOrElse(
+                        this::verifyUser,
+                        // TODO: 29.03.2023 Replace this to method reference
+                        () -> {
+                            throw new SessionHasExpiredException();
+                        }
+                );
     }
 
     public void sendVerifyEmailTo(UserVerifyingDto user) throws MessagingException {
@@ -80,4 +92,33 @@ public class UserService {
         }
     }
 
+    public Optional<UserCredentialsDto> findCredentialsByEmail(String email) {
+        return userRepository.findUserByEmail(email)
+                .map(UserCredentialsDtoMapper::map);
+    }
+
+    private User getUserToSaveWithDefaultRole(UserRegistrationDto userRegistration) {
+        UserRole defaultRole = userRoleRepository.findByName(DEFAULT_USER_ROLE).orElseThrow();
+        User user = new User();
+        user.setFirst_name(userRegistration.getFirst_name());
+        user.setLast_name(userRegistration.getLast_name());
+        user.setEmail(userRegistration.getEmail());
+        user.setPassword(passwordEncoder.encode(userRegistration.getPassword()));
+        user.getRoles().add(defaultRole);
+        user.setToken(Token.generateToken());
+        user.setCode(Code.generateCode());
+        user.setVerified(0);
+        user.setVerified_at(null);
+        user.setUpdated_at(LocalDateTime.now());
+        user.setCreated_at(LocalDateTime.now());
+        return user;
+    }
+
+    private void verifyUser(User user) {
+        user.setToken(null);
+        user.setCode(null);
+        user.setVerified(1);
+        user.setVerified_at(LocalDateTime.now());
+        user.setUpdated_at(LocalDateTime.now());
+    }
 }
