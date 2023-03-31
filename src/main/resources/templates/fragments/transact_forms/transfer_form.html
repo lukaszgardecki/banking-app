@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<div class="card transfer-card" th:fragment="transfer-card">
+		<div class="card-body">
+			<div class="form-group">
+				<label>Select Account</label>
+				<select name="account_id" class="form-control">
+					<option value="">-- Select Account --</option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label>Select Account</label>
+				<select name="account_id" class="form-control">
+					<option value="">-- Select Account --</option>
+				</select>
+			</div>
+
+
+			<div class="form-group mb-2">
+				<label>Enter Transfer Amount</label>
+				<input type="text" name="transfer_amount" class="form-control" placeholder="Enter Transfer Amount">
+			</div>
+
+			<div class="form-group mb-2">
+				<button class="btn btn-md transact-btn">Transfer</button>
+			</div>
+		</div>
+	</div>
+</html>
