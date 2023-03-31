@@ -23,6 +23,7 @@ public class AppController {
     @GetMapping("/dashboard")
     public String getDashboard(HttpSession session) {
         UserDashboardDto user = (UserDashboardDto) session.getAttribute("user");
+        if (user == null) return "redirect:/logout";
         Long id = user.getId();
         List<Account> accounts = accountService.getAccountsByUserId(id);
         BigDecimal totalBalance = accountService.getTotalBalance(id);

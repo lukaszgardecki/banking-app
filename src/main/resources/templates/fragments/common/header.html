@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<header class="main-page-header mb-3 bg-primary" th:fragment="header">
+		<div class="container d-flex align-items-center">
+			<div class="company-name">
+				Easy-Way Bank
+			</div>
+
+			<nav class="navigation">
+				<li><a href="">Dashboard</a></li>
+				<li><a href="">Payment History</a></li>
+				<li><a href="">Transaction History</a></li>
+			</nav>
+
+			<div class="display-name ms-auto text-white">
+				<ion-icon name="ellipse" class="text-success me-2"></ion-icon>
+				Welcome <span th:text="|${session.user.first_name} ${session.user.last_name}|">John Smith</span>
+			</div>
+
+			<a href="#" th:href="@{/logout}" class="btn btn-sm text-white ms-2">
+				<ion-icon name="log-out-outline" aria-hidden="true"></ion-icon> Sign Out
+			</a>
+		</div>
+	</header>
+</html>

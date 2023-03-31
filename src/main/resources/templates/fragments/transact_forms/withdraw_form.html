@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<div class="card withdraw-card" th:fragment="withdraw-card">
+		<div class="card-body">
+			<form action="" class="deposit-form">
+				<div class="form-group mb-2">
+					<label>Enter Withdrawal Amount</label>
+					<input type="text" name="withdrawal_amount" class="form-control" placeholder="Enter Withdrawal Amount">
+				</div>
+
+				<div class="form-group">
+					<label>Select Account</label>
+					<select name="account_id" class="form-control">
+						<option value="">-- Select Account --</option>
+					</select>
+				</div>
+
+				<div class="form-group mb-2">
+					<button class="btn btn-md transact-btn my-2">Withdraw</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</html>
