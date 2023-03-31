@@ -21,8 +21,9 @@
         <!-- Add account Offcanvas: pulls from the right -->
         <div th:replace="~{fragments/add_account_offcanvas::add-account-offcanvas}"></div>
 
-        <div th:if="${session.userAccouts.size() gt 0}" th:replace="~{fragments/accounts_display::accounts-display}"></div>
-        <div th:if="${session.userAccouts.size() eq 0}" th:replace="~{fragments/no_accounts_display::no-accounts-display}"></div>
+        <!-- Accounts -->
+        <div th:replace="${session.userAccounts.size()} gt 0 ? ~{fragments/accounts_display::accounts-display}
+                                                             : ~{fragments/no_accounts_display::no-accounts-display}"></div>
 
         <!-- Footer -->
         <div th:replace="~{fragments/common/footer::footer}"></div>

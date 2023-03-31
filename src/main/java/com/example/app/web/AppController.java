@@ -27,7 +27,7 @@ public class AppController {
         Long id = user.getId();
         List<Account> accounts = accountService.getAccountsByUserId(id);
         BigDecimal totalBalance = accountService.getTotalBalance(id);
-        session.setAttribute("userAccouts", accounts);
+        session.setAttribute("userAccounts", accounts);
         session.setAttribute("totalBalance", totalBalance);
 
         return "dashboard";
