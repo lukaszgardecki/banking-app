@@ -13,7 +13,7 @@
 
         <div class="container d-flex py-3">
             <h2 class="me-auto">Total Accounts Balance:</h2>
-            <h2 class="ms-auto">0.00</h2>
+            <h2 class="ms-auto" th:text="${session.totalBalance ne null ? session.totalBalance : '0.00'}">0.00</h2>
         </div>
 
         <div class="container">

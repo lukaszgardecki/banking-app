@@ -13,7 +13,8 @@
 			</nav>
 
 			<div class="display-name ms-auto text-white">
-				<ion-icon name="ellipse" class="text-success me-2"></ion-icon> Welcome <span>John Smith</span>
+				<ion-icon name="ellipse" class="text-success me-2"></ion-icon>
+				Welcome <span th:text="|${session.user.first_name} ${session.user.last_name}|">John Smith</span>
 			</div>
 
 			<a href="#" th:href="@{/logout}" class="btn btn-sm text-white ms-2">
