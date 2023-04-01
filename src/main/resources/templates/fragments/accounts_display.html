@@ -17,15 +17,29 @@
         </div>
 
         <div class="container">
-            <div class="accordion accordion-flush" id="accordionFlushExample">
-                <div class="accordion-item">
+            <div class="accordion accordion-flush" id="accordionFlushExample" th:remove="all-but-first">
+                <div class="accordion-item" th:each="acc : ${session.userAccounts}" th:object="${acc}">
                     <h2 class="accordion-header" id="flush-headingOne">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        <button th:text="*{accountName}" class="accordion-button collapsed" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" th:attr="data-bs-target='#flush-'+*{id}, aria-controls='flush-'+*{id}"
+                                aria-expanded="false" aria-controls="flush-collapseOne"
+                        >
                             Accordion Item #1
                         </button>
                     </h2>
-                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
+                    <div id="flush-collapseOne" th:id="|flush-*{id}|" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex">Account Name <span class="ms-auto" th:text="*{accountName}"></span></li>
+                                <li class="list-group-item d-flex">Account Number <span class="ms-auto" th:text="*{accountNumber}"></span></li>
+                                <li class="list-group-item d-flex">Account Type <span class="ms-auto" th:text="*{accountType}"></span></li>
+                                <li class="list-group-item d-flex">Account Balance <span class="ms-auto" th:text="*{balance}"></span></li>
+                                <li class="list-group-item d-flex">
+                                    Createt at
+                                    <span class="ms-auto" th:text="${#temporals.format(acc.createdAt, 'd MMMM yyyy HH:mm')}"></span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="accordion-item">
