@@ -28,7 +28,8 @@
                 </p>
                 <div class="button-wrapper d-flex align-items-center">
                     <a href="registration.html" th:href="@{/register}" class="btn btn-md register" role="button">Register</a>
-                    <a href="login.html" th:href="authenticated ? @{/app/dashboard} : @{/login}" class="btn btn-md login" role="button">Login</a>
+                    <a href="login.html" sec:authorize="isAnonymous()" th:href="@{/login}" class="btn btn-md login" role="button">Login</a>
+                    <a href="login.html" sec:authorize="isAuthenticated()" th:href="@{/app/dashboard}" class="btn btn-md login" role="button">Dashboard</a>
                 </div>
             </div>
         </div>

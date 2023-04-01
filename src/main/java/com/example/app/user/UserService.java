@@ -46,20 +46,6 @@ public class UserService {
 
     @Transactional
     public void verifyAccount(String token, Integer code) {
-//        userRepository.findUserByTokenAndCode(token, code)
-//            .ifPresentOrElse(
-//                user -> {
-//                    user.setToken(null);
-//                    user.setCode(null);
-//                    user.setVerified(1);
-//                    user.setVerified_at(LocalDateTime.now());
-//                    user.setUpdated_at(LocalDateTime.now());
-//                },
-//                    // TODO: 29.03.2023 Replace this to method reference
-//                () -> {
-//                    throw new SessionHasExpiredException();
-//                }
-//            );
 
         userRepository.findUserByTokenAndCode(token, code)
                 .ifPresentOrElse(

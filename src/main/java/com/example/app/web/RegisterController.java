@@ -62,7 +62,7 @@ public class RegisterController {
             userService.verifyAccount(token, code);
         } catch (SessionHasExpiredException e) {
             model.addAttribute("error", e.getMessage());
-            return "error/error";
+            return "error";
         }
 
         model.addAttribute("successMsg", "Account verified successfully. Please proceed to log in!");
