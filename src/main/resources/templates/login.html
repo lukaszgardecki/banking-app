@@ -22,15 +22,20 @@
                 <div th:if="${successMsg}"  th:text="${successMsg}" class="alert alert-success text-center border border-success"></div>
                 <div th:if="${errorMsg}"  th:text="${errorMsg}" class="alert alert-danger text-center border border-danger"></div>
                 <div th:if="${param.error}"  th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}" class="alert alert-danger text-center border border-danger"></div>
-                <div th:if="${param.logout}" class="alert alert-success text-center border border-success"> You have been successfully logged out</div>
+                <div th:if="${param.logout}" class="alert alert-success text-center border border-success">
+                    You have been successfully logged out
+                </div>
+                <div th:if="${param.verify}" class="alert alert-danger text-center border border-danger">
+                    Account is not verified yet. Please check your email and verify the account
+                </div>
 
                 <form th:action="@{/login}" method="post" class="login-form">
                     <div class="form-group col">
-                        <input type="email" name="username" class="form-control form-control-lg" placeholder="Enter Email">
+                        <input type="email" name="username" class="form-control form-control-lg" placeholder="Enter Email" required>
                     </div>
 
                     <div class="form-group col">
-                        <input type="password" name="password" class="form-control form-control-lg" placeholder="Enter Password">
+                        <input type="password" name="password" class="form-control form-control-lg" placeholder="Enter Password" required>
                     </div>
 
                     <div class="form-group col">
