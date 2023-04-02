@@ -48,11 +48,14 @@ public class TransactController {
         return "redirect:/app/dashboard";
     }
 
-    private BigDecimal getAccountBalance(String accountId, List<AccountDashboardDto> userAccounts) {
-        return userAccounts.stream()
-                .filter(acc -> String.valueOf(acc.getId()).equals(accountId))
-                .map(AccountDashboardDto::getBalance)
-                .findFirst().get();
+    @PostMapping("/transfer")
+    String transfer(@RequestParam("transfer_from") String transferFrom,
+                    @RequestParam("transfer_to") String transferTo,
+                    @RequestParam("transfer_amount") String transferAmount,
+                    HttpSession session,
+                    RedirectAttributes attributes) {
+
+
     }
 
     private boolean validateFields(TransactForm transactForm, RedirectAttributes attributes) {
