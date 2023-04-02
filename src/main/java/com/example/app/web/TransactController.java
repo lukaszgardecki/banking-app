@@ -3,6 +3,8 @@ package com.example.app.web;
 import com.example.app.account.AccountService;
 import com.example.app.account.dto.AccountDashboardDto;
 import com.example.app.exceptions.form.EmptyFieldException;
+import com.example.app.transact.DepositTransactForm;
+import com.example.app.transact.TransactForm;
 import com.example.app.transact.TransactService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -31,7 +33,9 @@ public class TransactController {
                HttpSession session,
                RedirectAttributes attributes) {
 
-        boolean valuesAreNotCorrect = !validateFields(depositAmountStr, accountId, attributes);
+        TransactForm depositTransactForm = new DepositTransactForm(depositAmountStr, accountId);
+
+        boolean valuesAreNotCorrect = !validateFields(depositTransactForm, attributes);
         if (valuesAreNotCorrect) return "redirect:/app/dashboard";
 
         BigDecimal depositAmount = new BigDecimal(depositAmountStr);
@@ -51,9 +55,9 @@ public class TransactController {
                 .findFirst().get();
     }
 
-    private boolean validateFields(String depositAmountStr, String accountId, RedirectAttributes attributes) {
+    private boolean validateFields(TransactForm transactForm, RedirectAttributes attributes) {
         try {
-            transactService.validateValues(depositAmountStr, accountId);
+            transactService.validateForm(transactForm);
         } catch (EmptyFieldException | NumberFormatException e) {
             attributes.addFlashAttribute("errorMsg", e.getMessage());
             return false;
