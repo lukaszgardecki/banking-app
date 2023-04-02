@@ -28,4 +28,8 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
                        @Param("accountType") String accountType,
                        @Param("createdAt")LocalDateTime createAt);
 
+    @Modifying
+    @Query(value = "UPDATE accounts SET balance = :newBalance WHERE id = :accountId", nativeQuery = true)
+    void changeAccountBalanceById(@Param("newBalance") BigDecimal newBalance, @Param("accountId") Long accountId);
+
 }
