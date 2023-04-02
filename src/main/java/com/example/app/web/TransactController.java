@@ -1,5 +1,6 @@
 package com.example.app.web;
 
+import com.example.app.account.AccountService;
 import com.example.app.account.dto.AccountDashboardDto;
 import com.example.app.exceptions.form.EmptyFieldException;
 import com.example.app.transact.TransactService;
@@ -17,9 +18,11 @@ import java.util.List;
 @RequestMapping("/transact")
 public class TransactController {
     private final TransactService transactService;
+    private final AccountService accountService;
 
-    public TransactController(TransactService transactService) {
+    public TransactController(TransactService transactService, AccountService accountService) {
         this.transactService = transactService;
+        this.accountService = accountService;
     }
 
     @PostMapping("/deposit")
@@ -33,7 +36,7 @@ public class TransactController {
 
         BigDecimal depositAmount = new BigDecimal(depositAmountStr);
         List<AccountDashboardDto> userAccounts = (List<AccountDashboardDto>) session.getAttribute("userAccounts");
-        BigDecimal accountBalance = getAccountBalance(accountId, userAccounts);
+        BigDecimal accountBalance = accountService.getAccountBalance(accountId, userAccounts);
         BigDecimal newBalance = accountBalance.add(depositAmount);
 
         transactService.changeAccountBalance(newBalance, Long.parseLong(accountId));

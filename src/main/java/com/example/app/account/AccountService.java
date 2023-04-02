@@ -46,6 +46,13 @@ public class AccountService {
         accountRepository.changeAccountBalanceById(newBalance, accountId);
     }
 
+    public BigDecimal getAccountBalance(String accountId, List<AccountDashboardDto> userAccounts) {
+        return userAccounts.stream()
+                .filter(acc -> String.valueOf(acc.getId()).equals(accountId))
+                .map(AccountDashboardDto::getBalance)
+                .findFirst().get();
+    }
+
     private String getControlSum(String userNum) {
         String preAccNum = BANK_NUM + userNum;
         while (preAccNum.length() != CONTROL_SUM_LEN) {
