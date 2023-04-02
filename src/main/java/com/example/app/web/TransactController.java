@@ -39,7 +39,7 @@ public class TransactController {
         BigDecimal accountBalance = accountService.getAccountBalance(accountId, userAccounts);
         BigDecimal newBalance = accountBalance.add(depositAmount);
 
-        transactService.changeAccountBalance(newBalance, Long.parseLong(accountId));
+        accountService.changeAccountBalance(newBalance, Long.parseLong(accountId));
         attributes.addFlashAttribute("successMsg", "Account deposited successfully");
         return "redirect:/app/dashboard";
     }
