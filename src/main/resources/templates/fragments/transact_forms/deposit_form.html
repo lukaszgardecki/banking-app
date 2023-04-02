@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<div class="card deposit-card" th:fragment="deposit-card">
 		<div class="card-body">
-			<form action="" class="deposit-form">
+			<form action="#" th:action="/transact/deposit" method="post" class="deposit-form">
 				<div class="form-group mb-2">
 					<label>Enter Deposit Amount</label>
 					<input type="text" name="deposit_amount" class="form-control" placeholder="Enter Deposit Amount">
@@ -12,6 +12,10 @@
 					<label>Select Account</label>
 					<select name="account_id" class="form-control">
 						<option value="">-- Select Account --</option>
+						<option th:each="acc : ${session.userAccounts}" th:object="${acc}"
+						        th:value="*{id}"
+						        th:text="*{accountName}">Account name
+						</option>
 					</select>
 				</div>
 
