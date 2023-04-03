@@ -14,7 +14,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class TransactServiceTest {
     private final TransactService transactService = new TransactService();
 
-    private static Stream<Arguments> validateValues() {
+    @ParameterizedTest
+    @MethodSource
+    void shouldReturnCorrectMessage(TransactForm transactForm, String expected) {
+        String message = "";
+        try {
+            transactService.validateForm(transactForm);
+        } catch (EmptyFieldException | NumberFormatException | SameAccountsFieldsException e) {
+            message = e.getMessage();
+        }
+        assertEquals(expected, message);
+    }
+
+    private static Stream<Arguments> shouldReturnCorrectMessage() {
         return Stream.of(
                 Arguments.of(new DepositTransactForm("", ""), Message.MISSING_FIELDS),
                 Arguments.of(new DepositTransactForm("", "0000"), Message.DEPOSIT_AMOUNT_FIELD_EMPTY),
@@ -37,17 +49,5 @@ class TransactServiceTest {
                 Arguments.of(new TransferTransactForm("-1000", "0000", "1111"), Message.INCORRECT_AMOUNT),
                 Arguments.of(new TransferTransactForm("123", "0000", "0000"), Message.TRANSFER_ACCOUNTS_ARE_SAME)
         );
-    }
-
-    @ParameterizedTest
-    @MethodSource
-    void validateValues(TransactForm transactForm, String expected) {
-        String message = "";
-        try {
-            transactService.validateForm(transactForm);
-        } catch (EmptyFieldException | NumberFormatException | SameAccountsFieldsException e) {
-            message = e.getMessage();
-        }
-        assertEquals(expected, message);
     }
 }
