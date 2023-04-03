@@ -6,6 +6,7 @@ import com.example.app.exceptions.transact.TooLowBalanceException;
 import com.example.app.helpers.Message;
 import com.example.app.transact.DepositTransactForm;
 import com.example.app.transact.TransferTransactForm;
+import com.example.app.transact.WithdrawTransactForm;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,7 +78,7 @@ public class AccountService {
         List<AccountDashboardDto> userAccounts = (List<AccountDashboardDto>) session.getAttribute("userAccounts");
         BigDecimal accountFromBalance = getAccountBalance(accountFrom, userAccounts);
 
-        checkIfAcocountHasFunds(amount, accountFromBalance);
+        checkIfAccountHasFunds(amount, accountFromBalance);
 
         BigDecimal transferAmount = new BigDecimal(amount);
         BigDecimal accountToBalance = getAccountBalance(accountTo, userAccounts);
@@ -87,6 +88,20 @@ public class AccountService {
 
         changeAccountBalance(newAccountFromBalance, Long.parseLong(accountFrom));
         changeAccountBalance(newAccountToBalance, Long.parseLong(accountTo));
+    }
+
+    public void doWithdraw(WithdrawTransactForm form, HttpSession session) {
+        String amount = form.getAmount();
+        String accountFrom = form.getAccountFrom();
+
+        List<AccountDashboardDto> userAccounts = (List<AccountDashboardDto>) session.getAttribute("userAccounts");
+        BigDecimal accountFromBalance = getAccountBalance(accountFrom, userAccounts);
+
+        checkIfAccountHasFunds(amount, accountFromBalance);
+
+        BigDecimal withdrawAmount = new BigDecimal(amount);
+        BigDecimal newAccountFromBalance = accountFromBalance.subtract(withdrawAmount);
+        changeAccountBalance(newAccountFromBalance, Long.parseLong(accountFrom));
     }
 
     private String getControlSum(String userNum) {
@@ -114,7 +129,7 @@ public class AccountService {
         return leadZeros + maxAccountId;
     }
 
-    private static void checkIfAcocountHasFunds(String amount, BigDecimal accountFromBalance) {
+    private static void checkIfAccountHasFunds(String amount, BigDecimal accountFromBalance) {
         int i = accountFromBalance.compareTo(new BigDecimal(amount));
         if (i < 0) throw new TooLowBalanceException(Message.TOO_LOW_BALANCE);
     }
