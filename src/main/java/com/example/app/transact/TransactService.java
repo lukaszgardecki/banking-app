@@ -17,13 +17,32 @@ public class TransactService {
 
     private void checkDepositTransactForm(TransactForm transactForm) {
         String amount = transactForm.getAmount();
-        String account = ((DepositTransactForm) transactForm).getAccountTo();
-        if (amount.isEmpty() && account.isEmpty()) throw new EmptyFieldException(EMPTY_FIELD_MESSAGE);
-        if (amount.isEmpty()) throw new EmptyFieldException(AMOUNT_EMPTY_MESSAGE);
-        if (account.isEmpty()) throw new EmptyFieldException(ACCOUNT_DEPOSITING_TO_EMPTY_MESSAGE);
+        String accountTo = ((DepositTransactForm) transactForm).getAccountTo();
+        if (amount.isEmpty() && accountTo.isEmpty()) throw new EmptyFieldException(Message.MISSING_FIELDS);
+        if (amount.isEmpty()) throw new EmptyFieldException(Message.DEPOSIT_AMOUNT_FIELD_EMPTY);
+        if (accountTo.isEmpty()) throw new EmptyFieldException(Message.DEPOSIT_ACCOUNT_TO_EMPTY);
         checkAmountField(amount);
     }
 
+    private void checkTransferTransactForm(TransactForm transactForm) {
+        String amount = transactForm.getAmount();
+        String accountFrom = ((TransferTransactForm) transactForm).getAccountFrom();
+        String accountTo = ((TransferTransactForm) transactForm).getAccountTo();
+        if ((amount.isEmpty() && accountFrom.isEmpty() && accountTo.isEmpty())
+                || amount.isEmpty() && accountFrom.isEmpty()
+                || accountFrom.isEmpty() && accountTo.isEmpty()
+                || amount.isEmpty() && accountTo.isEmpty()
+        ) throw new EmptyFieldException(Message.MISSING_FIELDS);
+        if (accountFrom.isEmpty()) throw new EmptyFieldException(Message.TRANSFER_ACCOUNT_FROM_EMPTY);
+        if (accountTo.isEmpty()) throw new EmptyFieldException(Message.TRANSFER_ACCOUNT_TO_EMPTY);
+        if (amount.isEmpty()) throw new EmptyFieldException(Message.TRANSFER_AMOUNT_FIELD_EMPTY);
+        checkAmountField(amount);
+        checkIfAccountAreTheSame(accountFrom, accountTo);
+    }
+
+    private void checkIfAccountAreTheSame(String accountFrom, String accountTo) {
+        if (accountFrom.equals(accountTo)) throw new SameAccountsFieldsException(Message.TRANSFER_ACCOUNTS_ARE_SAME);
+    }
 
     private void checkAmountField(String amount) throws NumberFormatException {
         try {

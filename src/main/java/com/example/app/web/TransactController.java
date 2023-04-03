@@ -1,20 +1,20 @@
 package com.example.app.web;
 
 import com.example.app.account.AccountService;
-import com.example.app.account.dto.AccountDashboardDto;
 import com.example.app.exceptions.form.EmptyFieldException;
+import com.example.app.exceptions.form.SameAccountsFieldsException;
+import com.example.app.exceptions.transact.TooLowBalanceException;
+import com.example.app.helpers.Message;
 import com.example.app.transact.DepositTransactForm;
 import com.example.app.transact.TransactForm;
 import com.example.app.transact.TransactService;
+import com.example.app.transact.TransferTransactForm;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 @Controller
 @RequestMapping("/transact")
@@ -28,44 +28,59 @@ public class TransactController {
     }
 
     @PostMapping("/deposit")
-    String deposit(@RequestParam("deposit_amount") String depositAmountStr,
-               @RequestParam("account_id") String accountId,
+    String deposit(@RequestParam("deposit_amount") String amount,
+               @RequestParam("account_id") String accountTo,
                HttpSession session,
                RedirectAttributes attributes) {
 
-        TransactForm depositTransactForm = new DepositTransactForm(depositAmountStr, accountId);
+        DepositTransactForm form = new DepositTransactForm(amount, accountTo);
+        boolean formIsIncorrect = validateFields(form, attributes);
+        if (formIsIncorrect) return "redirect:/app/dashboard";
 
-        boolean valuesAreNotCorrect = !validateFields(depositTransactForm, attributes);
-        if (valuesAreNotCorrect) return "redirect:/app/dashboard";
+        accountService.doDeposit(form, session);
 
-        BigDecimal depositAmount = new BigDecimal(depositAmountStr);
-        List<AccountDashboardDto> userAccounts = (List<AccountDashboardDto>) session.getAttribute("userAccounts");
-        BigDecimal accountBalance = accountService.getAccountBalance(accountId, userAccounts);
-        BigDecimal newBalance = accountBalance.add(depositAmount);
-
-        accountService.changeAccountBalance(newBalance, Long.parseLong(accountId));
-        attributes.addFlashAttribute("successMsg", "Account deposited successfully");
+        attributes.addFlashAttribute("successMsg", Message.DEPOSIT_SUCCESS);
         return "redirect:/app/dashboard";
     }
 
     @PostMapping("/transfer")
-    String transfer(@RequestParam("transfer_from") String transferFrom,
-                    @RequestParam("transfer_to") String transferTo,
-                    @RequestParam("transfer_amount") String transferAmount,
+    String transfer(@RequestParam("transfer_from") String accountFrom,
+                    @RequestParam("transfer_to") String accountTo,
+                    @RequestParam("transfer_amount") String amount,
                     HttpSession session,
                     RedirectAttributes attributes) {
 
+        TransferTransactForm form  = new TransferTransactForm(amount, accountFrom, accountTo);
+        // TODO: 03.04.2023 Wymyślić nazwę dla metody validateFields
+        boolean formIsIncorrect = validateFields(form, attributes);
+        if (formIsIncorrect) return "redirect:/app/dashboard";
 
+        boolean transferFailed = doTransfer(form, session, attributes);
+        if (transferFailed) return "redirect:/app/dashboard";
+
+        attributes.addFlashAttribute("successMsg", Message.TRANSFER_SUCCESS);
+        return "redirect:/app/dashboard";
     }
+
+    private boolean doTransfer(TransferTransactForm form, HttpSession session, RedirectAttributes attributes) {
+        try {
+            accountService.doTransfer(form, session);
+        } catch (TooLowBalanceException e) {
+            attributes.addFlashAttribute("errorMsg", e.getMessage());
+            return true;
+        }
+        return false;
+    }
+
 
     private boolean validateFields(TransactForm transactForm, RedirectAttributes attributes) {
         try {
             transactService.validateForm(transactForm);
-        } catch (EmptyFieldException | NumberFormatException e) {
+        } catch (EmptyFieldException | NumberFormatException | SameAccountsFieldsException e) {
             attributes.addFlashAttribute("errorMsg", e.getMessage());
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
 }
