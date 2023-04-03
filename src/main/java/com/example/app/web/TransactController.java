@@ -73,6 +73,7 @@ public class TransactController {
 
 
     private boolean validateFormFields(TransactForm transactForm, RedirectAttributes attributes) {
+        transactForm.setAmount(transactForm.getAmount().replaceAll(",", "."));
         try {
             transactService.validateForm(transactForm);
         } catch (EmptyFieldException | NumberFormatException | SameAccountsFieldsException e) {
