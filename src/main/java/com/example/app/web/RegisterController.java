@@ -1,11 +1,9 @@
 package com.example.app.web;
 
-import com.example.app.exceptions.form.ConfirmPassFieldIsEmptyException;
-import com.example.app.exceptions.form.MissingFormFieldsException;
-import com.example.app.exceptions.form.PasswordsAreNotTheSameException;
+import com.example.app.exceptions.form.EmptyFieldException;
 import com.example.app.exceptions.token.SessionHasExpiredException;
-import com.example.app.user.dto.UserRegistrationDto;
 import com.example.app.user.UserService;
+import com.example.app.user.dto.UserRegistrationDto;
 import com.example.app.user.dto.UserVerifyingDto;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -40,7 +38,7 @@ public class RegisterController {
 
         try {
             userService.checkFormErrors(result, user, confirm_password);
-        } catch (MissingFormFieldsException | PasswordsAreNotTheSameException | ConfirmPassFieldIsEmptyException e) {
+        } catch (EmptyFieldException e) {
             model.addAttribute("formError", e.getMessage());
             return "registration";
         }

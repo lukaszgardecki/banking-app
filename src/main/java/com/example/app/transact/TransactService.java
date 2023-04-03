@@ -1,16 +1,14 @@
 package com.example.app.transact;
 
 import com.example.app.exceptions.form.EmptyFieldException;
+import com.example.app.exceptions.form.SameAccountsFieldsException;
+import com.example.app.helpers.Message;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
 @Service
 public class TransactService {
-    public static final String EMPTY_FIELD_MESSAGE = "Complete the missing fields";
-    public static final String AMOUNT_EMPTY_MESSAGE = "Deposit amount cannot be empty";
-    public static final String ACCOUNT_DEPOSITING_TO_EMPTY_MESSAGE = "Account depositing to cannot be empty";
-    public static final String BAD_DATA_INPUT_MESSAGE = "Please enter the correct amount";
 
     public void validateForm(TransactForm transactForm) {
         if (transactForm instanceof DepositTransactForm) checkDepositTransactForm(transactForm);
@@ -32,7 +30,7 @@ public class TransactService {
             int amountValue = new BigDecimal(amount).compareTo(BigDecimal.ZERO);
             if (amountValue == 0 || amountValue < 0) throw new NumberFormatException();
         } catch (NumberFormatException e) {
-            throw new NumberFormatException(BAD_DATA_INPUT_MESSAGE);
+            throw new NumberFormatException(Message.INCORRECT_AMOUNT);
         }
     }
 }

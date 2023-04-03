@@ -1,10 +1,9 @@
 package com.example.app.user;
 
-import com.example.app.exceptions.form.ConfirmPassFieldIsEmptyException;
-import com.example.app.exceptions.form.MissingFormFieldsException;
-import com.example.app.exceptions.form.PasswordsAreNotTheSameException;
+import com.example.app.exceptions.form.EmptyFieldException;
 import com.example.app.exceptions.token.SessionHasExpiredException;
 import com.example.app.helpers.Code;
+import com.example.app.helpers.Message;
 import com.example.app.helpers.Token;
 import com.example.app.mail.Email;
 import com.example.app.mail.EmailService;
@@ -68,15 +67,15 @@ public class UserService {
         String password = user.getPassword();
 
         if (result.hasErrors() && password.isEmpty()) {
-            throw new MissingFormFieldsException();
+            throw new EmptyFieldException(Message.MISSING_FIELDS);
         } else if (result.hasErrors() && confirmPassword.isEmpty()) {
-            throw new ConfirmPassFieldIsEmptyException();
+            throw new EmptyFieldException(Message.CONFIRM_PASS_REQUIRED);
         } else if (result.hasErrors() && !password.equals(confirmPassword)) {
-            throw new PasswordsAreNotTheSameException();
+            throw new EmptyFieldException(Message.PASSWORDS_ARE_NOT_SAME);
         } else if (result.hasErrors()) {
-            throw new MissingFormFieldsException();
+            throw new EmptyFieldException(Message.MISSING_FIELDS);
         } else if (!password.equals(confirmPassword)) {
-                throw new PasswordsAreNotTheSameException();
+                throw new EmptyFieldException(Message.PASSWORDS_ARE_NOT_SAME);
         }
     }
 
