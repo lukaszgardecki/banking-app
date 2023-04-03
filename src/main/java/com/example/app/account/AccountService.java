@@ -2,6 +2,11 @@ package com.example.app.account;
 
 import com.example.app.account.dto.AccountDashboardDto;
 import com.example.app.account.mappers.AccountDashboardMapper;
+import com.example.app.exceptions.transact.TooLowBalanceException;
+import com.example.app.helpers.Message;
+import com.example.app.transact.DepositTransactForm;
+import com.example.app.transact.TransferTransactForm;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,9 +46,47 @@ public class AccountService {
         return controlSum + BANK_NUM + userNumber;
     }
 
-    @Transactional
+
     public void changeAccountBalance(BigDecimal newBalance, Long accountId) {
         accountRepository.changeAccountBalanceById(newBalance, accountId);
+    }
+
+    public BigDecimal getAccountBalance(String accountId, List<AccountDashboardDto> userAccounts) {
+        return userAccounts.stream()
+                .filter(acc -> String.valueOf(acc.getId()).equals(accountId))
+                .map(AccountDashboardDto::getBalance)
+                .findFirst().get();
+    }
+
+    public void doDeposit(DepositTransactForm form, HttpSession session) {
+        String amount = form.getAmount();
+        String accountTo = form.getAccountTo();
+
+        BigDecimal depositAmount = new BigDecimal(amount);
+        List<AccountDashboardDto> userAccounts = (List<AccountDashboardDto>) session.getAttribute("userAccounts");
+        BigDecimal accountToBalance = getAccountBalance(accountTo, userAccounts);
+        BigDecimal newBalance = accountToBalance.add(depositAmount);
+        changeAccountBalance(newBalance, Long.parseLong(accountTo));
+    }
+
+    public void doTransfer(TransferTransactForm form, HttpSession session) {
+        String amount = form.getAmount();
+        String accountFrom = form.getAccountFrom();
+        String accountTo = form.getAccountTo();
+
+        List<AccountDashboardDto> userAccounts = (List<AccountDashboardDto>) session.getAttribute("userAccounts");
+        BigDecimal accountFromBalance = getAccountBalance(accountFrom, userAccounts);
+
+        checkIfAcocountHasFunds(amount, accountFromBalance);
+
+        BigDecimal transferAmount = new BigDecimal(amount);
+        BigDecimal accountToBalance = getAccountBalance(accountTo, userAccounts);
+
+        BigDecimal newAccountFromBalance = accountFromBalance.subtract(transferAmount);
+        BigDecimal newAccountToBalance = accountToBalance.add(transferAmount);
+
+        changeAccountBalance(newAccountFromBalance, Long.parseLong(accountFrom));
+        changeAccountBalance(newAccountToBalance, Long.parseLong(accountTo));
     }
 
     private String getControlSum(String userNum) {
@@ -65,10 +108,14 @@ public class AccountService {
         }
         return String.valueOf(sum);
     }
-
     private String createUserNum(BigDecimal maxAccountId) {
         int amountOfZeros = USER_NUM_LEN - maxAccountId.toString().length();
         String leadZeros = "0".repeat(amountOfZeros);
         return leadZeros + maxAccountId;
+    }
+
+    private static void checkIfAcocountHasFunds(String amount, BigDecimal accountFromBalance) {
+        int i = accountFromBalance.compareTo(new BigDecimal(amount));
+        if (i < 0) throw new TooLowBalanceException(Message.TOO_LOW_BALANCE);
     }
 }

@@ -1,39 +1,55 @@
 package com.example.app.transact;
 
-import com.example.app.account.AccountRepository;
 import com.example.app.exceptions.form.EmptyFieldException;
+import com.example.app.exceptions.form.SameAccountsFieldsException;
+import com.example.app.helpers.Message;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
 @Service
 public class TransactService {
-    public static final String EMPTY_FIELD_MESSAGE = "Complete the missing fields";
-    public static final String AMOUNT_EMPTY_MESSAGE = "Deposit amount cannot be empty";
-    public static final String ACCOUNT_DEPOSITING_TO_EMPTY_MESSAGE = "Account depositing to cannot be empty";
-    public static final String BAD_DATA_INPUT_MESSAGE = "Please enter the correct amount";
-    private final AccountRepository accountRepository;
 
-    public TransactService(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
+    public void validateForm(TransactForm transactForm) {
+        if (transactForm instanceof DepositTransactForm) checkDepositTransactForm(transactForm);
+        else if (transactForm instanceof TransferTransactForm) checkTransferTransactForm(transactForm);
     }
 
-    @Transactional
-    public void changeAccountBalance(BigDecimal newBalance, Long accountId) {
-        accountRepository.changeAccountBalanceById(newBalance, accountId);
+    private void checkDepositTransactForm(TransactForm transactForm) {
+        String amount = transactForm.getAmount();
+        String accountTo = ((DepositTransactForm) transactForm).getAccountTo();
+        if (amount.isEmpty() && accountTo.isEmpty()) throw new EmptyFieldException(Message.MISSING_FIELDS);
+        if (amount.isEmpty()) throw new EmptyFieldException(Message.DEPOSIT_AMOUNT_FIELD_EMPTY);
+        if (accountTo.isEmpty()) throw new EmptyFieldException(Message.DEPOSIT_ACCOUNT_TO_EMPTY);
+        checkAmountField(amount);
     }
 
+    private void checkTransferTransactForm(TransactForm transactForm) {
+        String amount = transactForm.getAmount();
+        String accountFrom = ((TransferTransactForm) transactForm).getAccountFrom();
+        String accountTo = ((TransferTransactForm) transactForm).getAccountTo();
+        if ((amount.isEmpty() && accountFrom.isEmpty() && accountTo.isEmpty())
+                || amount.isEmpty() && accountFrom.isEmpty()
+                || accountFrom.isEmpty() && accountTo.isEmpty()
+                || amount.isEmpty() && accountTo.isEmpty()
+        ) throw new EmptyFieldException(Message.MISSING_FIELDS);
+        if (accountFrom.isEmpty()) throw new EmptyFieldException(Message.TRANSFER_ACCOUNT_FROM_EMPTY);
+        if (accountTo.isEmpty()) throw new EmptyFieldException(Message.TRANSFER_ACCOUNT_TO_EMPTY);
+        if (amount.isEmpty()) throw new EmptyFieldException(Message.TRANSFER_AMOUNT_FIELD_EMPTY);
+        checkAmountField(amount);
+        checkIfAccountAreTheSame(accountFrom, accountTo);
+    }
 
-    public void validateValues(String depositAmountStr, String accountId) {
-        if (depositAmountStr.isEmpty() && accountId.isEmpty()) throw new EmptyFieldException(EMPTY_FIELD_MESSAGE);
-        if (depositAmountStr.isEmpty()) throw new EmptyFieldException(AMOUNT_EMPTY_MESSAGE);
-        if (accountId.isEmpty()) throw new EmptyFieldException(ACCOUNT_DEPOSITING_TO_EMPTY_MESSAGE);
+    private void checkIfAccountAreTheSame(String accountFrom, String accountTo) {
+        if (accountFrom.equals(accountTo)) throw new SameAccountsFieldsException(Message.TRANSFER_ACCOUNTS_ARE_SAME);
+    }
+
+    private void checkAmountField(String amount) throws NumberFormatException {
         try {
-            int amountValue = new BigDecimal(depositAmountStr).compareTo(BigDecimal.ZERO);
+            int amountValue = new BigDecimal(amount).compareTo(BigDecimal.ZERO);
             if (amountValue == 0 || amountValue < 0) throw new NumberFormatException();
         } catch (NumberFormatException e) {
-            throw new NumberFormatException(BAD_DATA_INPUT_MESSAGE);
+            throw new NumberFormatException(Message.INCORRECT_AMOUNT);
         }
     }
 }
