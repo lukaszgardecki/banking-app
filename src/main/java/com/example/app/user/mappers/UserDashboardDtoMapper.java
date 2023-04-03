@@ -10,6 +10,7 @@ public class UserDashboardDtoMapper {
         dto.setId(user.getId());
         dto.setFirst_name(user.getFirst_name());
         dto.setLast_name(user.getLast_name());
+        dto.setEmail(user.getEmail());
         return dto;
     }
 }
