@@ -34,7 +34,7 @@ public class TransactController {
                RedirectAttributes attributes) {
 
         DepositTransactForm form = new DepositTransactForm(amount, accountTo);
-        boolean formIsIncorrect = validateFields(form, attributes);
+        boolean formIsIncorrect = validateFormFields(form, attributes);
         if (formIsIncorrect) return "redirect:/app/dashboard";
 
         accountService.doDeposit(form, session);
@@ -51,8 +51,7 @@ public class TransactController {
                     RedirectAttributes attributes) {
 
         TransferTransactForm form  = new TransferTransactForm(amount, accountFrom, accountTo);
-        // TODO: 03.04.2023 Wymyślić nazwę dla metody validateFields
-        boolean formIsIncorrect = validateFields(form, attributes);
+        boolean formIsIncorrect = validateFormFields(form, attributes);
         if (formIsIncorrect) return "redirect:/app/dashboard";
 
         boolean transferFailed = doTransfer(form, session, attributes);
@@ -73,7 +72,7 @@ public class TransactController {
     }
 
 
-    private boolean validateFields(TransactForm transactForm, RedirectAttributes attributes) {
+    private boolean validateFormFields(TransactForm transactForm, RedirectAttributes attributes) {
         try {
             transactService.validateForm(transactForm);
         } catch (EmptyFieldException | NumberFormatException | SameAccountsFieldsException e) {
