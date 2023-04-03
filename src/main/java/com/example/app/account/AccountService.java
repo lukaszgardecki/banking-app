@@ -41,7 +41,7 @@ public class AccountService {
         return controlSum + BANK_NUM + userNumber;
     }
 
-    @Transactional
+
     public void changeAccountBalance(BigDecimal newBalance, Long accountId) {
         accountRepository.changeAccountBalanceById(newBalance, accountId);
     }

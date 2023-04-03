@@ -1,6 +1,7 @@
 package com.example.app.transact;
 
 import com.example.app.exceptions.form.EmptyFieldException;
+import com.example.app.helpers.Message;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -14,14 +15,14 @@ class TransactServiceTest {
 
     private static Stream<Arguments> validateValues() {
         return Stream.of(
-                Arguments.of(new DepositTransactForm("", ""), TransactService.EMPTY_FIELD_MESSAGE),
-                Arguments.of(new DepositTransactForm("", "0000"), TransactService.AMOUNT_EMPTY_MESSAGE),
-                Arguments.of(new DepositTransactForm("123", ""), TransactService.ACCOUNT_DEPOSITING_TO_EMPTY_MESSAGE),
-                Arguments.of(new DepositTransactForm("badData", "0000"), TransactService.BAD_DATA_INPUT_MESSAGE),
-                Arguments.of(new DepositTransactForm("/", "0000"), TransactService.BAD_DATA_INPUT_MESSAGE),
-                Arguments.of(new DepositTransactForm("0", "0000"), TransactService.BAD_DATA_INPUT_MESSAGE),
-                Arguments.of(new DepositTransactForm("-1", "0000"), TransactService.BAD_DATA_INPUT_MESSAGE),
-                Arguments.of(new DepositTransactForm("-1000", "0000"), TransactService.BAD_DATA_INPUT_MESSAGE)
+                Arguments.of(new DepositTransactForm("", ""), Message.MISSING_FIELDS),
+                Arguments.of(new DepositTransactForm("", "0000"), Message.DEPOSIT_AMOUNT_FIELD_EMPTY),
+                Arguments.of(new DepositTransactForm("123", ""), Message.DEPOSIT_ACCOUNT_TO_EMPTY),
+                Arguments.of(new DepositTransactForm("badData", "0000"), Message.INCORRECT_AMOUNT),
+                Arguments.of(new DepositTransactForm("/", "0000"), Message.INCORRECT_AMOUNT),
+                Arguments.of(new DepositTransactForm("0", "0000"), Message.INCORRECT_AMOUNT),
+                Arguments.of(new DepositTransactForm("-1", "0000"), Message.INCORRECT_AMOUNT),
+                Arguments.of(new DepositTransactForm("-1000", "0000"), Message.INCORRECT_AMOUNT)
         );
     }
 
