@@ -1,6 +1,7 @@
 package com.example.app.transact;
 
 import com.example.app.exceptions.form.EmptyFieldException;
+import com.example.app.exceptions.form.SameAccountsFieldsException;
 import com.example.app.helpers.Message;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -22,7 +23,19 @@ class TransactServiceTest {
                 Arguments.of(new DepositTransactForm("/", "0000"), Message.INCORRECT_AMOUNT),
                 Arguments.of(new DepositTransactForm("0", "0000"), Message.INCORRECT_AMOUNT),
                 Arguments.of(new DepositTransactForm("-1", "0000"), Message.INCORRECT_AMOUNT),
-                Arguments.of(new DepositTransactForm("-1000", "0000"), Message.INCORRECT_AMOUNT)
+                Arguments.of(new DepositTransactForm("-1000", "0000"), Message.INCORRECT_AMOUNT),
+
+                Arguments.of(new TransferTransactForm("", "", ""), Message.MISSING_FIELDS),
+                Arguments.of(new TransferTransactForm("123", "", ""), Message.MISSING_FIELDS),
+                Arguments.of(new TransferTransactForm("", "0000", ""), Message.MISSING_FIELDS),
+                Arguments.of(new TransferTransactForm("", "", "0000"), Message.MISSING_FIELDS),
+                Arguments.of(new TransferTransactForm("", "0000", "1111"), Message.TRANSFER_AMOUNT_FIELD_EMPTY),
+                Arguments.of(new TransferTransactForm("badData", "0000", "1111"), Message.INCORRECT_AMOUNT),
+                Arguments.of(new TransferTransactForm("/", "0000", "1111"), Message.INCORRECT_AMOUNT),
+                Arguments.of(new TransferTransactForm("0", "0000", "1111"), Message.INCORRECT_AMOUNT),
+                Arguments.of(new TransferTransactForm("-1", "0000", "1111"), Message.INCORRECT_AMOUNT),
+                Arguments.of(new TransferTransactForm("-1000", "0000", "1111"), Message.INCORRECT_AMOUNT),
+                Arguments.of(new TransferTransactForm("123", "0000", "0000"), Message.TRANSFER_ACCOUNTS_ARE_SAME)
         );
     }
 
@@ -32,7 +45,7 @@ class TransactServiceTest {
         String message = "";
         try {
             transactService.validateForm(transactForm);
-        } catch (EmptyFieldException | NumberFormatException e) {
+        } catch (EmptyFieldException | NumberFormatException | SameAccountsFieldsException e) {
             message = e.getMessage();
         }
         assertEquals(expected, message);
