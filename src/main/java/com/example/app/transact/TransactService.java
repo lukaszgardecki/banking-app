@@ -13,6 +13,7 @@ public class TransactService {
     public void validateForm(TransactForm transactForm) {
         if (transactForm instanceof DepositTransactForm) checkDepositTransactForm(transactForm);
         else if (transactForm instanceof TransferTransactForm) checkTransferTransactForm(transactForm);
+        else if (transactForm instanceof WithdrawTransactForm) checkWithdrawTransactForm(transactForm);
     }
 
     private void checkDepositTransactForm(TransactForm transactForm) {
@@ -38,6 +39,15 @@ public class TransactService {
         if (amount.isEmpty()) throw new EmptyFieldException(Message.TRANSFER_AMOUNT_FIELD_EMPTY);
         checkAmountField(amount);
         checkIfAccountAreTheSame(accountFrom, accountTo);
+    }
+
+    private void checkWithdrawTransactForm(TransactForm transactForm) {
+        String amount = transactForm.getAmount();
+        String accountTo = ((WithdrawTransactForm) transactForm).getAccountFrom();
+        if (amount.isEmpty() && accountTo.isEmpty()) throw new EmptyFieldException(Message.MISSING_FIELDS);
+        if (amount.isEmpty()) throw new EmptyFieldException(Message.WITHDRAW_AMOUNT_FIELD_EMPTY);
+        if (accountTo.isEmpty()) throw new EmptyFieldException(Message.WITHDRAW_ACCOUNT_FROM_EMPTY);
+        checkAmountField(amount);
     }
 
     private void checkIfAccountAreTheSame(String accountFrom, String accountTo) {

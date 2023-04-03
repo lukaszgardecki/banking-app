@@ -5,10 +5,7 @@ import com.example.app.exceptions.form.EmptyFieldException;
 import com.example.app.exceptions.form.SameAccountsFieldsException;
 import com.example.app.exceptions.transact.TooLowBalanceException;
 import com.example.app.helpers.Message;
-import com.example.app.transact.DepositTransactForm;
-import com.example.app.transact.TransactForm;
-import com.example.app.transact.TransactService;
-import com.example.app.transact.TransferTransactForm;
+import com.example.app.transact.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,6 +58,33 @@ public class TransactController {
         return "redirect:/app/dashboard";
     }
 
+    @PostMapping("/withdraw")
+    String withdraw(@RequestParam("withdrawal_amount") String amount,
+                   @RequestParam("account_id") String accountFrom,
+                   HttpSession session,
+                   RedirectAttributes attributes) {
+
+        WithdrawTransactForm form = new WithdrawTransactForm(amount, accountFrom);
+        boolean formIsIncorrect = validateFormFields(form, attributes);
+        if (formIsIncorrect) return "redirect:/app/dashboard";
+
+        boolean transferFailed = doWithdraw(form, session, attributes);
+        if (transferFailed) return "redirect:/app/dashboard";
+
+        attributes.addFlashAttribute("successMsg", String.format(Message.WITHDRAW_SUCCESS, form.getAmount()));
+        return "redirect:/app/dashboard";
+    }
+
+    private boolean doWithdraw(WithdrawTransactForm form, HttpSession session, RedirectAttributes attributes) {
+        try {
+            accountService.doWithdraw(form, session);
+        } catch (TooLowBalanceException e) {
+            attributes.addFlashAttribute("errorMsg", e.getMessage());
+            return true;
+        }
+        return false;
+    }
+
     private boolean doTransfer(TransferTransactForm form, HttpSession session, RedirectAttributes attributes) {
         try {
             accountService.doTransfer(form, session);
@@ -73,6 +97,7 @@ public class TransactController {
 
 
     private boolean validateFormFields(TransactForm transactForm, RedirectAttributes attributes) {
+        transactForm.setAmount(transactForm.getAmount().replaceAll(",", "."));
         try {
             transactService.validateForm(transactForm);
         } catch (EmptyFieldException | NumberFormatException | SameAccountsFieldsException e) {
