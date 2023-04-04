@@ -12,6 +12,11 @@ import java.util.Arrays;
 
 @Service
 public class TransactService {
+    private final TransactRepository transactRepository;
+
+    public TransactService(TransactRepository transactRepository) {
+        this.transactRepository = transactRepository;
+    }
 
     public void validateForm(TransactForm transactForm) {
         transactForm.setAmount(transactForm.getAmount().replaceAll(",", "."));
