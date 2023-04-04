@@ -4,10 +4,8 @@ import lombok.Getter;
 
 @Getter
 public class DepositTransactForm extends TransactForm {
-    private String accountTo;
 
     public DepositTransactForm(String amount, String accountTo) {
-        super(amount);
-        this.accountTo = accountTo;
+        super(amount, accountTo);
     }
 }
