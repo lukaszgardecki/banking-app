@@ -13,5 +13,6 @@
     <include file="../testdata/0001_user_role.sql" relativeToChangelogFile="true"/>
     <include file="../testdata/0002_users_and_roles.sql" relativeToChangelogFile="true" context="dev"/>
     <include file="../testdata/0003_accounts.sql" relativeToChangelogFile="true" context="dev"/>
+    <include file="../testdata/0004_payments.sql" relativeToChangelogFile="true" context="dev"/>
 
 </databaseChangeLog>
