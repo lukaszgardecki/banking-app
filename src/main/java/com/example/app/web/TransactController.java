@@ -27,14 +27,13 @@ public class TransactController {
     @PostMapping("/deposit")
     String deposit(@RequestParam("deposit_amount") String amount,
                @RequestParam("account_id") String accountTo,
-               HttpSession session,
                RedirectAttributes attributes) {
 
         DepositTransactForm form = new DepositTransactForm(amount, accountTo);
         boolean formIsIncorrect = validateFormFields(form, attributes);
         if (formIsIncorrect) return "redirect:/app/dashboard";
 
-        accountService.doDeposit(form, session);
+        accountService.depositMoney(form);
 
         attributes.addFlashAttribute("successMsg", Message.DEPOSIT_SUCCESS);
         return "redirect:/app/dashboard";
@@ -44,31 +43,30 @@ public class TransactController {
     String transfer(@RequestParam("transfer_from") String accountFrom,
                     @RequestParam("transfer_to") String accountTo,
                     @RequestParam("transfer_amount") String amount,
-                    HttpSession session,
                     RedirectAttributes attributes) {
 
         TransferTransactForm form  = new TransferTransactForm(amount, accountFrom, accountTo);
         boolean formIsIncorrect = validateFormFields(form, attributes);
         if (formIsIncorrect) return "redirect:/app/dashboard";
 
-        boolean transferFailed = doTransfer(form, session, attributes);
+        boolean transferFailed = doTransfer(form, attributes);
         if (transferFailed) return "redirect:/app/dashboard";
 
         attributes.addFlashAttribute("successMsg", Message.TRANSFER_SUCCESS);
         return "redirect:/app/dashboard";
     }
 
+
     @PostMapping("/withdraw")
     String withdraw(@RequestParam("withdrawal_amount") String amount,
                    @RequestParam("account_id") String accountFrom,
-                   HttpSession session,
                    RedirectAttributes attributes) {
 
         WithdrawTransactForm form = new WithdrawTransactForm(amount, accountFrom);
         boolean formIsIncorrect = validateFormFields(form, attributes);
         if (formIsIncorrect) return "redirect:/app/dashboard";
 
-        boolean transferFailed = doWithdraw(form, session, attributes);
+        boolean transferFailed = doWithdraw(form, attributes);
         if (transferFailed) return "redirect:/app/dashboard";
 
         attributes.addFlashAttribute("successMsg", String.format(Message.WITHDRAW_SUCCESS, form.getAmount()));
@@ -77,7 +75,7 @@ public class TransactController {
 
     private boolean doWithdraw(WithdrawTransactForm form, HttpSession session, RedirectAttributes attributes) {
         try {
-            accountService.doWithdraw(form, session);
+            accountService.withdrawMoney(form);
         } catch (TooLowBalanceException e) {
             attributes.addFlashAttribute("errorMsg", e.getMessage());
             return true;
@@ -85,9 +83,10 @@ public class TransactController {
         return false;
     }
 
-    private boolean doTransfer(TransferTransactForm form, HttpSession session, RedirectAttributes attributes) {
+
+    private boolean doTransfer(TransferTransactForm form, RedirectAttributes attributes) {
         try {
-            accountService.doTransfer(form, session);
+            accountService.transferMoney(form);
         } catch (TooLowBalanceException e) {
             attributes.addFlashAttribute("errorMsg", e.getMessage());
             return true;
@@ -96,8 +95,8 @@ public class TransactController {
     }
 
 
+    // TODO: 03.04.2023 change form validation to custom validator and annotations!
     private boolean validateFormFields(TransactForm transactForm, RedirectAttributes attributes) {
-        transactForm.setAmount(transactForm.getAmount().replaceAll(",", "."));
         try {
             transactService.validateForm(transactForm);
         } catch (EmptyFieldException | NumberFormatException | SameAccountsFieldsException e) {

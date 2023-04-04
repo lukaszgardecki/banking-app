@@ -52,11 +52,10 @@ public class AccountService {
         accountRepository.changeAccountBalanceById(newBalance, accountId);
     }
 
-    public BigDecimal getAccountBalance(String accountId, List<AccountDashboardDto> userAccounts) {
-        return userAccounts.stream()
-                .filter(acc -> String.valueOf(acc.getId()).equals(accountId))
-                .map(AccountDashboardDto::getBalance)
-                .findFirst().get();
+    public BigDecimal getAccountBalance(String accountId) {
+        return accountRepository.findAccountById(Long.parseLong(accountId))
+                .map(Account::getBalance)
+                .get();
     }
 
     public void doDeposit(DepositTransactForm form, HttpSession session) {

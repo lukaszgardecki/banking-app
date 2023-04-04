@@ -14,7 +14,10 @@ import java.util.Optional;
 public interface AccountRepository extends CrudRepository<Account, Long> {
 
     @Query(value = "SELECT * FROM accounts WHERE user_id = :id", nativeQuery = true)
-    List<Account> findAccountsByUserId(Long id);
+    List<Account> findAccountsByUserId(@Param("id") Long userId);
+
+    Optional<Account> findAccountById(Long id);
+
 
     @Query(value = "SELECT id FROM accounts ORDER BY id DESC LIMIT 0,1", nativeQuery = true)
     Optional<BigDecimal> getMaxId();
