@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+
+    <changeSet id="0005" author="lukasz">
+
+        <createView viewName="v_transaction_history" replaceIfExists="true">
+            SELECT
+                t.id as transaction_id,
+                a.id as account_id,
+                u.id as user_id,
+                t.transaction_type,
+                t.amount,
+                t.source,
+                t.status,
+                t.reason_code,
+                t.created_at
+            FROM
+                transaction_history AS t
+            INNER JOIN
+                accounts AS a
+            ON
+                t.account_id = a.id
+            INNER JOIN
+                users as u
+            ON
+                a.user_id = u.id;
+        </createView>
+    </changeSet>
+
+</databaseChangeLog>
