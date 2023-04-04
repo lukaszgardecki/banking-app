@@ -1,6 +1,7 @@
 package com.example.app.account;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,8 +17,11 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long user_id;
+    @Max(100)
     private String account_number;
+    @Max(50)
     private String account_name;
+    @Max(50)
     private String account_type;
     private BigDecimal balance;
     private LocalDateTime created_at;
