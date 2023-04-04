@@ -6,7 +6,7 @@ import com.example.app.exceptions.form.SameAccountsFieldsException;
 import com.example.app.exceptions.transact.TooLowBalanceException;
 import com.example.app.helpers.Message;
 import com.example.app.transact.*;
-import jakarta.servlet.http.HttpSession;
+import com.example.app.transact.payment.PaymentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,11 +18,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class TransactController {
     private final TransactService transactService;
     private final AccountService accountService;
+    private final PaymentService paymentService;
 
-    public TransactController(TransactService transactService, AccountService accountService) {
+
+    public TransactController(TransactService transactService, AccountService accountService, PaymentService paymentService) {
         this.transactService = transactService;
         this.accountService = accountService;
+        this.paymentService = paymentService;
     }
+
 
     @PostMapping("/deposit")
     String deposit(@RequestParam("deposit_amount") String amount,
@@ -38,6 +42,7 @@ public class TransactController {
         attributes.addFlashAttribute("successMsg", Message.DEPOSIT_SUCCESS);
         return "redirect:/app/dashboard";
     }
+
 
     @PostMapping("/transfer")
     String transfer(@RequestParam("transfer_from") String accountFrom,
@@ -73,7 +78,40 @@ public class TransactController {
         return "redirect:/app/dashboard";
     }
 
-    private boolean doWithdraw(WithdrawTransactForm form, HttpSession session, RedirectAttributes attributes) {
+
+    @PostMapping("/payment")
+    String payment(@RequestParam("beneficiary") String beneficiary,
+                   @RequestParam("account_number") String accountNumber,
+                   @RequestParam("account_id") String accountFrom,
+                   @RequestParam("reference") String reference,
+                   @RequestParam("payment_amount") String amount,
+                   RedirectAttributes attributes) {
+
+        PaymentTransactForm form = new PaymentTransactForm(amount, beneficiary, accountNumber, accountFrom,reference);
+        boolean formIsIncorrect = validateFormFields(form, attributes);
+        if (formIsIncorrect) return "redirect:/app/dashboard";
+
+        boolean paymentFailed = doPayment(form, attributes);
+        if (paymentFailed) return "redirect:/app/dashboard";
+
+        attributes.addFlashAttribute("successMsg", String.format(Message.PAYMENT_SUCCESS, form.getAmount()));
+        return "redirect:/app/dashboard";
+    }
+
+
+    private boolean doPayment(PaymentTransactForm form, RedirectAttributes attributes) {
+        try {
+            accountService.withdrawMoney(form);
+            paymentService.makePayment(form);
+        } catch (TooLowBalanceException e) {
+            attributes.addFlashAttribute("errorMsg", e.getMessage());
+            return true;
+        }
+        return false;
+    }
+
+
+    private boolean doWithdraw(WithdrawTransactForm form, RedirectAttributes attributes) {
         try {
             accountService.withdrawMoney(form);
         } catch (TooLowBalanceException e) {
