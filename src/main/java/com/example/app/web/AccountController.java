@@ -33,8 +33,7 @@ public class AccountController {
 
         UserDashboardDto user = (UserDashboardDto) session.getAttribute("user");
         Long userId = user.getId();
-        String accountNumber = accountService.generateAccountNumber();
-        accountService.createAccount(userId, accountNumber, accountName, accountType);
+        accountService.createAccount(userId, accountName, accountType);
         redirectAttributes.addFlashAttribute("successMsg", "Account has been successfully created");
         return "redirect:/app/dashboard";
     }

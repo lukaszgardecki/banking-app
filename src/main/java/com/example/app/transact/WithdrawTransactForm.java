@@ -4,10 +4,8 @@ import lombok.Getter;
 
 @Getter
 public class WithdrawTransactForm extends TransactForm {
-    private String accountFrom;
 
     public WithdrawTransactForm(String amount, String accountFrom) {
-        super(amount);
-        this.accountFrom = accountFrom;
+        super(amount, accountFrom);
     }
 }
