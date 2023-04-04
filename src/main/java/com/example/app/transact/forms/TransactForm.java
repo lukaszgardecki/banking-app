@@ -1,4 +1,4 @@
-package com.example.app.transact;
+package com.example.app.transact.forms;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

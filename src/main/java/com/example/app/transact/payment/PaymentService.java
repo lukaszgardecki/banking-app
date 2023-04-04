@@ -1,7 +1,7 @@
 package com.example.app.transact.payment;
 
 import com.example.app.helpers.Message;
-import com.example.app.transact.PaymentTransactForm;
+import com.example.app.transact.forms.PaymentTransactForm;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

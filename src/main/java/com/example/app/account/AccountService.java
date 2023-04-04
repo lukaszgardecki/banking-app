@@ -4,7 +4,7 @@ import com.example.app.account.dto.AccountDashboardDto;
 import com.example.app.account.mappers.AccountDashboardMapper;
 import com.example.app.exceptions.transact.TooLowBalanceException;
 import com.example.app.helpers.Message;
-import com.example.app.transact.TransactForm;
+import com.example.app.transact.forms.TransactForm;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
