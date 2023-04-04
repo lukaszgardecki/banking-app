@@ -34,19 +34,10 @@ public class AccountService {
     }
 
     @Transactional
-    public void createAccount(Long userId, String accountNumber, String accountName, String accountType) {
+    public void createAccount(Long userId, String accountName, String accountType) {
+        String accountNumber = generateAccountNumber();
         accountRepository.createAccount(userId, accountNumber, accountName, accountType, LocalDateTime.now());
     }
-
-    public String generateAccountNumber() {
-        BigDecimal newId = accountRepository.getMaxId()
-                                .map(id -> id.add(BigDecimal.ONE))
-                                .orElse(BigDecimal.ONE);
-        String userNumber = createUserNum(newId);
-        String controlSum = getControlSum(userNumber);
-        return controlSum + BANK_NUM + userNumber;
-    }
-
 
     public void changeAccountBalance(BigDecimal newBalance, Long accountId) {
         accountRepository.changeAccountBalanceById(newBalance, accountId);
@@ -58,7 +49,29 @@ public class AccountService {
                 .get();
     }
 
-    public void doDeposit(DepositTransactForm form, HttpSession session) {
+    public void depositMoney(TransactForm form) {
+        deposit(form);
+    }
+
+    public void withdrawMoney(TransactForm form) {
+        withdraw(form);
+    }
+
+    public void transferMoney(TransactForm form) {
+        withdraw(form);
+        deposit(form);
+    }
+
+    private String generateAccountNumber() {
+        BigDecimal newId = accountRepository.getMaxId()
+                .map(id -> id.add(BigDecimal.ONE))
+                .orElse(BigDecimal.ONE);
+        String userNumber = createUserNum(newId);
+        String controlSum = getControlSum(userNumber);
+        return controlSum + BANK_NUM + userNumber;
+    }
+
+    private void deposit(TransactForm form) {
         String amount = form.getAmount();
         String accountTo = form.getAccountTo();
 
