@@ -26,13 +26,13 @@ public class User {
     @Email
     @NotEmpty(message = "The email field cannot be empty")
     @Pattern(regexp = "([a-zA-Z0-9]+(?:[._+-][a-zA-Z0-9]+)*)@([a-zA-Z0-9]+(?:[.-][a-zA-Z0-9]+)*[.][a-zA-Z]{2,})", message = "Please enter a valid email")
-    @Max(255)
+    @Size(max = 255)
     private String email;
     @NotEmpty(message = "The password field cannot be empty")
     @NotNull
-    @Max(255)
+    @Size(max = 255)
     private String password;
-    @Max(255)
+    @Size(max = 255)
     private String token;
     private Integer code;
     private Integer verified;

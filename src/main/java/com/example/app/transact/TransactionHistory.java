@@ -3,7 +3,7 @@ package com.example.app.transact;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,14 +19,14 @@ public class TransactionHistory {
     private Long transaction_id;
     private Long account_id;
     private Long user_id;
-    @Max(50)
+    @Size(max = 50)
     private String transaction_type;
     private BigDecimal amount;
-    @Max(50)
+    @Size(max = 50)
     private String source;
-    @Max(50)
+    @Size(max = 50)
     private String status;
-    @Max(100)
+    @Size(max = 100)
     private String reason_code;
     private LocalDateTime created_at;
 
