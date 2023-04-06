@@ -1,5 +1,5 @@
 INSERT INTO payments
-    (account_id, beneficiary, beneficiary_acc_no, amount, reference_no, status, reason_code, created_at)
+    (account_from_id, beneficiary, beneficiary_acc_no, amount, reference, status, reason_code, created_at)
 VALUES
     (4, 'Święty Mikołaj', '89123412340000000078965432', 50.00, 'Na lepszy worek', 'success', 'Payment processed successfully', '2023-04-04 18:52:15.806455'),
     (4, 'Malanowski i Partnerzy', '89123412340000000078965432', 2500.00, 'Sprawa', 'success', 'Payment processed successfully', '2023-08-02 18:52:15.806455'),

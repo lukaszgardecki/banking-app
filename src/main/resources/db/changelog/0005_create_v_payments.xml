@@ -16,7 +16,7 @@
                 p.beneficiary_acc_no,
                 p.amount,
                 p.status,
-                p.reference_no,
+                p.reference,
                 p.reason_code,
                 p.created_at
             FROM
@@ -24,7 +24,7 @@
             INNER JOIN
                 accounts AS a
             ON
-                p.account_id = a.id
+                p.account_from_id = a.id
             INNER JOIN
                 users AS u
             ON

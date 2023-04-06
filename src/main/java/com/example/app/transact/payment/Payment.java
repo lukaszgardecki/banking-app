@@ -16,17 +16,17 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long account_id;
+    private Long accountFromId;
     @Size(max = 50)
     private String beneficiary;
     @Size(max = 255)
-    private String beneficiary_acc_no;
+    private String beneficiaryAccNo;
     private BigDecimal amount;
     @Size(max = 255)
-    private String reference_no;
+    private String reference;
     @Size(max = 50)
     private String status;
     @Size(max = 100)
-    private String reason_code;
-    private LocalDateTime created_at;
+    private String reasonCode;
+    private LocalDateTime createdAt;
 }

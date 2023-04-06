@@ -29,5 +29,4 @@ public class TransactionHistory {
     @Size(max = 100)
     private String reason_code;
     private LocalDateTime created_at;
-
 }
