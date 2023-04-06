@@ -31,17 +31,27 @@ public class AccountService {
     }
 
     @Transactional
-    public void createAccount(Long userId, String accountName, String accountType) {
-        String accountNumber = generateAccountNumber();
-        accountRepository.createAccount(userId, accountNumber, accountName, accountType, LocalDateTime.now());
+    public void createAccount(AccountDto account) {
+        Account accountToSave = getAccountToRegister(account);
+        System.out.println(accountToSave);
+        accountRepository.save(accountToSave);
     }
 
-    public void changeAccountBalance(BigDecimal newBalance, Long accountId) {
-        accountRepository.changeAccountBalanceById(newBalance, accountId);
+    @Transactional
+    public TransactDto updateAccountBalance(BigDecimal newBalance, Long accountId) {
+        LocalDateTime currentTime = LocalDateTime.now();
+        Account account = accountRepository.findById(accountId).orElseThrow();
+        account.setBalance(newBalance);
+        account.setUpdated_at(currentTime);
+        accountRepository.save(account);
+
+        TransactDto transact = new TransactDto();
+        transact.setCreatedAt(currentTime);
+        return transact;
     }
 
-    public BigDecimal getAccountBalance(String accountId) {
-        return accountRepository.findAccountById(Long.parseLong(accountId))
+    public BigDecimal getAccountBalance(Long accountId) {
+        return accountRepository.findById(accountId)
                 .map(Account::getBalance)
                 .get();
     }
