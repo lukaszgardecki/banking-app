@@ -11,7 +11,6 @@ import com.example.app.transact.payment.PaymentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -30,11 +29,8 @@ public class TransactController {
 
 
     @PostMapping("/deposit")
-    String deposit(@RequestParam("deposit_amount") String amount,
-               @RequestParam("account_id") String accountTo,
-               RedirectAttributes attributes) {
+    String deposit(DepositTransactForm form, RedirectAttributes attributes) {
 
-        DepositTransactForm form = new DepositTransactForm(amount, accountTo);
         boolean formIsIncorrect = validateFormFields(form, attributes);
         if (formIsIncorrect) return "redirect:/app/dashboard";
 
@@ -46,12 +42,8 @@ public class TransactController {
 
 
     @PostMapping("/transfer")
-    String transfer(@RequestParam("transfer_from") String accountFrom,
-                    @RequestParam("transfer_to") String accountTo,
-                    @RequestParam("transfer_amount") String amount,
-                    RedirectAttributes attributes) {
+    String transfer(TransferTransactForm form, RedirectAttributes attributes) {
 
-        TransferTransactForm form  = new TransferTransactForm(amount, accountFrom, accountTo);
         boolean formIsIncorrect = validateFormFields(form, attributes);
         if (formIsIncorrect) return "redirect:/app/dashboard";
 
@@ -64,11 +56,8 @@ public class TransactController {
 
 
     @PostMapping("/withdraw")
-    String withdraw(@RequestParam("withdrawal_amount") String amount,
-                   @RequestParam("account_id") String accountFrom,
-                   RedirectAttributes attributes) {
+    String withdraw(WithdrawTransactForm form, RedirectAttributes attributes) {
 
-        WithdrawTransactForm form = new WithdrawTransactForm(amount, accountFrom);
         boolean formIsIncorrect = validateFormFields(form, attributes);
         if (formIsIncorrect) return "redirect:/app/dashboard";
 
@@ -79,16 +68,9 @@ public class TransactController {
         return "redirect:/app/dashboard";
     }
 
-
     @PostMapping("/payment")
-    String payment(@RequestParam("beneficiary") String beneficiary,
-                   @RequestParam("account_number") String accountNumber,
-                   @RequestParam("account_id") String accountFrom,
-                   @RequestParam("reference") String reference,
-                   @RequestParam("payment_amount") String amount,
-                   RedirectAttributes attributes) {
+    String payment(PaymentTransactForm form, RedirectAttributes attributes) {
 
-        PaymentTransactForm form = new PaymentTransactForm(amount, beneficiary, accountNumber, accountFrom,reference);
         boolean formIsIncorrect = validateFormFields(form, attributes);
         if (formIsIncorrect) return "redirect:/app/dashboard";
 
