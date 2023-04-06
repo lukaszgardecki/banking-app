@@ -27,4 +27,8 @@ public class Transact {
     @Size(max = 100)
     private String reason_code;
     private LocalDateTime created_at;
+
+    public void setAmount(String amount) {
+        this.amount = new BigDecimal(amount);
+    }
 }

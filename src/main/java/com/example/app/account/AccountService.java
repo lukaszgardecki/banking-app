@@ -1,10 +1,13 @@
 package com.example.app.account;
 
 import com.example.app.account.dto.AccountDashboardDto;
+import com.example.app.account.dto.AccountDto;
 import com.example.app.account.mappers.AccountDashboardMapper;
+import com.example.app.account.mappers.AccountDtoMapper;
 import com.example.app.exceptions.transact.TooLowBalanceException;
 import com.example.app.helpers.AccountNumGenerator;
 import com.example.app.helpers.Message;
+import com.example.app.transact.TransactDto;
 import com.example.app.transact.forms.TransactForm;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class AccountService {
@@ -54,20 +58,21 @@ public class AccountService {
                 .get();
     }
 
-    public void depositMoney(TransactForm form) {
-        deposit(form);
+    public TransactDto depositMoney(TransactForm form) {
+        return deposit(form);
     }
 
-    public void withdrawMoney(TransactForm form) {
-        withdraw(form);
+    public TransactDto withdrawMoney(TransactForm form) {
+        return withdraw(form);
     }
 
-    public void transferMoney(TransactForm form) {
-        withdraw(form);
-        deposit(form);
+    public Stream<TransactDto> transferMoney(TransactForm form) {
+        TransactDto withdrawTransact = withdraw(form);
+        TransactDto depositTransact = deposit(form);
+        return Stream.of(depositTransact, withdrawTransact);
     }
 
-    private String generateAccountNumber() {
+    private Account getAccountToRegister(AccountDto account) {
         BigDecimal newId = accountRepository.getMaxId()
                 .map(id -> id.add(BigDecimal.ONE))
                 .orElse(BigDecimal.ONE);
@@ -78,25 +83,25 @@ public class AccountService {
         return AccountDtoMapper.map(account);
     }
 
-    private void deposit(TransactForm form) {
-        String amount = form.getAmount();
-        String accountTo = form.getAccount();
-
-        BigDecimal depositAmount = new BigDecimal(amount);
-        BigDecimal accountToBalance = getAccountBalance(accountTo);
-        BigDecimal newBalance = accountToBalance.add(depositAmount);
-        changeAccountBalance(newBalance, Long.parseLong(accountTo));
+    private TransactDto deposit(TransactForm form) {
+        BigDecimal amount = new BigDecimal(form.getAmount());
+        Long accountToId = Long.parseLong(form.getAccountToId());
+        BigDecimal accountToBalance = getAccountBalance(accountToId);
+        BigDecimal newBalance = accountToBalance.add(amount);
+        TransactDto transact = updateAccountBalance(newBalance, accountToId);
+        transact.setTransactionType(Message.DEPOSIT_TRANSACTION_TYPE);
+        return transact;
     }
 
-    private void withdraw(TransactForm form) {
-        String amount = form.getAmount();
-        String accountFrom = form.getAccount();
-
-        BigDecimal accountFromBalance = getAccountBalance(accountFrom);
+    private TransactDto withdraw(TransactForm form) {
+        BigDecimal amount = new BigDecimal(form.getAmount());
+        Long accountFromId = Long.parseLong(form.getAccountFromId());
+        BigDecimal accountFromBalance = getAccountBalance(accountFromId);
         checkIfAccountHasFunds(amount, accountFromBalance);
-        BigDecimal withdrawAmount = new BigDecimal(amount);
-        BigDecimal newAccountFromBalance = accountFromBalance.subtract(withdrawAmount);
-        changeAccountBalance(newAccountFromBalance, Long.parseLong(accountFrom));
+        BigDecimal newAccountFromBalance = accountFromBalance.subtract(amount);
+        TransactDto transact = updateAccountBalance(newAccountFromBalance, accountFromId);
+        transact.setTransactionType(Message.WITHDRAW_TRANSACTION_TYPE);
+        return transact;
     }
 
     private static void checkIfAccountHasFunds(BigDecimal amount, BigDecimal accountFromBalance) {
