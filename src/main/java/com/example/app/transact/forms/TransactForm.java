@@ -1,13 +1,16 @@
 package com.example.app.transact.forms;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
-@AllArgsConstructor
+@Getter
 public abstract class TransactForm {
     private String amount;
-    private String account;
+    private String accountFromId;
+    private String accountToId;
+    private String beneficiary;
+    private String accountToNumber;
+    private String reference;
 }
+
