@@ -3,16 +3,21 @@ package com.example.app.transact;
 import com.example.app.exceptions.form.EmptyFieldException;
 import com.example.app.exceptions.form.SameAccountsFieldsException;
 import com.example.app.helpers.Message;
+import com.example.app.transact.forms.DepositTransactForm;
+import com.example.app.transact.forms.TransactForm;
+import com.example.app.transact.forms.TransferTransactForm;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mockito;
 
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TransactServiceTest {
-    private final TransactService transactService = new TransactService();
+    TransactRepository transactRepository = Mockito.mock(TransactRepository.class);
+    private final TransactService transactService = new TransactService(transactRepository);
 
     @ParameterizedTest
     @MethodSource

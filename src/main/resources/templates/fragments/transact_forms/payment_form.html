@@ -10,12 +10,12 @@
 
 				<div class="form-group mb-2">
 					<label>Beneficiary Account Number</label>
-					<input type="text" name="account_number" class="form-control" placeholder="Enter Beneficiary Account No">
+					<input type="text" name="beneficiaryAccNo" class="form-control" placeholder="Enter Beneficiary Account No">
 				</div>
 
 				<div class="form-group">
 					<label>Select Account</label>
-					<select name="account_id" class="form-control">
+					<select name="accountFromId" class="form-control">
 						<option value="">-- Select Account --</option>
 						<option th:each="acc : ${session.userAccounts}" th:object="${acc}"
 						        th:value="*{id}"
@@ -31,7 +31,7 @@
 
 				<div class="form-group mb-2">
 					<label>Enter Payment Amount</label>
-					<input type="text" name="payment_amount" class="form-control" placeholder="Enter Payment Amount">
+					<input type="text" name="amount" class="form-control" placeholder="Enter Payment Amount">
 				</div>
 
 				<div class="form-group mb-2">

@@ -1,22 +1,24 @@
 package com.example.app.account;
 
 import com.example.app.account.dto.AccountDashboardDto;
+import com.example.app.account.dto.AccountDto;
 import com.example.app.account.mappers.AccountDashboardMapper;
+import com.example.app.account.mappers.AccountDtoMapper;
 import com.example.app.exceptions.transact.TooLowBalanceException;
+import com.example.app.helpers.AccountNumGenerator;
 import com.example.app.helpers.Message;
-import com.example.app.transact.TransactForm;
+import com.example.app.transact.TransactDto;
+import com.example.app.transact.forms.TransactForm;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class AccountService {
-    public static final int BANK_NUM = 12772055;
-    public static final int USER_NUM_LEN = 16;
-    public static final int CONTROL_SUM_LEN = 2;
     private final AccountRepository accountRepository;
 
     public AccountService(AccountRepository accountRepository) {
@@ -31,93 +33,79 @@ public class AccountService {
     }
 
     @Transactional
-    public void createAccount(Long userId, String accountName, String accountType) {
-        String accountNumber = generateAccountNumber();
-        accountRepository.createAccount(userId, accountNumber, accountName, accountType, LocalDateTime.now());
+    public void createAccount(AccountDto account) {
+        Account accountToSave = getAccountToRegister(account);
+        System.out.println(accountToSave);
+        accountRepository.save(accountToSave);
     }
 
-    public void changeAccountBalance(BigDecimal newBalance, Long accountId) {
-        accountRepository.changeAccountBalanceById(newBalance, accountId);
+    @Transactional
+    public TransactDto updateAccountBalance(BigDecimal newBalance, Long accountId) {
+        LocalDateTime currentTime = LocalDateTime.now();
+        Account account = accountRepository.findById(accountId).orElseThrow();
+        account.setBalance(newBalance);
+        account.setUpdated_at(currentTime);
+        accountRepository.save(account);
+
+        TransactDto transact = new TransactDto();
+        transact.setCreatedAt(currentTime);
+        return transact;
     }
 
-    public BigDecimal getAccountBalance(String accountId) {
-        return accountRepository.findAccountById(Long.parseLong(accountId))
+    public BigDecimal getAccountBalance(Long accountId) {
+        return accountRepository.findById(accountId)
                 .map(Account::getBalance)
                 .get();
     }
 
-    public void depositMoney(TransactForm form) {
-        deposit(form);
+    public TransactDto depositMoney(TransactForm form) {
+        return deposit(form);
     }
 
-    public void withdrawMoney(TransactForm form) {
-        withdraw(form);
+    public TransactDto withdrawMoney(TransactForm form) {
+        return withdraw(form);
     }
 
-    public void transferMoney(TransactForm form) {
-        withdraw(form);
-        deposit(form);
+    public Stream<TransactDto> transferMoney(TransactForm form) {
+        TransactDto withdrawTransact = withdraw(form);
+        TransactDto depositTransact = deposit(form);
+        return Stream.of(depositTransact, withdrawTransact);
     }
 
-    private String generateAccountNumber() {
+    private Account getAccountToRegister(AccountDto account) {
         BigDecimal newId = accountRepository.getMaxId()
                 .map(id -> id.add(BigDecimal.ONE))
                 .orElse(BigDecimal.ONE);
-        String userNumber = createUserNum(newId);
-        String controlSum = getControlSum(userNumber);
-        return controlSum + BANK_NUM + userNumber;
+        String accountNumber = AccountNumGenerator.generate(newId);
+        account.setBalance(new BigDecimal("0.00"));
+        account.setAccount_number(accountNumber);
+        account.setCreated_at(LocalDateTime.now());
+        return AccountDtoMapper.map(account);
     }
 
-    private void deposit(TransactForm form) {
-        String amount = form.getAmount();
-        String accountTo = form.getAccount();
-
-        BigDecimal depositAmount = new BigDecimal(amount);
-        BigDecimal accountToBalance = getAccountBalance(accountTo);
-        BigDecimal newBalance = accountToBalance.add(depositAmount);
-        changeAccountBalance(newBalance, Long.parseLong(accountTo));
+    private TransactDto deposit(TransactForm form) {
+        BigDecimal amount = new BigDecimal(form.getAmount());
+        Long accountToId = Long.parseLong(form.getAccountToId());
+        BigDecimal accountToBalance = getAccountBalance(accountToId);
+        BigDecimal newBalance = accountToBalance.add(amount);
+        TransactDto transact = updateAccountBalance(newBalance, accountToId);
+        transact.setTransactionType(Message.DEPOSIT_TRANSACTION_TYPE);
+        return transact;
     }
 
-    private void withdraw(TransactForm form) {
-        String amount = form.getAmount();
-        String accountFrom = form.getAccount();
-
-        BigDecimal accountFromBalance = getAccountBalance(accountFrom);
+    private TransactDto withdraw(TransactForm form) {
+        BigDecimal amount = new BigDecimal(form.getAmount());
+        Long accountFromId = Long.parseLong(form.getAccountFromId());
+        BigDecimal accountFromBalance = getAccountBalance(accountFromId);
         checkIfAccountHasFunds(amount, accountFromBalance);
-        BigDecimal withdrawAmount = new BigDecimal(amount);
-        BigDecimal newAccountFromBalance = accountFromBalance.subtract(withdrawAmount);
-        changeAccountBalance(newAccountFromBalance, Long.parseLong(accountFrom));
+        BigDecimal newAccountFromBalance = accountFromBalance.subtract(amount);
+        TransactDto transact = updateAccountBalance(newAccountFromBalance, accountFromId);
+        transact.setTransactionType(Message.WITHDRAW_TRANSACTION_TYPE);
+        return transact;
     }
 
-    private String getControlSum(String userNum) {
-        String preAccNum = BANK_NUM + userNum;
-        while (preAccNum.length() != CONTROL_SUM_LEN) {
-            preAccNum = doSumLoop(preAccNum);
-        }
-        return preAccNum;
-    }
-
-    private String doSumLoop(String num) {
-        int increasingParam = 3;
-        int sum = 0;
-
-        for (int i = 0; i < num.length(); i++) {
-            String digitStr = Character.toString(num.charAt(i));
-            int digitInt = Integer.parseInt(digitStr);
-            sum += (digitInt * increasingParam);
-        }
-        return String.valueOf(sum);
-    }
-
-    private String createUserNum(BigDecimal maxAccountId) {
-        int amountOfZeros = USER_NUM_LEN - maxAccountId.toString().length();
-        String leadZeros = "0".repeat(amountOfZeros);
-        return leadZeros + maxAccountId;
-    }
-
-    private static void checkIfAccountHasFunds(String amount, BigDecimal accountFromBalance) {
-        int i = accountFromBalance.compareTo(new BigDecimal(amount));
+    private static void checkIfAccountHasFunds(BigDecimal amount, BigDecimal accountFromBalance) {
+        int i = accountFromBalance.compareTo(amount);
         if (i < 0) throw new TooLowBalanceException(Message.TOO_LOW_BALANCE);
     }
-
 }

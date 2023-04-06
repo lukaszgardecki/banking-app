@@ -1,6 +1,7 @@
 package com.example.app.web;
 
 import com.example.app.account.AccountService;
+import com.example.app.account.dto.AccountDto;
 import com.example.app.user.dto.UserDashboardDto;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -33,7 +34,9 @@ public class AccountController {
 
         UserDashboardDto user = (UserDashboardDto) session.getAttribute("user");
         Long userId = user.getId();
-        accountService.createAccount(userId, accountName, accountType);
+
+        AccountDto account = new AccountDto(userId, accountName, accountType);
+        accountService.createAccount(account);
         redirectAttributes.addFlashAttribute("successMsg", "Account has been successfully created");
         return "redirect:/app/dashboard";
     }

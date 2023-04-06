@@ -5,12 +5,13 @@ import com.example.app.exceptions.form.EmptyFieldException;
 import com.example.app.exceptions.form.SameAccountsFieldsException;
 import com.example.app.exceptions.transact.TooLowBalanceException;
 import com.example.app.helpers.Message;
-import com.example.app.transact.*;
+import com.example.app.transact.TransactDto;
+import com.example.app.transact.TransactService;
+import com.example.app.transact.forms.*;
 import com.example.app.transact.payment.PaymentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -29,15 +30,14 @@ public class TransactController {
 
 
     @PostMapping("/deposit")
-    String deposit(@RequestParam("deposit_amount") String amount,
-               @RequestParam("account_id") String accountTo,
-               RedirectAttributes attributes) {
+    String deposit(DepositTransactForm form, RedirectAttributes attributes) {
 
-        DepositTransactForm form = new DepositTransactForm(amount, accountTo);
         boolean formIsIncorrect = validateFormFields(form, attributes);
         if (formIsIncorrect) return "redirect:/app/dashboard";
 
-        accountService.depositMoney(form);
+        TransactDto transact = accountService.depositMoney(form);
+        transactService.prepareSuccessTransact(transact, form);
+        transactService.logTransaction(transact);
 
         attributes.addFlashAttribute("successMsg", Message.DEPOSIT_SUCCESS);
         return "redirect:/app/dashboard";
@@ -45,12 +45,8 @@ public class TransactController {
 
 
     @PostMapping("/transfer")
-    String transfer(@RequestParam("transfer_from") String accountFrom,
-                    @RequestParam("transfer_to") String accountTo,
-                    @RequestParam("transfer_amount") String amount,
-                    RedirectAttributes attributes) {
+    String transfer(TransferTransactForm form, RedirectAttributes attributes) {
 
-        TransferTransactForm form  = new TransferTransactForm(amount, accountFrom, accountTo);
         boolean formIsIncorrect = validateFormFields(form, attributes);
         if (formIsIncorrect) return "redirect:/app/dashboard";
 
@@ -63,11 +59,8 @@ public class TransactController {
 
 
     @PostMapping("/withdraw")
-    String withdraw(@RequestParam("withdrawal_amount") String amount,
-                   @RequestParam("account_id") String accountFrom,
-                   RedirectAttributes attributes) {
+    String withdraw(WithdrawTransactForm form, RedirectAttributes attributes) {
 
-        WithdrawTransactForm form = new WithdrawTransactForm(amount, accountFrom);
         boolean formIsIncorrect = validateFormFields(form, attributes);
         if (formIsIncorrect) return "redirect:/app/dashboard";
 
@@ -78,32 +71,31 @@ public class TransactController {
         return "redirect:/app/dashboard";
     }
 
-
     @PostMapping("/payment")
-    String payment(@RequestParam("beneficiary") String beneficiary,
-                   @RequestParam("account_number") String accountNumber,
-                   @RequestParam("account_id") String accountFrom,
-                   @RequestParam("reference") String reference,
-                   @RequestParam("payment_amount") String amount,
-                   RedirectAttributes attributes) {
+    String payment(PaymentTransactForm form, RedirectAttributes attributes) {
 
-        PaymentTransactForm form = new PaymentTransactForm(amount, beneficiary, accountNumber, accountFrom,reference);
         boolean formIsIncorrect = validateFormFields(form, attributes);
         if (formIsIncorrect) return "redirect:/app/dashboard";
 
         boolean paymentFailed = doPayment(form, attributes);
         if (paymentFailed) return "redirect:/app/dashboard";
 
-        attributes.addFlashAttribute("successMsg", String.format(Message.PAYMENT_SUCCESS, form.getAmount()));
+        attributes.addFlashAttribute("successMsg", String.format(Message.PAYMENT_CODE_SUCCESS, form.getAmount()));
         return "redirect:/app/dashboard";
     }
 
 
     private boolean doPayment(PaymentTransactForm form, RedirectAttributes attributes) {
         try {
-            accountService.withdrawMoney(form);
-            paymentService.makePayment(form);
+            TransactDto transact = accountService.withdrawMoney(form);
+            transactService.prepareSuccessTransact(transact, form);
+            transactService.logTransaction(transact);
+            paymentService.makePayment(transact, form);
         } catch (TooLowBalanceException e) {
+            TransactDto failTransact = new TransactDto();
+            transactService.prepareFailedTransact(failTransact, form);
+            transactService.logTransaction(failTransact);
+            paymentService.makePayment(failTransact, form);
             attributes.addFlashAttribute("errorMsg", e.getMessage());
             return true;
         }
@@ -113,8 +105,13 @@ public class TransactController {
 
     private boolean doWithdraw(WithdrawTransactForm form, RedirectAttributes attributes) {
         try {
-            accountService.withdrawMoney(form);
+            TransactDto transact = accountService.withdrawMoney(form);
+            transactService.prepareSuccessTransact(transact, form);
+            transactService.logTransaction(transact);
         } catch (TooLowBalanceException e) {
+            TransactDto failTransact = new TransactDto();
+            transactService.prepareFailedTransact(failTransact, form);
+            transactService.logTransaction(failTransact);
             attributes.addFlashAttribute("errorMsg", e.getMessage());
             return true;
         }
@@ -123,9 +120,16 @@ public class TransactController {
 
 
     private boolean doTransfer(TransferTransactForm form, RedirectAttributes attributes) {
+
         try {
-            accountService.transferMoney(form);
+            accountService.transferMoney(form).forEach(transact -> {
+                transactService.prepareSuccessTransact(transact, form);
+                transactService.logTransaction(transact);
+            });
         } catch (TooLowBalanceException e) {
+            TransactDto failTransact = new TransactDto();
+            transactService.prepareFailedTransact(failTransact, form);
+            transactService.logTransaction(failTransact);
             attributes.addFlashAttribute("errorMsg", e.getMessage());
             return true;
         }

@@ -5,7 +5,7 @@
 			<form th:action="@{/transact/transfer}" method="post">
 				<div class="form-group">
 					<label>Select Account</label>
-					<select name="transfer_from" class="form-control">
+					<select name="accountFromId" class="form-control">
 						<option value="">-- Select Account --</option>
 						<option th:each="acc : ${session.userAccounts}" th:object="${acc}"
 						        th:value="*{id}"
@@ -16,7 +16,7 @@
 
 				<div class="form-group">
 					<label>Select Account</label>
-					<select name="transfer_to" class="form-control">
+					<select name="accountToId" class="form-control">
 						<option value="">-- Select Account --</option>
 						<option th:each="acc : ${session.userAccounts}" th:object="${acc}"
 						        th:value="*{id}"
@@ -28,7 +28,7 @@
 
 				<div class="form-group mb-2">
 					<label>Enter Transfer Amount</label>
-					<input type="text" name="transfer_amount" class="form-control" placeholder="Enter Transfer Amount">
+					<input type="text" name="amount" class="form-control" placeholder="Enter Transfer Amount">
 				</div>
 
 				<div class="form-group mb-2">

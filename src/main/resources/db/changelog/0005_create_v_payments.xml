@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+
+    <changeSet id="0006" author="lukasz">
+
+        <createView viewName="v_payments" replaceIfExists="true">
+            SELECT
+                p.id as payment_id,
+                a.id as account_id,
+                u.id as user_id,
+                p.beneficiary,
+                p.beneficiary_acc_no,
+                p.amount,
+                p.status,
+                p.reference,
+                p.reason_code,
+                p.created_at
+            FROM
+                payments AS p
+            INNER JOIN
+                accounts AS a
+            ON
+                p.account_from_id = a.id
+            INNER JOIN
+                users AS u
+            ON
+                a.user_id = u.id;
+        </createView>
+    </changeSet>
+
+</databaseChangeLog>

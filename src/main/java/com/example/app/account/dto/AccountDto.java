@@ -1,6 +1,5 @@
-package com.example.app.account;
+package com.example.app.account.dto;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,14 +7,9 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "accounts")
 @Getter
 @Setter
-public class Account {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class AccountDto {
     private Long user_id;
     @Size(max = 100)
     private String account_number;
@@ -26,4 +20,12 @@ public class Account {
     private BigDecimal balance;
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
+
+    public AccountDto() {}
+
+    public AccountDto(Long userId, String accountName, String accountType) {
+        this.user_id = userId;
+        this.account_name = accountName;
+        this.account_type = accountType;
+    }
 }

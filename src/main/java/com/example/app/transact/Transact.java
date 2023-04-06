@@ -1,4 +1,4 @@
-package com.example.app.transact.payment;
+package com.example.app.transact;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -9,24 +9,26 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "payments")
+@Table(name = "transaction_history")
 @Getter
 @Setter
-public class Payment {
+public class Transact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long accountFromId;
+    private Long account_id;
     @Size(max = 50)
-    private String beneficiary;
-    @Size(max = 255)
-    private String beneficiaryAccNo;
+    private String transaction_type;
     private BigDecimal amount;
-    @Size(max = 255)
-    private String reference;
+    @Size(max = 50)
+    private String source;
     @Size(max = 50)
     private String status;
     @Size(max = 100)
-    private String reasonCode;
-    private LocalDateTime createdAt;
+    private String reason_code;
+    private LocalDateTime created_at;
+
+    public void setAmount(String amount) {
+        this.amount = new BigDecimal(amount);
+    }
 }
