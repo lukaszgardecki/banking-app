@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface PaymentHistoryRepository extends CrudRepository<PaymentHistory, Long> {
 
-    List<PaymentHistory> findAllByAccountFromId(Long id);
+    List<PaymentHistory> findAllByUserId(Long id);
 }
