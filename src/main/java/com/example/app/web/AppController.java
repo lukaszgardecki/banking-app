@@ -2,11 +2,14 @@ package com.example.app.web;
 
 import com.example.app.account.AccountService;
 import com.example.app.account.dto.AccountDashboardDto;
+import com.example.app.transact.payment.PaymentHistory;
+import com.example.app.transact.payment.PaymentService;
 import com.example.app.user.UserService;
 import com.example.app.user.dto.UserDashboardDto;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,10 +21,12 @@ import java.util.Optional;
 @RequestMapping("/app")
 public class AppController {
     private final AccountService accountService;
+    private final PaymentService paymentService;
     private final UserService userService;
 
-    public AppController(AccountService accountService, UserService userService) {
+    public AppController(AccountService accountService, PaymentService paymentService, UserService userService) {
         this.accountService = accountService;
+        this.paymentService = paymentService;
         this.userService = userService;
     }
 
@@ -45,5 +50,21 @@ public class AppController {
         session.setAttribute("userAccounts", accounts);
         session.setAttribute("totalBalance", totalBalance);
         return "dashboard";
+    }
+
+    @GetMapping("/payment-history")
+    public String getPaymentHistory(Model model) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<UserDashboardDto> userOptional = userService.findUserByEmail(username);
+        UserDashboardDto user;
+        if (userOptional.isPresent()) {
+            user = userOptional.get();
+        } else {
+            return "redirect:/logout";
+        }
+        List<PaymentHistory> paymentHistory = paymentService.getPaymentRecordsById(user.getId());
+
+        model.addAttribute("paymentHistory", paymentHistory);
+        return "payment_history";
     }
 }
