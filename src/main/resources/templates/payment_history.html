@@ -10,33 +10,36 @@
               crossorigin="anonymous"
         >
         <link rel="stylesheet" href="../static/styles/main.css" th:href="@{/styles/main.css}">
-        <title>Dashboard</title>
+        <title>Payment History</title>
     </head>
     <body>
         <!-- Header -->
         <div th:replace="~{fragments/common/header::header}"></div>
 
         <div class="container">
-            <table class="table text-center">
-                <tr>
-                    <th>Record Number</th>
-                    <th>Beneficiary</th>
-                    <th>Beneficiary Account Number</th>
-                    <th>Amount</th>
-                    <th>Status</th>
-                    <th>Reference</th>
-                    <th>Reason code</th>
-                    <th>Created at</th>
-                </tr>
-                <tr th:each="payment : ${paymentHistory}" th:object="${payment}">
-                    <td th:text="*{id}">1</td>
+            <table class="table text-center table-striped">
+                <thead>
+                    <tr>
+                        <th>Record Number</th>
+                        <th>Beneficiary</th>
+                        <th>Beneficiary Account Number</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Reference</th>
+                        <th>Reason code</th>
+                        <th>Created at</th>
+                    </tr>
+                </thead>
+
+                <tr th:each="payment, num : ${paymentHistory}" th:object="${payment}">
+                    <td th:text="${num.count}">1</td>
                     <td th:text="*{beneficiary}">John Smith</td>
                     <td th:text="*{beneficiaryAccNo}">00111122223333444455556666</td>
                     <td th:text="*{amount}"></td>
                     <td th:text="*{status}"></td>
                     <td th:text="*{reference}"></td>
                     <td th:text="*{reasonCode}"></td>
-                    <td th:text="*{createdAt}"></td>
+                    <td th:text="${#temporals.format(payment.createdAt, 'dd-MM-yyyy HH:mm')}"></td>
                 </tr>
             </table>
         </div>
