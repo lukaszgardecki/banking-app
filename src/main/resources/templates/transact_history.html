@@ -10,44 +10,44 @@
               crossorigin="anonymous"
         >
         <link rel="stylesheet" href="../static/styles/main.css" th:href="@{/styles/main.css}">
-        <title>Payment History</title>
+        <title>Transact History</title>
     </head>
     <body>
         <!-- Header -->
         <div th:replace="~{fragments/common/header::header}"></div>
 
-        <div class="container">
-            <div class="card">
+        <div class="container my-4">
+            <div class="card transaction-history shadow">
                 <div class="card-header text-center">
-                    <ion-icon name="card-outline" class="me-2"></ion-icon> Payment History
+                    <ion-icon name="card-outline"  class="me-2"></ion-icon> Transaction History
                 </div>
                 <div class="card-body">
                     <table class="table text-center table-striped">
                         <thead>
                         <tr>
-                            <th>Record Number</th>
-                            <th>Beneficiary</th>
-                            <th>Beneficiary Account Number</th>
+                            <th>Transaction ID</th>
+                            <th>Account Name</th>
+                            <th>Transaction Type</th>
                             <th>Amount</th>
+                            <th>Source</th>
                             <th>Status</th>
-                            <th>Reference</th>
                             <th>Reason code</th>
                             <th>Created at</th>
                         </tr>
                         </thead>
 
-                        <tr th:each="payment, num : ${paymentHistory}" th:object="${payment}">
-                            <td th:text="${num.count}">1</td>
-                            <td th:text="*{beneficiary}">John Smith</td>
-                            <td th:text="*{beneficiaryAccNo}">00111122223333444455556666</td>
+                        <tr th:each="transaction : ${transactHistory}" th:object="${transaction}">
+                            <td th:text="*{transactionId}">1</td>
+                            <td th:text="*{accountName}">John Smith</td>
+                            <td th:text="*{transactionType}">00111122223333444455556666</td>
                             <td th:text="*{amount}">2500.00</td>
+                            <td th:text="*{source}">online</td>
                             <td th:if="*{status}"
-                                th:style="${#strings.equalsIgnoreCase(payment.status, 'success') ? 'color: green;' : 'color: red;'}">
+                                th:style="${#strings.equalsIgnoreCase(transaction.status, 'success') ? 'color: green;' : 'color: red;'}">
                                 <ion-icon name=ellipse></ion-icon> <span th:text="*{status}">SUCCESS</span>
                             </td>
-                            <td th:text="*{reference}">Payment description</td>
                             <td th:text="*{reasonCode}"></td>
-                            <td th:text="${#temporals.format(payment.createdAt, 'dd-MM-yyyy HH:mm')}">10-01-2023 21:34</td>
+                            <td th:text="${#temporals.format(transaction.createdAt, 'dd-MM-yyyy HH:mm')}">10-01-2023 21:34</td>
                         </tr>
                     </table>
                 </div>

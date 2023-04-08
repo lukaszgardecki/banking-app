@@ -10,18 +10,25 @@ import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class TransactService {
     private final TransactRepository transactRepository;
+    private final TransactHistoryRepository transactHistoryRepository;
 
-    public TransactService(TransactRepository transactRepository) {
+    public TransactService(TransactRepository transactRepository, TransactHistoryRepository transactHistoryRepository) {
         this.transactRepository = transactRepository;
+        this.transactHistoryRepository = transactHistoryRepository;
     }
 
     public void logTransaction(TransactDto transact) {
         Transact transactToSave = TransactDtoMapper.map(transact);
         transactRepository.save(transactToSave);
+    }
+
+    public List<TransactHistory> getTransactionHistoryByUserId(Long userId) {
+        return transactHistoryRepository.findAllByUserId(userId);
     }
 
     public void validateForm(TransactForm transactForm) {

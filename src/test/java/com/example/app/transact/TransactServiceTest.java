@@ -17,7 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TransactServiceTest {
     TransactRepository transactRepository = Mockito.mock(TransactRepository.class);
-    private final TransactService transactService = new TransactService(transactRepository);
+    TransactHistoryRepository transactHistoryRepository = Mockito.mock(TransactHistoryRepository.class);
+    private final TransactService transactService = new TransactService(transactRepository, transactHistoryRepository);
 
     @ParameterizedTest
     @MethodSource
