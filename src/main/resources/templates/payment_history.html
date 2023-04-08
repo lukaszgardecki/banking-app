@@ -17,31 +17,41 @@
         <div th:replace="~{fragments/common/header::header}"></div>
 
         <div class="container">
-            <table class="table text-center table-striped">
-                <thead>
-                    <tr>
-                        <th>Record Number</th>
-                        <th>Beneficiary</th>
-                        <th>Beneficiary Account Number</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                        <th>Reference</th>
-                        <th>Reason code</th>
-                        <th>Created at</th>
-                    </tr>
-                </thead>
+            <div class="card">
+                <div class="card-header text-center">
+                    <ion-icon name="card-outline" class="me-2"></ion-icon> Payment History
+                </div>
+                <div class="card-body">
+                    <table class="table text-center table-striped">
+                        <thead>
+                        <tr>
+                            <th>Record Number</th>
+                            <th>Beneficiary</th>
+                            <th>Beneficiary Account Number</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Reference</th>
+                            <th>Reason code</th>
+                            <th>Created at</th>
+                        </tr>
+                        </thead>
 
-                <tr th:each="payment, num : ${paymentHistory}" th:object="${payment}">
-                    <td th:text="${num.count}">1</td>
-                    <td th:text="*{beneficiary}">John Smith</td>
-                    <td th:text="*{beneficiaryAccNo}">00111122223333444455556666</td>
-                    <td th:text="*{amount}"></td>
-                    <td th:text="*{status}"></td>
-                    <td th:text="*{reference}"></td>
-                    <td th:text="*{reasonCode}"></td>
-                    <td th:text="${#temporals.format(payment.createdAt, 'dd-MM-yyyy HH:mm')}"></td>
-                </tr>
-            </table>
+                        <tr th:each="payment, num : ${paymentHistory}" th:object="${payment}">
+                            <td th:text="${num.count}">1</td>
+                            <td th:text="*{beneficiary}">John Smith</td>
+                            <td th:text="*{beneficiaryAccNo}">00111122223333444455556666</td>
+                            <td th:text="*{amount}">2500.00</td>
+                            <td th:if="*{status}"
+                                th:style="${#strings.equalsIgnoreCase(payment.status, 'success') ? 'color: green;' : 'color: red;'}">
+                                <ion-icon name=ellipse></ion-icon> <span th:text="*{status}">SUCCESS</span>
+                            </td>
+                            <td th:text="*{reference}">Payment description</td>
+                            <td th:text="*{reasonCode}"></td>
+                            <td th:text="${#temporals.format(payment.createdAt, 'dd-MM-yyyy HH:mm')}">10-01-2023 21:34</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
 
         <!-- Footer -->
