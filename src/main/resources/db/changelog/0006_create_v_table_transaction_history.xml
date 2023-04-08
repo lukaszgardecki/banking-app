@@ -11,6 +11,7 @@
             SELECT
                 t.id as transaction_id,
                 a.id as account_id,
+                a.account_name,
                 u.id as user_id,
                 t.transaction_type,
                 t.amount,

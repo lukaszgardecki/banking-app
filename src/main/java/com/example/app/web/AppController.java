@@ -2,6 +2,8 @@ package com.example.app.web;
 
 import com.example.app.account.AccountService;
 import com.example.app.account.dto.AccountDashboardDto;
+import com.example.app.transact.TransactHistory;
+import com.example.app.transact.TransactService;
 import com.example.app.transact.payment.PaymentHistory;
 import com.example.app.transact.payment.PaymentService;
 import com.example.app.user.UserService;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,11 +25,13 @@ import java.util.Optional;
 public class AppController {
     private final AccountService accountService;
     private final PaymentService paymentService;
+    private final TransactService transactService;
     private final UserService userService;
 
-    public AppController(AccountService accountService, PaymentService paymentService, UserService userService) {
+    public AppController(AccountService accountService, PaymentService paymentService, TransactService transactService, UserService userService) {
         this.accountService = accountService;
         this.paymentService = paymentService;
+        this.transactService = transactService;
         this.userService = userService;
     }
 
@@ -62,9 +67,31 @@ public class AppController {
         } else {
             return "redirect:/logout";
         }
-        List<PaymentHistory> paymentHistory = paymentService.getPaymentRecordsById(user.getId());
+        List<PaymentHistory> paymentHistory = paymentService.getPaymentRecordsById(user.getId())
+                .stream()
+                .sorted(Comparator.comparing(PaymentHistory::getCreatedAt))
+                .toList();
 
         model.addAttribute("paymentHistory", paymentHistory);
         return "payment_history";
     }
+    @GetMapping("/transact-history")
+    public String getTransactionHistory(Model model) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<UserDashboardDto> userOptional = userService.findUserByEmail(username);
+        UserDashboardDto user;
+        if (userOptional.isPresent()) {
+            user = userOptional.get();
+        } else {
+            return "redirect:/logout";
+        }
+        List<TransactHistory> transactHistory = transactService.getTransactionHistoryByUserId(user.getId())
+                .stream()
+                .sorted(Comparator.comparingLong(TransactHistory::getTransactionId))
+                .toList();
+
+        model.addAttribute("transactHistory", transactHistory);
+        return "transact_history";
+    }
+
 }

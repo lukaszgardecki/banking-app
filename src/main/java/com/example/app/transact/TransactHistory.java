@@ -14,19 +14,20 @@ import java.time.LocalDateTime;
 @Table(name = "v_transaction_history")
 @Getter
 @Setter
-public class TransactionHistory {
+public class TransactHistory {
     @Id
-    private Long transaction_id;
-    private Long account_id;
-    private Long user_id;
+    private Long transactionId;
+    private Long accountId;
+    private String accountName;
+    private Long userId;
     @Size(max = 50)
-    private String transaction_type;
+    private String transactionType;
     private BigDecimal amount;
     @Size(max = 50)
     private String source;
     @Size(max = 50)
     private String status;
     @Size(max = 100)
-    private String reason_code;
-    private LocalDateTime created_at;
+    private String reasonCode;
+    private LocalDateTime createdAt;
 }
