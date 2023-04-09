@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-    <body>
-        <div class="container" th:fragment="no-accounts-display">
-            <div class="card no-accounts-card">
-                <div class="card-body">
-                    <h1 class="card-title">
-                        <ion-icon name="ban" class="text-danger"></ion-icon> No registered Account
-                    </h1>
-                    <hr>
-                    <div class="card-text">
-                        You currently do not have any registered accounts. <br>
-                        Please click below to register / add a new account.
-                    </div>
-                    <br>
-                    <button class="btn btn-primary btn-lg shadow" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                        <ion-icon name="card-outline"></ion-icon> Add New Account
-                    </button>
+    <div class="container" th:fragment="no-accounts-display">
+        <div class="card no-accounts-card">
+            <div class="card-body">
+                <h1 class="card-title">
+                    <ion-icon name="ban" class="text-danger"></ion-icon> No registered Account
+                </h1>
+                <hr>
+                <div class="card-text">
+                    You currently do not have any registered accounts. <br>
+                    Please click below to register / add a new account.
                 </div>
+                <br>
+                <button class="btn btn-primary btn-lg shadow" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                    <ion-icon name="card-outline"></ion-icon> Add New Account
+                </button>
             </div>
         </div>
-    </body>
+    </div>
+
 </html>

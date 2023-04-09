@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@600&display=swap');
 
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
     font-family: 'Comfortaa', cursive;
 }
@@ -10,17 +12,38 @@ body {
 }
 
 .container {
-    margin: 10px 0;
+    /*alignment: center;*/
+    /*margin: 10px 0;*/
 }
 
 .main-page-header {
     padding: 10px 0;
 }
 
-.main-page-header .company-name {
+/*LOGO AND COMPANY NAME START*/
+.main-page-header .company {
     font-weight: 600;
     color: #fff;
+    display: flex;
+    vertical-align: center;
 }
+
+.company .company-icon {
+    color: #fff;
+    display: flex;
+    vertical-align: center;
+}
+
+.company-icon .icon {
+    font-size: 2em;
+    height: 100%;
+}
+
+.company-name {
+    display: flex;
+    align-items: center;
+}
+/*LOGO AND COMPANY NAME END*/
 
 .navigation {
     /*border: 1px solid #fff;*/
@@ -38,9 +61,52 @@ body {
     text-decoration: none;
 }
 
+/*WELCOME START*/
+.display-name {
+    display: flex;
+    vertical-align: center;
+}
+
+.display-name-icon .icon {
+    margin: 0 5px;
+    height: 100%;
+}
+
+.display-name-username {
+    display: flex;
+    align-items: center;
+}
+
+.display-name-username span {
+    text-align: center;
+}
+
 .display-name i {
     font-weight: 600;
 }
+/*WELCOME END*/
+
+/*SIGN OUT START*/
+.logout {
+    display: flex;
+    vertical-align: center;
+}
+
+.logout-icon {
+    font-size: 1.4em;
+    margin: 0 5px;
+}
+
+.logout-text {
+    display: flex;
+    align-items: center;
+}
+
+.logout-icon .icon {
+    height: 100%;
+}
+/*SIGN OUT END*/
+
 
 #transact-btn {
     background-color: #ffb114;
