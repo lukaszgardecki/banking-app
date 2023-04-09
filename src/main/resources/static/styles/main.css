@@ -138,3 +138,24 @@ body {
 .withdraw-card {
     display: none;
 }
+
+/*LIST HEADER START*/
+.accordion-header button .text {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.accordion-header button .date-desc {
+    justify-content: space-between;
+}
+
+.accordion-header button .date,
+.accordion-header button .desc {
+    margin: 0 10px;
+}
+
+.accordion-header button .amount {
+    padding: 0 10px;
+}
+/*LIST HEADER END*/

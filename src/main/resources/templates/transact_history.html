@@ -16,43 +16,107 @@
         <!-- Header -->
         <div th:replace="~{fragments/common/header::header}"></div>
 
-        <div class="container my-4">
-            <div class="card transaction-history shadow">
-                <div class="card-header text-center">
-                    <ion-icon name="card-outline"  class="me-2"></ion-icon> Transaction History
-                </div>
-                <div class="card-body">
-                    <table class="table text-center table-striped">
-                        <thead>
-                        <tr>
-                            <th>Transaction ID</th>
-                            <th>Account Name</th>
-                            <th>Transaction Type</th>
-                            <th>Amount</th>
-                            <th>Source</th>
-                            <th>Status</th>
-                            <th>Reason code</th>
-                            <th>Created at</th>
-                        </tr>
-                        </thead>
 
-                        <tr th:each="transaction : ${transactHistory}" th:object="${transaction}">
-                            <td th:text="*{transactionId}">1</td>
-                            <td th:text="*{accountName}">John Smith</td>
-                            <td th:text="*{transactionType}">00111122223333444455556666</td>
-                            <td th:text="*{amount}">2500.00</td>
-                            <td th:text="*{source}">online</td>
-                            <td th:if="*{status}"
-                                th:style="${#strings.equalsIgnoreCase(transaction.status, 'success') ? 'color: green;' : 'color: red;'}">
-                                <ion-icon name=ellipse></ion-icon> <span th:text="*{status}">SUCCESS</span>
-                            </td>
-                            <td th:text="*{reasonCode}"></td>
-                            <td th:text="${#temporals.format(transaction.createdAt, 'dd-MM-yyyy HH:mm')}">10-01-2023 21:34</td>
-                        </tr>
-                    </table>
+        <div class="container accordion accordion-flush" id="accordionFlushExample" th:remove="all-but-first">
+            <div class="accordion-item" th:each="transaction : ${transactHistory}" th:object="${transaction}">
+                <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
+                            th:attr="data-bs-target='#flush-'+*{transactionId}, aria-controls='flush-'+*{transactionId}"
+                            aria-expanded="false" aria-controls="flush-collapseOne"
+                    >
+                        <span class="text">
+                            <span class="date-desc">
+                                <span class="date" th:text="*{#temporals.format(createdAt, 'dd.MM.yyyy')}">10.01.2023</span>
+                                <span class="desc" th:text="*{accountName}">Description</span>
+                            </span>
+                            <span class="amount" th:text="*{amount}">340.00</span>
+                        </span>
+                    </button>
+                </h2>
+                <div id="flush-collapseOne" th:id="|flush-*{transactionId}|" class="accordion-collapse collapse"
+                     aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample"
+                >
+                    <div class="accordion-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex">From <span class="ms-auto"></span></li>
+                            <li class="list-group-item d-flex">To <span class="ms-auto"></span></li>
+
+                            <li class="list-group-item d-flex">Amount <span class="ms-auto" th:text="*{amount}"></span></li>
+                            <li class="list-group-item d-flex">Transaction Type <span class="ms-auto" th:text="*{transactionType}">deposit</span></li>
+                            <li class="list-group-item d-flex">Source <span class="ms-auto" th:text="*{source}">online</span></li>
+                            <li class="list-group-item d-flex">Status <span class="ms-auto" th:text="*{status}">success</span></li>
+                            <li class="list-group-item d-flex">Reason code <span class="ms-auto" th:text="*{reasonCode}"></span></li>
+                            <li class="list-group-item d-flex">
+                                Created at
+                                <span class="ms-auto" th:text="*{#temporals.format(createdAt, 'd MMMM yyyy HH:mm')}">10-01-2023 21:34</span>
+                            </li>
+                            <li class="list-group-item d-flex">Transaction ID <span class="ms-auto" th:text="*{transactionId}">1</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                        Accordion Item #2
+                    </button>
+                </h2>
+                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.</div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                        Accordion Item #3
+                    </button>
+                </h2>
+                <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
                 </div>
             </div>
         </div>
+
+<!--        <div class="container my-4">-->
+<!--            <div class="card transaction-history shadow">-->
+<!--                <div class="card-header text-center">-->
+<!--                    <ion-icon name="card-outline"  class="me-2"></ion-icon> Transaction History-->
+<!--                </div>-->
+<!--                <div class="card-body">-->
+<!--                    <table class="table text-center table-striped">-->
+<!--                        <thead>-->
+<!--                        <tr>-->
+<!--                            <th>Transaction ID</th>-->
+<!--                            <th>Account Name</th>-->
+<!--                            <th>Transaction Type</th>-->
+<!--                            <th>Amount</th>-->
+<!--                            <th>Source</th>-->
+<!--                            <th>Status</th>-->
+<!--                            <th>Reason code</th>-->
+<!--                            <th>Created at</th>-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+
+<!--                        <tr th:each="transaction : ${transactHistory}" th:object="${transaction}">-->
+<!--                            <td th:text="*{transactionId}">1</td>-->
+<!--                            <td th:text="*{accountName}">John Smith</td>-->
+<!--                            <td th:text="*{transactionType}">00111122223333444455556666</td>-->
+<!--                            <td th:text="*{amount}">2500.00</td>-->
+<!--                            <td th:text="*{source}">online</td>-->
+<!--                            <td th:if="*{status}"-->
+<!--                                th:style="${#strings.equalsIgnoreCase(transaction.status, 'success') ? 'color: green;' : 'color: red;'}">-->
+<!--                                <ion-icon name=ellipse></ion-icon> <span th:text="*{status}">SUCCESS</span>-->
+<!--                            </td>-->
+<!--                            <td th:text="*{reasonCode}"></td>-->
+<!--                            <td th:text="${#temporals.format(transaction.createdAt, 'dd-MM-yyyy HH:mm')}">10-01-2023 21:34</td>-->
+<!--                        </tr>-->
+<!--                    </table>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
         <!-- Footer -->
         <div th:replace="~{fragments/common/footer::footer}"></div>
