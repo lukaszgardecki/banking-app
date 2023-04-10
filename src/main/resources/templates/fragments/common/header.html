@@ -2,9 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<header class="main-page-header mb-3 bg-primary" th:fragment="header">
 		<div class="container d-flex align-items-center">
-			<div class="company-name">
-				Easy-Way Bank
-			</div>
+			<a href="#" th:href="@{/}" class="btn text-white">
+				<div class="company">
+					<div class="company-icon">
+						<ion-icon class="icon" name="globe-outline"></ion-icon>
+					</div>
+					<div class="company-name">
+						Easy-Way Bank
+					</div>
+				</div>
+			</a>
 
 			<nav class="navigation">
 				<li><a href="#" th:href="@{/app/dashboard}">Dashboard</a></li>
@@ -13,12 +20,23 @@
 			</nav>
 
 			<div class="display-name ms-auto text-white">
-				<ion-icon name="ellipse" class="text-success me-2"></ion-icon>
-				Welcome <span th:text="|${session.user.first_name} ${session.user.last_name}|">John Smith</span>
+				<div class="display-name-icon">
+					<ion-icon name="ellipse" class="icon text-success me-2"></ion-icon>
+				</div>
+				<div class="display-name-username">
+					<span th:text="|Welcome ${session.user.first_name} ${session.user.last_name}|">John Smith</span>
+				</div>
 			</div>
 
 			<a href="#" th:href="@{/logout}" class="btn btn-sm text-white ms-2">
-				<ion-icon name="log-out-outline" aria-hidden="true"></ion-icon> Sign Out
+				<div class="logout">
+					<div class="logout-icon">
+						<ion-icon class="icon" name="log-out-outline" aria-hidden="true"></ion-icon>
+					</div>
+					<div class="logout-text">
+						Sign Out
+					</div>
+				</div>
 			</a>
 		</div>
 	</header>

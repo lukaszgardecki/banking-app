@@ -16,40 +16,213 @@
         <!-- Header -->
         <div th:replace="~{fragments/common/header::header}"></div>
 
-        <div class="container my-4">
-            <div class="card transaction-history shadow">
-                <div class="card-header text-center">
-                    <ion-icon name="card-outline"  class="me-2"></ion-icon> Transaction History
-                </div>
-                <div class="card-body">
-                    <table class="table text-center table-striped">
-                        <thead>
-                        <tr>
-                            <th>Transaction ID</th>
-                            <th>Account Name</th>
-                            <th>Transaction Type</th>
-                            <th>Amount</th>
-                            <th>Source</th>
-                            <th>Status</th>
-                            <th>Reason code</th>
-                            <th>Created at</th>
-                        </tr>
-                        </thead>
+        <div class="container">
 
-                        <tr th:each="transaction : ${transactHistory}" th:object="${transaction}">
-                            <td th:text="*{transactionId}">1</td>
-                            <td th:text="*{accountName}">John Smith</td>
-                            <td th:text="*{transactionType}">00111122223333444455556666</td>
-                            <td th:text="*{amount}">2500.00</td>
-                            <td th:text="*{source}">online</td>
-                            <td th:if="*{status}"
-                                th:style="${#strings.equalsIgnoreCase(transaction.status, 'success') ? 'color: green;' : 'color: red;'}">
-                                <ion-icon name=ellipse></ion-icon> <span th:text="*{status}">SUCCESS</span>
-                            </td>
-                            <td th:text="*{reasonCode}"></td>
-                            <td th:text="${#temporals.format(transaction.createdAt, 'dd-MM-yyyy HH:mm')}">10-01-2023 21:34</td>
-                        </tr>
-                    </table>
+            <div class="header">
+                Historia transakcji
+            </div>
+
+
+            <div class="tab-head" >
+                <div class="text">
+                    <span class="date">Data</span>
+                    <span class="category">Kategoria</span>
+                    <span class="description">Opis</span>
+                    <span class="amount">Kwota</span>
+                </div>
+            </div>
+
+            <div class="accordion accordion-flush" id="accordionFlushExample" th:remove="all-but-first">
+                <div class="accordion-item" th:each="transaction, i : ${transactHistory}" th:object="${transaction}">
+                    <h2 class="accordion-header"  id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
+                                th:attr="data-bs-target='#flush-'+*{transactionId}, aria-controls='flush-'+*{transactionId}"
+                                aria-expanded="false" aria-controls="flush-collapseOne"
+                                th:style="${i.count % 2 eq 0 ? 'background-color: white' : 'background-color: #F4F4F4FF'}"
+                        >
+                        <span class="text">
+                            <span class="date" th:text="*{#temporals.format(createdAt, 'dd.MM.yyyy')}">10.01.2023</span>
+                            <span class="category">
+                                <ion-icon class="cat-icon" name="swap-horizontal-outline"></ion-icon>
+                                <span class="cat-text" th:text="*{transactionType}">Transfer</span>
+                            </span>
+                            <span class="description" th:text="*{accountName}">Description</span>
+                            <span class="amount" th:text="*{amount}"
+                                  th:style="${transaction.amount lt 0 ? 'color: #0d6efb' : 'color: black'}"
+                            >
+                                340.00
+                            </span>
+                        </span>
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" th:id="|flush-*{transactionId}|" class="accordion-collapse collapse"
+                         aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample"
+                    >
+                        <div class="accordion-body">
+
+                            <div class="main">
+                                <div class="user-data">
+                                    <h5>Dane płatnika</h5>
+                                    <div>
+                                        <span class="title">Z rachunku:</span><br>
+                                        <span>47 1050 0028 2100 0023 0315 0001</span>
+                                    </div>
+                                    <div>
+                                        <span class="title">Nazwa i adres:</span><br>
+                                        <span>Agata Nowak</span><br>
+                                        <span>ul. Astrów 12/1</span><br>
+                                        <span>40-748 Katowice</span>
+                                    </div>
+                                </div>
+
+                                <div class="beneficiary-data">
+                                    <h5>Dane Odbiorcy</h5>
+                                    <div>
+                                        <span class="title">Na rachunek:</span><br>
+                                        <span>52 1050 0028 2100 0023 0315 0008</span>
+                                    </div>
+                                    <div>
+                                        <span class="title">Nazwa i adres:</span><br>
+                                        <span>Kino</span><br>
+                                        <span>ul. Anioła Franciszka 107</span><br>
+                                        <span>40-7463 Katowice</span>
+                                    </div>
+                                </div>
+
+                                <div class="transact-data">
+                                    <h5>Dane transakcji</h5>
+                                    <div>
+                                        <span class="title">Tytuł:</span><br>
+                                        <span>Opłata za bilety na seans</span>
+                                    </div>
+                                    <div>
+                                        <span class="title">Data transakcji:</span><br>
+                                        <span th:text="*{#temporals.format(createdAt, 'd MMMM yyyy HH:mm')}">
+                                            24.12.2022
+                                        </span><br>
+                                    </div>
+                                    <div>
+                                        <span class="title">Kwota transakcji:</span><br>
+                                        <span th:text="*{amount}">-28,00</span><br>
+                                    </div>
+                                    <div>
+                                        <span class="title">Rodzaj transakcji:</span><br>
+                                        <span th:text="*{transactionType}">Przelew własny</span><br>
+                                    </div>
+                                    <div>
+                                        <span class="title">Status:</span><br>
+                                        <span th:text="*{status}">Zrealizowano</span><br>
+                                    </div>
+                                    <div>
+                                        <span class="title">Numer transakcji:</span><br>
+                                        <span th:text="*{transactionId}">77</span><br>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="buttons">
+                                <a href="#">
+                                    <ion-icon class="icon" name="document-text-outline"></ion-icon>
+                                    <div class="pdf-text">
+                                        Pobierz jako PDF
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingTwo">
+                        <button class="accordion-button collapsed" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo"
+                                aria-expanded="false" aria-controls="flush-collapseTwo"
+                        >
+                        <span class="text">
+                            <span class="date">10.01.2023</span>
+                            <span class="category">
+                                <ion-icon class="cat-icon" name="swap-horizontal-outline"></ion-icon>
+                                <span class="cat-text">Transfer</span>
+                            </span>
+                            <span class="description">Description</span>
+                            <span class="amount">340.00</span>
+                        </span>
+                        </button>
+                    </h2>
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                         aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample"
+                    >
+                        <div class="accordion-body">
+
+                            <div class="main">
+                                <div class="user-data">
+                                    <h5>Dane płatnika</h5>
+                                    <div>
+                                        <span class="title">Z rachunku:</span><br>
+                                        <span>47 1050 0028 2100 0023 0315 0001</span>
+                                    </div>
+                                    <div>
+                                        <span class="title">Nazwa i adres:</span><br>
+                                        <span>Agata Nowak</span><br>
+                                        <span>ul. Astrów 12/1</span><br>
+                                        <span>40-748 Katowice</span>
+                                    </div>
+                                </div>
+
+                                <div class="beneficiary-data">
+                                    <h5>Dane Odbiorcy</h5>
+                                    <div>
+                                        <span class="title">Na rachunek:</span><br>
+                                        <span>52 1050 0028 2100 0023 0315 0008</span>
+                                    </div>
+                                    <div>
+                                        <span class="title">Nazwa i adres:</span><br>
+                                        <span>Kino</span><br>
+                                        <span>ul. Anioła Franciszka 107</span><br>
+                                        <span>40-7463 Katowice</span>
+                                    </div>
+                                </div>
+
+                                <div class="transact-data">
+                                    <h5>Dane transakcji</h5>
+                                    <div>
+                                        <span class="title">Tytuł:</span><br>
+                                        <span>Opłata za bilety na seans</span>
+                                    </div>
+                                    <div>
+                                        <span class="title">Data transakcji:</span><br>
+                                        <span>24.12.2022</span><br>
+                                    </div>
+                                    <div>
+                                        <span class="title">Kwota transakcji:</span><br>
+                                        <span>-28,00</span><br>
+                                    </div>
+                                    <div>
+                                        <span class="title">Rodzaj transakcji:</span><br>
+                                        <span>Przelew własny</span><br>
+                                    </div>
+                                    <div>
+                                        <span class="title">Status:</span><br>
+                                        <span>Zrealizowano</span><br>
+                                    </div>
+                                    <div>
+                                        <span class="title">Numer transakcji:</span><br>
+                                        <span>77</span><br>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="buttons">
+                                <a href="#">
+                                    <ion-icon class="icon" name="document-text-outline"></ion-icon>
+                                    <div class="pdf-text">
+                                        Pobierz jako PDF
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

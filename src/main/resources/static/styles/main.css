@@ -1,26 +1,50 @@
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
 
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
-    font-family: 'Comfortaa', cursive;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
-    background-color: rgb(211, 217, 226);
+    background-color: #fff;
 }
 
 .container {
-    margin: 10px 0;
+    /*alignment: center;*/
+    /*margin: 10px 0;*/
 }
 
 .main-page-header {
     padding: 10px 0;
 }
 
-.main-page-header .company-name {
+/*LOGO AND COMPANY NAME START*/
+.main-page-header .company {
     font-weight: 600;
     color: #fff;
+    display: flex;
+    vertical-align: center;
 }
+
+.company .company-icon {
+    color: #fff;
+    display: flex;
+    vertical-align: center;
+}
+
+.company-icon .icon {
+    font-size: 2em;
+    height: 100%;
+}
+
+.company-name {
+    display: flex;
+    align-items: center;
+}
+/*LOGO AND COMPANY NAME END*/
 
 .navigation {
     /*border: 1px solid #fff;*/
@@ -38,9 +62,52 @@ body {
     text-decoration: none;
 }
 
+/*WELCOME START*/
+.display-name {
+    display: flex;
+    vertical-align: center;
+}
+
+.display-name-icon .icon {
+    margin: 0 5px;
+    height: 100%;
+}
+
+.display-name-username {
+    display: flex;
+    align-items: center;
+}
+
+.display-name-username span {
+    text-align: center;
+}
+
 .display-name i {
     font-weight: 600;
 }
+/*WELCOME END*/
+
+/*SIGN OUT START*/
+.logout {
+    display: flex;
+    vertical-align: center;
+}
+
+.logout-icon {
+    font-size: 1.4em;
+    margin: 0 5px;
+}
+
+.logout-text {
+    display: flex;
+    align-items: center;
+}
+
+.logout-icon .icon {
+    height: 100%;
+}
+/*SIGN OUT END*/
+
 
 #transact-btn {
     background-color: #ffb114;
@@ -72,3 +139,149 @@ body {
 .withdraw-card {
     display: none;
 }
+
+/*HEADER START*/
+.header {
+    font-size: 2.5rem;
+    font-weight: 300;
+}
+/*HEADER END*/
+
+/*LIST HEADER AND ROW START*/
+.tab-head {
+    padding: 16px 40px 0 20px;
+    font-weight: 300;
+    color: #0d6efb;
+}
+
+.tab-head .text,
+.accordion-header button .text {
+    padding: 10px 0;
+    width: 100%;
+    display: flex;
+}
+
+.accordion-header button .text {
+    font-weight: 500;
+}
+
+.tab-head .amount,
+.accordion-header button .amount {
+    padding: 0 10px;
+    min-width: 80px;
+    width: 15%;
+    text-align: right;
+    display: inline-flex;
+    /*background-color: #0d6efb;*/
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tab-head .date,
+.accordion-header button .date {
+    min-width: 95px;
+    display: inline-flex;
+    /*background-color: red;*/
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tab-head .description,
+.accordion-header button .description {
+    padding: 0 10px;
+    text-align: left;
+    width: 100%;
+    display: inline-flex;
+    /*background-color: green;*/
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tab-head .category,
+.accordion-header button .category {
+    padding: 0 10px;
+    min-width: 120px;
+    display: inline-flex;
+    /*background-color: yellow;*/
+}
+
+.category .cat-icon {
+    color: #7aa541;
+    font-size: 1.4rem;
+    height: 100%;
+}
+
+.category .cat-text {
+    font-size: 0.8rem;
+    font-weight: 300;
+    display: flex;
+    width: 100%;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+}
+/*LIST HEADER AND ROW END*/
+
+/*LIST BODY START*/
+.accordion-body {
+    padding: 0 1.25rem;
+}
+
+.accordion-body .main {
+    display: flex;
+    border-bottom: 1px dashed lightgray;
+}
+
+.accordion-body .buttons {
+    display: flex;
+}
+
+.accordion-body h5 {
+    font-weight: 300;
+    margin: 15px 0;
+    width: 100%;
+}
+
+.main div {
+    margin: 10px 0;
+}
+
+.buttons a {
+    display: flex;
+    padding: 7px 15px;
+    margin: 7px;
+    text-decoration: none;
+    font-weight: 300;
+    color: #0d6efb;
+    /*color: #fff;*/
+    /*background-color: #0d6efb;*/
+    /*border-radius: 25px;*/
+    /*box-shadow: 0 3px 6px rgb(0, 14, 53);*/
+}
+
+.buttons a:hover {
+    font-weight: 400;
+    text-decoration: underline dashed;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+.buttons .icon {
+    height: 100%;
+    justify-content: center;
+    margin: 0 5px;
+    font-size: 1.3rem;
+}
+
+.user-data,
+.beneficiary-data,
+.transact-data {
+    width: 100%;
+    display: block;
+}
+
+.title {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+/*LIST BODY END*/

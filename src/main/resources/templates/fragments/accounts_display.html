@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <div th:fragment="accounts-display">
-        <div class="container d-flex">
+    <div th:fragment="accounts-display" class="container">
+        <div class="d-flex">
             <button id="add-account-btn" class="btn btn-lg shadow" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                 <ion-icon name="card-outline"></ion-icon> Add New Account
             </button>
@@ -11,23 +11,26 @@
             </button>
         </div>
 
-        <div class="container d-flex py-3">
+        <div class="d-flex py-3">
             <h2 class="me-auto">Total Accounts Balance:</h2>
             <h2 class="ms-auto" th:text="${session.totalBalance}">0.00</h2>
         </div>
 
-        <div class="container">
+        <div class="">
             <div class="accordion accordion-flush" id="accordionFlushExample" th:remove="all-but-first">
                 <div class="accordion-item" th:each="acc : ${session.userAccounts}" th:object="${acc}">
                     <h2 class="accordion-header" id="flush-headingOne">
                         <button th:text="*{accountName}" class="accordion-button collapsed" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" th:attr="data-bs-target='#flush-'+*{id}, aria-controls='flush-'+*{id}"
+                                data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
+                                th:attr="data-bs-target='#flush-'+*{id}, aria-controls='flush-'+*{id}"
                                 aria-expanded="false" aria-controls="flush-collapseOne"
                         >
                             Accordion Item #1
                         </button>
                     </h2>
-                    <div id="flush-collapseOne" th:id="|flush-*{id}|" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                    <div id="flush-collapseOne" th:id="|flush-*{id}|" class="accordion-collapse collapse"
+                         aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample"
+                    >
                         <div class="accordion-body">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item d-flex">Account Name <span class="ms-auto" th:text="*{accountName}"></span></li>
@@ -35,7 +38,7 @@
                                 <li class="list-group-item d-flex">Account Type <span class="ms-auto" th:text="*{accountType}"></span></li>
                                 <li class="list-group-item d-flex">Account Balance <span class="ms-auto" th:text="*{balance}"></span></li>
                                 <li class="list-group-item d-flex">
-                                    Createt at
+                                    Created at
                                     <span class="ms-auto" th:text="${#temporals.format(acc.createdAt, 'd MMMM yyyy HH:mm')}"></span>
                                 </li>
                             </ul>
@@ -44,7 +47,8 @@
                 </div>
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="flush-headingTwo">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
                             Accordion Item #2
                         </button>
                     </h2>

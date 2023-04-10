@@ -87,7 +87,7 @@ public class AppController {
         }
         List<TransactHistory> transactHistory = transactService.getTransactionHistoryByUserId(user.getId())
                 .stream()
-                .sorted(Comparator.comparingLong(TransactHistory::getTransactionId))
+                .sorted(Comparator.comparingLong(transactHist -> -transactHist.getTransactionId()))
                 .toList();
 
         model.addAttribute("transactHistory", transactHistory);
