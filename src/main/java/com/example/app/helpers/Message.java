@@ -37,7 +37,7 @@ public class Message {
     public static final String PAYMENT_REASON_CODE_SUCCESS = "Payment transaction successful" ;
     public static final String PAYMENT_TRANSACTION_TYPE = "payment";
 
-    public static final String STATUS_SUCCESS = "SUCCESS";
-    public static final String STATUS_FAILED = "FAILED";
+    public static final String STATUS_SUCCESS = "success";
+    public static final String STATUS_FAILED = "failed";
     public static final String SOURCE = "online";
 }
