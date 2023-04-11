@@ -24,6 +24,7 @@ public class TransactService {
 
     public void logTransaction(TransactDto transact) {
         Transact transactToSave = TransactDtoMapper.map(transact);
+        transactToSave.setCurrency("PLN");
         Transact savedTransaction = transactRepository.save(transactToSave);
         transact.setTransactId(savedTransaction.getId());
     }

@@ -29,7 +29,7 @@ public class TransactHistory {
     private String beneficiaryAccNo;
     private String transactionType;
     private BigDecimal amount;
-//    private String currency;
+    private String currency;
     private String source;
     private String status;
     private String reasonCode;

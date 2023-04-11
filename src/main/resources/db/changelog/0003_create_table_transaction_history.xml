@@ -23,6 +23,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="amount" type="DECIMAL(18,2)"/>
+            <column name="currency" type="VARCHAR(10)"/>
             <column name="source" type="VARCHAR(50)" value="null"/>
             <column name="status" type="VARCHAR(50)" value="null"/>
             <column name="reason_code" type="VARCHAR(100)" value="null"/>
