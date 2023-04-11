@@ -10,11 +10,20 @@
         <createView viewName="v_transaction_history" replaceIfExists="true">
             SELECT
                 t.id as transaction_id,
-                a.id as account_id,
-                a.account_name,
                 u.id as user_id,
+                u.first_name,
+                u.last_name,
+                ad.street,
+                ad.city,
+                ad.zip_code,
+                a.account_number,
+                a.account_name,
+--                 a.id as account_id,
+                p.beneficiary,
+                p.beneficiary_acc_no,
                 t.transaction_type,
                 t.amount,
+--                 t.currency,
                 t.source,
                 t.status,
                 t.reason_code,
@@ -28,7 +37,15 @@
             INNER JOIN
                 users as u
             ON
-                a.user_id = u.id;
+                a.user_id = u.id
+            INNER JOIN
+                address as ad
+            ON
+                u.address_id = ad.id
+            left join
+                payments as p
+            ON
+                 t.id = p.transact_id
         </createView>
     </changeSet>
 

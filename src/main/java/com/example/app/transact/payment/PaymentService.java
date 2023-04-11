@@ -19,6 +19,7 @@ public class PaymentService {
 
     public void makePayment(TransactDto transact, PaymentTransactForm transactForm) {
         Payment paymentToSave = PaymentDtoMapper.map(transactForm);
+        paymentToSave.setTransactId(transact.getTransactId());
         paymentToSave.setAmount(new BigDecimal(transact.getAmount()));
         paymentToSave.setCurrency("PLN");
         paymentToSave.setStatus(transact.getStatus());
