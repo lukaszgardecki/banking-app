@@ -13,9 +13,9 @@
                 u.id as user_id,
                 u.first_name,
                 u.last_name,
-                addr.street,
-                addr.city,
-                addr.zip_code,
+                ad.street,
+                ad.city,
+                ad.zip_code,
                 a.account_number,
                 a.account_name,
                 p.beneficiary,
@@ -37,13 +37,19 @@
             ON
                 a.user_id = u.id
             INNER JOIN
-                address_user as au
+                address as ad
             ON
-                a.user_id = au.user_id
-            INNER JOIN
-                address as addr
-            ON
-                au.address_id = addr.id;
+                u.address_id = ad.id;
+
+
+--             INNER JOIN
+--                 address_user as au
+--             ON
+--                 a.user_id = au.user_id
+--             INNER JOIN
+--                 address as addr
+--             ON
+--                 au.address_id = addr.id;
         </createView>
     </changeSet>
 

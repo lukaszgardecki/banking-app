@@ -13,6 +13,15 @@ public class UserRegistrationDto {
     @NotEmpty(message = "The last name field cannot be empty")
     @Size(min = 3, message = "The last name must be longer than 3 characters")
     private String last_name;
+    @Size(max = 100)
+    @NotEmpty(message = "The street field cannot be empty")
+    private String street;
+    @NotEmpty(message = "The city field cannot be empty")
+    @Size(max = 100)
+    private String city;
+    @NotEmpty(message = "The zip code field cannot be empty")
+    @Size(max = 20)
+    private String zipCode;
     @Email
     @NotEmpty(message = "The email field cannot be empty")
     @Pattern(regexp = "([a-zA-Z0-9]+(?:[._+-][a-zA-Z0-9]+)*)@([a-zA-Z0-9]+(?:[.-][a-zA-Z0-9]+)*[.][a-zA-Z]{2,})", message = "Please enter a valid email")
