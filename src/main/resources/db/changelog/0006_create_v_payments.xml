@@ -10,11 +10,18 @@
         <createView viewName="v_payments" replaceIfExists="true">
             SELECT
                 p.id as payment_id,
-                a.id as account_id,
                 u.id as user_id,
+                u.first_name,
+                u.last_name,
+                ad.street,
+                ad.city,
+                ad.zip_code,
+                a.account_number,
+                a.account_name,
                 p.beneficiary,
                 p.beneficiary_acc_no,
                 p.amount,
+                p.currency,
                 p.status,
                 p.reference,
                 p.reason_code,
@@ -28,7 +35,11 @@
             INNER JOIN
                 users AS u
             ON
-                a.user_id = u.id;
+                a.user_id = u.id
+            INNER JOIN
+                address as ad
+            ON
+                u.address_id = ad.id;
         </createView>
     </changeSet>
 

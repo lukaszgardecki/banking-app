@@ -17,17 +17,22 @@ import java.time.LocalDateTime;
 public class TransactHistory {
     @Id
     private Long transactionId;
-    private Long accountId;
-    private String accountName;
     private Long userId;
-    @Size(max = 50)
+    private String first_name;
+    private String last_name;
+    private String street;
+    private String city;
+    private String zip_code;
+    private String account_number;
+    private String account_name;
+    private String beneficiary;
+    private String beneficiaryAccNo;
     private String transactionType;
+    private String reference;
     private BigDecimal amount;
-    @Size(max = 50)
+    private String currency;
     private String source;
-    @Size(max = 50)
     private String status;
-    @Size(max = 100)
     private String reasonCode;
     private LocalDateTime createdAt;
 }

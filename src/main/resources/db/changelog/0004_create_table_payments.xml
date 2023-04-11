@@ -20,9 +20,11 @@
                         deleteCascade="true"
                 />
             </column>
-            <column name="beneficiary" type="VARCHAR(50)" value="null"/>
+            <column name="transact_id" type="BIGINT"/>
+            <column name="beneficiary" type="VARCHAR(255)" value="null"/>
             <column name="beneficiary_acc_no" type="VARCHAR(255)" value="null"/>
             <column name="amount" type="DECIMAL(18,2)" value="null"/>
+            <column name="currency" type="VARCHAR(10)"/>
             <column name="reference" type="VARCHAR(255)" value="null"/>
             <column name="status" type="VARCHAR(50)" value="null"/>
             <column name="reason_code" type="VARCHAR(100)" value="null"/>

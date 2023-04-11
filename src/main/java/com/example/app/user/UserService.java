@@ -28,11 +28,13 @@ public class UserService {
     public static final String DEFAULT_USER_ROLE = "USER";
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
+    private final AddressRepository addressRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, UserRoleRepository userRoleRepository, AddressRepository addressRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
+        this.addressRepository = addressRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -100,6 +102,14 @@ public class UserService {
         User user = new User();
         user.setFirst_name(userRegistration.getFirst_name());
         user.setLast_name(userRegistration.getLast_name());
+
+        Address address = new Address();
+        address.setStreet(userRegistration.getStreet());
+        address.setCity(userRegistration.getCity());
+        address.setZipCode(userRegistration.getZipCode());
+        Address savedAddress = addressRepository.save(address);
+
+        user.setAddress(savedAddress);
         user.setEmail(userRegistration.getEmail());
         user.setPassword(passwordEncoder.encode(userRegistration.getPassword()));
         user.getRoles().add(defaultRole);

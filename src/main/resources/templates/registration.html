@@ -28,15 +28,40 @@
                           <input type="text" name="first_name"
                                  th:field="*{first_name}"
                                  class="form-control form-control-lg"
-                                 placeholder="Enter First Name">
+                                 placeholder="First Name">
                           <p th:errors="*{first_name}" class="text-white bg-danger"></p>
                       </div>
                       <div class="form-group col">
                         <input type="text" name="last_name"
                                th:field="*{last_name}"
                                class="form-control form-control-lg"
-                               placeholder="Enter Last Name">
+                               placeholder="Last Name">
                           <p th:errors="*{last_name}" class="text-white bg-danger"></p>
+                      </div>
+                  </div>
+
+                  <div class="form-group col">
+                      <input type="text" name="street"
+                             th:field="*{street}"
+                             class="form-control form-control-lg"
+                             placeholder="Street">
+                      <p th:errors="*{street}" class="text-white bg-danger"></p>
+                  </div>
+
+                  <div class="row">
+                      <div class="form-group col">
+                          <input type="text" name="city"
+                                 th:field="*{city}"
+                                 class="form-control form-control-lg"
+                                 placeholder="City">
+                          <p th:errors="*{city}" class="text-white bg-danger"></p>
+                      </div>
+                      <div class="form-group col">
+                          <input type="text" name="zip_code"
+                                 th:field="*{zipCode}"
+                                 class="form-control form-control-lg"
+                                 placeholder="Zip code">
+                          <p th:errors="*{zipCode}" class="text-white bg-danger"></p>
                       </div>
                   </div>
 
@@ -44,7 +69,7 @@
                     <input type="email" name="email"
                            th:field="*{email}"
                            class="form-control form-control-lg"
-                           placeholder="Enter Email">
+                           placeholder="Email">
                       <p th:errors="*{email}" class="text-white bg-danger"></p>
                   </div>
 
@@ -53,7 +78,7 @@
                       <input type="password" name="password"
                              th:field="*{password}"
                              class="form-control form-control-lg"
-                             placeholder="Enter Password">
+                             placeholder="Password">
                         <p th:errors="*{password}" class="text-white bg-danger"></p>
                     </div>
                     <div class="form-group col">

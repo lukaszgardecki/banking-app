@@ -13,12 +13,12 @@
 
         <div class="d-flex py-3">
             <h2 class="me-auto">Total Accounts Balance:</h2>
-            <h2 class="ms-auto" th:text="${session.totalBalance}">0.00</h2>
+            <h2 class="ms-auto" th:text="|${#strings.replace(totalBalance,'.', ',')} PLN|">0.00</h2>
         </div>
 
         <div class="">
             <div class="accordion accordion-flush" id="accordionFlushExample" th:remove="all-but-first">
-                <div class="accordion-item" th:each="acc : ${session.userAccounts}" th:object="${acc}">
+                <div class="accordion-item" th:each="acc : ${userAccounts}" th:object="${acc}">
                     <h2 class="accordion-header" id="flush-headingOne">
                         <button th:text="*{accountName}" class="accordion-button collapsed" type="button"
                                 data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"

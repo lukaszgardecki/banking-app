@@ -4,6 +4,7 @@ import com.example.app.transact.TransactDto;
 import com.example.app.transact.forms.PaymentTransactForm;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -18,6 +19,9 @@ public class PaymentService {
 
     public void makePayment(TransactDto transact, PaymentTransactForm transactForm) {
         Payment paymentToSave = PaymentDtoMapper.map(transactForm);
+        paymentToSave.setTransactId(transact.getTransactId());
+        paymentToSave.setAmount(new BigDecimal(transact.getAmount()));
+        paymentToSave.setCurrency("PLN");
         paymentToSave.setStatus(transact.getStatus());
         paymentToSave.setReasonCode(transact.getReasonCode());
         paymentToSave.setCreatedAt(transact.getCreatedAt());

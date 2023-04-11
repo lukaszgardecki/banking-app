@@ -172,9 +172,9 @@ body {
     width: 15%;
     text-align: right;
     display: inline-flex;
-    /*background-color: #0d6efb;*/
+    /*background-color: #8eb2e7;*/
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
 }
 
 .tab-head .date,
@@ -205,9 +205,39 @@ body {
     /*background-color: yellow;*/
 }
 
-.category .cat-icon {
+.category .cat-icon-success {
     color: #7aa541;
-    font-size: 1.4rem;
+    font-size: 2rem;
+    height: 100%;
+}
+
+.category .cat-icon-failed {
+    color: red;
+    font-size: 2rem;
+    height: 100%;
+}
+
+.category .cat-icon-deposit {
+    color: #7aa541;
+    font-size: 2rem;
+    height: 100%;
+}
+
+.category .cat-icon-withdraw {
+    color: #fdc200;
+    font-size: 2rem;
+    height: 100%;
+}
+
+.category .cat-icon-payment {
+    color: #0d6efb;
+    font-size: 2rem;
+    height: 100%;
+}
+
+.category .cat-icon-transfer {
+    color: #7aa541;
+    font-size: 2rem;
     height: 100%;
 }
 
@@ -221,6 +251,13 @@ body {
     justify-content: center;
 }
 /*LIST HEADER AND ROW END*/
+
+.currency {
+    font-size: .7rem;
+    font-weight: 400;
+    /*background-color: white;*/
+    vertical-align: baseline;
+}
 
 /*LIST BODY START*/
 .accordion-body {
@@ -253,10 +290,6 @@ body {
     text-decoration: none;
     font-weight: 300;
     color: #0d6efb;
-    /*color: #fff;*/
-    /*background-color: #0d6efb;*/
-    /*border-radius: 25px;*/
-    /*box-shadow: 0 3px 6px rgb(0, 14, 53);*/
 }
 
 .buttons a:hover {
