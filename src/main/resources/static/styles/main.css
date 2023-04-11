@@ -217,6 +217,30 @@ body {
     height: 100%;
 }
 
+.category .cat-icon-deposit {
+    color: #7aa541;
+    font-size: 2rem;
+    height: 100%;
+}
+
+.category .cat-icon-withdraw {
+    color: #fdc200;
+    font-size: 2rem;
+    height: 100%;
+}
+
+.category .cat-icon-payment {
+    color: #0d6efb;
+    font-size: 2rem;
+    height: 100%;
+}
+
+.category .cat-icon-transfer {
+    color: #7aa541;
+    font-size: 2rem;
+    height: 100%;
+}
+
 .category .cat-text {
     font-size: 0.8rem;
     font-weight: 300;
