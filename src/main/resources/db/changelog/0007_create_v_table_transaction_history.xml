@@ -20,6 +20,7 @@
                 a.account_name,
                 p.beneficiary,
                 p.beneficiary_acc_no,
+                p.reference,
                 t.transaction_type,
                 t.amount,
                 t.currency,
@@ -44,7 +45,7 @@
             left join
                 payments as p
             ON
-                 t.id = p.transact_id
+                 t.id = p.transact_id;
         </createView>
     </changeSet>
 

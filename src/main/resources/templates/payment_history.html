@@ -48,7 +48,7 @@
                                     <ion-icon th:unless="*{status eq 'success'}" class="cat-icon-failed" style name="alert-circle"></ion-icon>
                                     <span class="cat-text" th:text="*{status}">anulowano</span>
                                 </span>
-                                <span class="description" th:text="|*{beneficiary} *{reference}|">Description</span>
+                                <span class="description" th:text="*{beneficiary}">Description</span>
                                 <span class="amount" th:style="${payment.amount lt 0 ? 'color: #0d6efb' : 'color: black'}">
                                     <span>
                                         <span th:text="*{amount.toString().replace('.',',')}">340.00</span> <span class="currency" th:text="*{currency}">PLN</span>
