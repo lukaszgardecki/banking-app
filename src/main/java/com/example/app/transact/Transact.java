@@ -20,6 +20,8 @@ public class Transact {
     @Size(max = 50)
     private String transaction_type;
     private BigDecimal amount;
+    @Size(max = 10)
+    private String currency;
     @Size(max = 50)
     private String source;
     @Size(max = 50)

@@ -44,15 +44,23 @@
                         <span class="text">
                             <span class="date" th:text="*{#temporals.format(createdAt, 'dd.MM.yyyy')}">10.01.2023</span>
                             <span class="category">
-                                <ion-icon class="cat-icon" name="swap-horizontal-outline"></ion-icon>
+                                <ion-icon th:if="*{transactionType eq 'transfer' && status eq 'success'}" class="cat-icon-transfer" name="swap-horizontal-outline"></ion-icon>
+                                <ion-icon th:if="*{transactionType eq 'payment' && status eq 'success'}" class="cat-icon-payment" name="card"></ion-icon>
+                                <ion-icon th:if="*{transactionType eq 'withdraw' && status eq 'success'}" class="cat-icon-withdraw" name="remove-circle"></ion-icon>
+                                <ion-icon th:if="*{transactionType eq 'deposit' && status eq 'success'}" class="cat-icon-deposit" name="add-circle"></ion-icon>
+
+                                <ion-icon th:if="*{status eq 'failed'}" class="cat-icon-failed" style name="alert-circle"></ion-icon>
                                 <span class="cat-text" th:text="*{transactionType}">Transfer</span>
                             </span>
-                            <span class="description" th:text="*{accountName}">Description</span>
-                            <span class="amount" th:text="*{amount}"
-                                  th:style="${transaction.amount lt 0 ? 'color: #0d6efb' : 'color: black'}"
-                            >
-                                340.00
-                            </span>
+                            <span class="description" th:if="*{transactionType eq 'transfer'}" th:text="|Przelew własny - *{account_name}|">Description</span>
+                            <span class="description" th:if="*{transactionType eq 'withdraw'}" th:text="|Wypłata środków - *{account_name}|">Description</span>
+                            <span class="description" th:if="*{transactionType eq 'deposit'}" th:text="|Wpłata - *{account_name}|">Description</span>
+                            <span class="description" th:if="*{transactionType eq 'payment'}" th:text="|*{beneficiary}|">Description</span>
+                            <span class="amount" th:style="${transaction.amount lt 0 ? 'color: #0d6efb' : 'color: black'}">
+                                    <span>
+                                        <span th:text="*{amount.toString().replace('.',',')}">340.00</span> <span class="currency" th:text="*{currency}">PLN</span>
+                                    </span>
+                                </span>
                         </span>
                         </button>
                     </h2>
@@ -66,27 +74,29 @@
                                     <h5>Dane płatnika</h5>
                                     <div>
                                         <span class="title">Z rachunku:</span><br>
-                                        <span>47 1050 0028 2100 0023 0315 0001</span>
+                                        <span th:text="*{account_number}">47 1050 0028 2100 0023 0315 0001</span>
                                     </div>
                                     <div>
                                         <span class="title">Nazwa i adres:</span><br>
-                                        <span>Agata Nowak</span><br>
-                                        <span>ul. Astrów 12/1</span><br>
-                                        <span>40-748 Katowice</span>
+                                        <span th:text="|*{first_name} *{last_name}|">Agata Nowak</span><br>
+                                        <span th:text="*{street}">ul. Astrów 12/1</span><br>
+                                        <span th:text="|*{zip_code} *{city}|">40-748 Katowice</span>
                                     </div>
                                 </div>
 
-                                <div class="beneficiary-data">
+                                <div class="beneficiary-data" th:if="*{transactionType eq 'payment'}">
                                     <h5>Dane Odbiorcy</h5>
                                     <div>
                                         <span class="title">Na rachunek:</span><br>
-                                        <span>52 1050 0028 2100 0023 0315 0008</span>
+                                        <span th:text="*{beneficiaryAccNo}">52 1050 0028 2100 0023 0315 0008</span>
                                     </div>
                                     <div>
                                         <span class="title">Nazwa i adres:</span><br>
-                                        <span>Kino</span><br>
-                                        <span>ul. Anioła Franciszka 107</span><br>
-                                        <span>40-7463 Katowice</span>
+                                        <span th:text="*{beneficiary}">Kino</span>
+                                        <span>
+                                                <br>ul. Anioła Franciszka 107<br>
+                                                40-746 Katowice
+                                        </span>
                                     </div>
                                 </div>
 
@@ -94,7 +104,11 @@
                                     <h5>Dane transakcji</h5>
                                     <div>
                                         <span class="title">Tytuł:</span><br>
-                                        <span>Opłata za bilety na seans</span>
+                                        <span th:if="*{transactionType eq 'payment'}" th:text="*{reference}">Opłata za bilety na seans</span>
+                                        <span th:if="*{transactionType eq 'withdraw'}" th:text="|Wypłata środków - *{account_name}|">Opłata za bilety na seans</span>
+                                        <span th:if="*{transactionType eq 'deposit'}" th:text="|Wpłata środków - *{account_name}|">Opłata za bilety na seans</span>
+                                        <span th:if="*{transactionType eq 'transfer'}" th:text="|Przelew własny - *{account_name}|">Opłata za bilety na seans</span>
+
                                     </div>
                                     <div>
                                         <span class="title">Data transakcji:</span><br>
@@ -104,7 +118,7 @@
                                     </div>
                                     <div>
                                         <span class="title">Kwota transakcji:</span><br>
-                                        <span th:text="*{amount}">-28,00</span><br>
+                                        <span th:text="*{amount.toString().replace('.',',')}">-28,00</span> <span class="currency" th:text="*{currency}">PLN</span><br>
                                     </div>
                                     <div>
                                         <span class="title">Rodzaj transakcji:</span><br>
@@ -113,6 +127,10 @@
                                     <div>
                                         <span class="title">Status:</span><br>
                                         <span th:text="*{status}">Zrealizowano</span><br>
+                                    </div>
+                                    <div th:if="*{status ne 'success'}">
+                                        <span class="title">Uzasadnienie:</span><br>
+                                        <span th:text="*{reasonCode}">Brak środków na koncie</span><br>
                                     </div>
                                     <div>
                                         <span class="title">Numer transakcji:</span><br>
