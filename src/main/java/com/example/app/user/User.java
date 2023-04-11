@@ -39,6 +39,13 @@ public class User {
     private LocalDateTime verified_at;
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "address_user",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "address_id", referencedColumnName = "id")
+    )
+    private Address address;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",

@@ -25,7 +25,7 @@
         <div th:if="${errorMsg}"  th:text="${errorMsg}" class="alert alert-danger text-center border border-danger"></div>
 
         <!-- Accounts -->
-        <div th:replace="${session.userAccounts.size()} gt 0 ? ~{fragments/accounts_display::accounts-display}
+        <div th:replace="${userAccounts.size()} gt 0 ? ~{fragments/accounts_display::accounts-display}
                                                              : ~{fragments/no_accounts_display::no-accounts-display}"></div>
 
         <!-- Footer -->

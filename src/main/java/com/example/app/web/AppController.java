@@ -8,7 +8,6 @@ import com.example.app.transact.payment.PaymentHistory;
 import com.example.app.transact.payment.PaymentService;
 import com.example.app.user.UserService;
 import com.example.app.user.dto.UserDashboardDto;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,7 +35,7 @@ public class AppController {
     }
 
     @GetMapping("/dashboard")
-    public String getDashboard(HttpSession session) {
+    public String getDashboard(Model model) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         Optional<UserDashboardDto> userOptional = userService.findUserByEmail(username);
@@ -51,9 +50,9 @@ public class AppController {
         BigDecimal totalBalance = accounts.stream()
                 .map(AccountDashboardDto::getBalance)
                 .reduce(new BigDecimal("0.00"),BigDecimal::add);
-        session.setAttribute("user", user);
-        session.setAttribute("userAccounts", accounts);
-        session.setAttribute("totalBalance", totalBalance);
+        model.addAttribute("user", user);
+        model.addAttribute("userAccounts", accounts);
+        model.addAttribute("totalBalance", totalBalance);
         return "dashboard";
     }
 
@@ -67,14 +66,17 @@ public class AppController {
         } else {
             return "redirect:/logout";
         }
+
         List<PaymentHistory> paymentHistory = paymentService.getPaymentRecordsById(user.getId())
                 .stream()
-                .sorted(Comparator.comparing(PaymentHistory::getCreatedAt))
+                .sorted(Comparator.comparing(e -> -e.getPaymentId()))
                 .toList();
 
+        model.addAttribute("user", user);
         model.addAttribute("paymentHistory", paymentHistory);
         return "payment_history";
     }
+
     @GetMapping("/transact-history")
     public String getTransactionHistory(Model model) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -90,6 +92,7 @@ public class AppController {
                 .sorted(Comparator.comparingLong(transactHist -> -transactHist.getTransactionId()))
                 .toList();
 
+        model.addAttribute("user", user);
         model.addAttribute("transactHistory", transactHistory);
         return "transact_history";
     }

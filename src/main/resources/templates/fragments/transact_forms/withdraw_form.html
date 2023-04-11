@@ -12,7 +12,7 @@
 					<label>Select Account</label>
 					<select name="accountFromId" class="form-control">
 						<option value="">-- Select Account --</option>
-						<option th:each="acc : ${session.userAccounts}" th:object="${acc}"
+						<option th:each="acc : ${userAccounts}" th:object="${acc}"
 						        th:value="*{id}"
 						        th:text="*{accountName}">Account name
 						</option>

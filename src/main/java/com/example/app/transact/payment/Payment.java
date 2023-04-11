@@ -17,11 +17,13 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long accountFromId;
-    @Size(max = 50)
+    @Size(max = 255)
     private String beneficiary;
     @Size(max = 255)
     private String beneficiaryAccNo;
     private BigDecimal amount;
+    @Size(max = 10)
+    private String currency;
     @Size(max = 255)
     private String reference;
     @Size(max = 50)
