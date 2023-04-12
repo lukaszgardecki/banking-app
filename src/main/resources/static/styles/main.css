@@ -167,8 +167,8 @@ body {
 
 .tab-head .amount,
 .accordion-header button .amount {
-    padding: 0 10px;
-    min-width: 80px;
+    margin: 0 10px;
+    min-width: 120px;
     width: 15%;
     text-align: right;
     display: inline-flex;
@@ -213,6 +213,30 @@ body {
 
 .category .cat-icon-failed {
     color: red;
+    font-size: 2rem;
+    height: 100%;
+}
+
+.category .cat-icon-transfer {
+    color: #7aa541;
+    font-size: 2rem;
+    height: 100%;
+}
+
+.category .cat-icon-payment {
+    color: #0d6efb;
+    font-size: 2rem;
+    height: 100%;
+}
+
+.category .cat-icon-withdraw {
+    color: #f1da08;
+    font-size: 2rem;
+    height: 100%;
+}
+
+.category .cat-icon-deposit {
+    color: #7aa541;
     font-size: 2rem;
     height: 100%;
 }
