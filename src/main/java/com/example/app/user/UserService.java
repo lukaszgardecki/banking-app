@@ -15,6 +15,7 @@ import com.example.app.user.mappers.UserCredentialsDtoMapper;
 import com.example.app.user.mappers.UserDashboardDtoMapper;
 import com.example.app.user.mappers.UserVerifyingDtoMapper;
 import jakarta.mail.MessagingException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -95,6 +96,11 @@ public class UserService {
         Integer verified = userRepository.isUserVerified(email);
         if (verified == 1) return Boolean.TRUE;
         else return Boolean.FALSE;
+    }
+
+    public Optional<UserDashboardDto> getLoggedInUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return findUserByEmail(username);
     }
 
     private User getUserToSaveWithDefaultRole(UserRegistrationDto userRegistration) {

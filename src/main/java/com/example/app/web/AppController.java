@@ -36,9 +36,8 @@ public class AppController {
 
     @GetMapping("/dashboard")
     public String getDashboard(Model model) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        Optional<UserDashboardDto> userOptional = userService.findUserByEmail(username);
+        Optional<UserDashboardDto> userOptional = userService.getLoggedInUser();
         UserDashboardDto user;
         if (userOptional.isPresent()) {
             user = userOptional.get();
@@ -58,8 +57,7 @@ public class AppController {
 
     @GetMapping("/payment-history")
     public String getPaymentHistory(Model model) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<UserDashboardDto> userOptional = userService.findUserByEmail(username);
+        Optional<UserDashboardDto> userOptional = userService.getLoggedInUser();
         UserDashboardDto user;
         if (userOptional.isPresent()) {
             user = userOptional.get();
@@ -79,8 +77,7 @@ public class AppController {
 
     @GetMapping("/transact-history")
     public String getTransactionHistory(Model model) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<UserDashboardDto> userOptional = userService.findUserByEmail(username);
+        Optional<UserDashboardDto> userOptional = userService.getLoggedInUser();
         UserDashboardDto user;
         if (userOptional.isPresent()) {
             user = userOptional.get();
