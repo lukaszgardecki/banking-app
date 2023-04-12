@@ -48,7 +48,6 @@
                                 <ion-icon th:if="*{transactionType eq 'payment' && status eq 'success'}" class="cat-icon-payment" name="card"></ion-icon>
                                 <ion-icon th:if="*{transactionType eq 'withdraw' && status eq 'success'}" class="cat-icon-withdraw" name="remove-circle"></ion-icon>
                                 <ion-icon th:if="*{transactionType eq 'deposit' && status eq 'success'}" class="cat-icon-deposit" name="add-circle"></ion-icon>
-
                                 <ion-icon th:if="*{status eq 'failed'}" class="cat-icon-failed" style name="alert-circle"></ion-icon>
                                 <span class="cat-text" th:text="*{transactionType}">Transfer</span>
                             </span>

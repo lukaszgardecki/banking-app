@@ -40,6 +40,16 @@
                 address as ad
             ON
                 u.address_id = ad.id;
+
+
+--             INNER JOIN
+--                 address_user as au
+--             ON
+--                 a.user_id = au.user_id
+--             INNER JOIN
+--                 address as addr
+--             ON
+--                 au.address_id = addr.id;
         </createView>
     </changeSet>
 
