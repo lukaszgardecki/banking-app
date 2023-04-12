@@ -17,6 +17,7 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long accountFromId;
+    private Long transactId;
     @Size(max = 255)
     private String beneficiary;
     @Size(max = 255)
