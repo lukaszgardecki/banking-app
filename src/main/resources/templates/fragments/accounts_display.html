@@ -1,73 +1,172 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <div th:fragment="accounts-display" class="container">
-        <div class="d-flex">
-            <button id="add-account-btn" class="btn btn-lg shadow" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                <ion-icon name="card-outline"></ion-icon> Add New Account
-            </button>
+    <div th:fragment="accounts-display" class="container dashboard">
 
-            <button id="transact-btn" class="btn btn-lg ms-auto shadow" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-                <ion-icon name="wallet-outline"></ion-icon> Transact
-            </button>
-        </div>
 
-        <div class="d-flex py-3">
-            <h2 class="me-auto">Total Accounts Balance:</h2>
-            <h2 class="ms-auto" th:text="|${#strings.replace(totalBalance,'.', ',')} PLN|">0.00</h2>
-        </div>
 
-        <div class="">
-            <div class="accordion accordion-flush" id="accordionFlushExample" th:remove="all-but-first">
-                <div class="accordion-item" th:each="acc : ${userAccounts}" th:object="${acc}">
-                    <h2 class="accordion-header" id="flush-headingOne">
-                        <button th:text="*{accountName}" class="accordion-button collapsed" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
-                                th:attr="data-bs-target='#flush-'+*{id}, aria-controls='flush-'+*{id}"
-                                aria-expanded="false" aria-controls="flush-collapseOne"
-                        >
-                            Accordion Item #1
-                        </button>
-                    </h2>
-                    <div id="flush-collapseOne" th:id="|flush-*{id}|" class="accordion-collapse collapse"
-                         aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample"
-                    >
-                        <div class="accordion-body">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex">Account Name <span class="ms-auto" th:text="*{accountName}"></span></li>
-                                <li class="list-group-item d-flex">Account Number <span class="ms-auto" th:text="*{accountNumber}"></span></li>
-                                <li class="list-group-item d-flex">Account Type <span class="ms-auto" th:text="*{accountType}"></span></li>
-                                <li class="list-group-item d-flex">Account Balance <span class="ms-auto" th:text="*{balance}"></span></li>
-                                <li class="list-group-item d-flex">
-                                    Created at
-                                    <span class="ms-auto" th:text="${#temporals.format(acc.createdAt, 'd MMMM yyyy HH:mm')}"></span>
-                                </li>
-                            </ul>
+        <div class="main-content">
+            <div class="today">
+                <div class="today-header">
+                    <span class="header-title">Dzisiaj</span>
+                    <ion-icon class="header-icon" name="settings-outline"></ion-icon>
+                </div>
+                <div class="today-funds">
+
+                    <div class="funds-1">
+                        <div class="main-account">
+                            <div class="square-big">
+                                <a href="#">
+                                    <i id="square-big-icon" class="icon-wallet"></i>
+                                    <span class="square-amount">2025,00 PLN</span>
+                                    <span class="square-acc-name">KONTO Direct</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="sum">
+                            <span id="sum-amount" class="sum-amount">2025,00 PLN</span>
+                            <span  class="sum-desc"><i id="small-icon" class="icon-wallet"></i> <span id="sum-desc">Konta</span></span>
                         </div>
                     </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingTwo">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                            Accordion Item #2
-                        </button>
-                    </h2>
-                    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.</div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingThree">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                            Accordion Item #3
-                        </button>
-                    </h2>
-                    <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
+
+
+                    <div class="funds-2">
+                        <div class="main-account">
+                            <div class="fund">
+                                <div id="fund-1" class="square-small filled">
+                                    <a href="#">
+                                        <i id="f1-icon" class="icon-wallet"></i>
+                                        <span class="square-amount">1</span>
+                                    </a>
+                                </div>
+                                <div class="sq-sm-desc">
+                                    <span id="fund-1-desc">Konta</span>
+                                    <span id="fund-1-amount">2025,00 PLN</span>
+                                </div>
+                            </div>
+                            <div class="fund">
+                                <div id="fund-2" class="square-small">
+                                    <a href="#">
+                                        <i id="f2-icon" class="icon-money"></i>
+                                        <span class="square-amount">1</span>
+                                    </a>
+                                </div>
+                                <div class="sq-sm-desc">
+                                    <span id="fund-2-desc">Oszczędności</span>
+                                    <span id="fund-2-amount">12,805,65 PLN</span>
+                                </div>
+                            </div>
+                            <div class="fund">
+                                <div id="fund-3"  class="square-small">
+                                    <a href="#">
+                                        <i id="f3-icon" class="icon-credit-card"></i>
+                                        <span class="square-amount">1</span>
+                                    </a>
+                                </div>
+                                <div class="sq-sm-desc">
+                                    <span id="fund-3-desc">Karty i płatności telefonem</span>
+                                    <span id="fund-3-amount">1720,00 PLN</span>
+                                </div>
+                            </div>
+                            <div class="fund">
+                                <div id="fund-4" class="square-small">
+                                    <a href="#">
+                                        <i id="f4-icon" class="icon-bank"></i>
+                                        <span class="square-amount">1</span>
+                                    </a>
+                                </div>
+                                <div class="sq-sm-desc">
+                                    <span id="fund-4-desc">Fundusze</span>
+                                    <span id="fund-4-amount">450,00 PLN</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sum">
+                            <span class="sum-amount">2025,00 PLN</span>
+                            <span class="sum-desc"><i class="icon-wallet"></i> Mam</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="planned-history">
+            <div class="planned">
+                Zaplanowane
+            </div>
+            <div class="history">
+                Historia
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--        <div class="d-flex">-->
+<!--            <button id="add-account-btn" class="btn btn-lg shadow" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">-->
+<!--                <ion-icon name="card-outline"></ion-icon> Add New Account-->
+<!--            </button>-->
+
+<!--            <button id="transact-btn" class="btn btn-lg ms-auto shadow" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">-->
+<!--                <ion-icon name="wallet-outline"></ion-icon> Transact-->
+<!--            </button>-->
+<!--        </div>-->
+
+<!--        <div class="d-flex py-3">-->
+<!--            <h2 class="me-auto">Total Accounts Balance:</h2>-->
+<!--            <h2 class="ms-auto" th:text="|${#strings.replace(totalBalance,'.', ',')} PLN|">0.00</h2>-->
+<!--        </div>-->
+
+<!--        <div class="">-->
+<!--            <div class="accordion accordion-flush" id="accordionFlushExample" th:remove="all-but-first">-->
+<!--                <div class="accordion-item" th:each="acc : ${userAccounts}" th:object="${acc}">-->
+<!--                    <h2 class="accordion-header" id="flush-headingOne">-->
+<!--                        <button th:text="*{accountName}" class="accordion-button collapsed" type="button"-->
+<!--                                data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"-->
+<!--                                th:attr="data-bs-target='#flush-'+*{id}, aria-controls='flush-'+*{id}"-->
+<!--                                aria-expanded="false" aria-controls="flush-collapseOne"-->
+<!--                        >-->
+<!--                            Accordion Item #1-->
+<!--                        </button>-->
+<!--                    </h2>-->
+<!--                    <div id="flush-collapseOne" th:id="|flush-*{id}|" class="accordion-collapse collapse"-->
+<!--                         aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample"-->
+<!--                    >-->
+<!--                        <div class="accordion-body">-->
+<!--                            <ul class="list-group list-group-flush">-->
+<!--                                <li class="list-group-item d-flex">Account Name <span class="ms-auto" th:text="*{accountName}"></span></li>-->
+<!--                                <li class="list-group-item d-flex">Account Number <span class="ms-auto" th:text="*{accountNumber}"></span></li>-->
+<!--                                <li class="list-group-item d-flex">Account Type <span class="ms-auto" th:text="*{accountType}"></span></li>-->
+<!--                                <li class="list-group-item d-flex">Account Balance <span class="ms-auto" th:text="*{balance}"></span></li>-->
+<!--                                <li class="list-group-item d-flex">-->
+<!--                                    Created at-->
+<!--                                    <span class="ms-auto" th:text="${#temporals.format(acc.createdAt, 'd MMMM yyyy HH:mm')}"></span>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--            </div>-->
+<!--        </div>-->
     </div>
 
 </html>

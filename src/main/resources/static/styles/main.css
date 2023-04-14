@@ -318,3 +318,221 @@ body {
     font-weight: 600;
 }
 /*LIST BODY END*/
+
+
+
+
+
+
+
+/*DISPLAY ACCOUNT START*/
+.dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    /*background-color: cadetblue;*/
+    /*height: 700px;*/
+}
+.main-content {
+    width: 800px;
+    min-width: 400px;
+    padding-right: 15px;
+    border-right: 1px solid lightgray;
+    /*background-color: orange;*/
+
+}
+.planned-history {
+    width: 300px;
+    /*background-color: #ff4e00;*/
+}
+
+.today {
+    width: 100%;
+    border-bottom: 1px solid lightgray;
+
+    /*background-color: #8b2800;*/
+}
+.today-header {
+    /*height: 100%;*/
+    width: 100%;
+    display: inline-flex;
+    /*background-color: #7aa541;*/
+}
+.header-title {
+    width: 100%;
+    height: 100%;
+    /*background-color: #f1da08;*/
+    display: flex;
+    align-self: center;
+    font-size: 1.75rem;
+    font-weight: 400;
+}
+
+.header-icon {
+    min-width: 40px;
+    font-size: 1.6rem;
+    /*background-color: #3e61f1;*/
+    display: flex;
+    align-self: center;
+}
+
+.today-funds {
+    /*height: 300px;*/
+    /*background-color: pink;*/
+    width: 100%;
+    display: flex;
+    margin-bottom: 30px;
+}
+.funds-1 {
+    /*background-color: purple;*/
+    height: 100%;
+    width: 50%;
+    border-right: 1px dashed lightgray;
+}
+.funds-2 {
+    /*height: 100%;*/
+    width: 50%;
+    /*background-color: aqua;*/
+}
+
+.main-account {
+    height: 400px;
+    /*background-color: white;*/
+    display: flex;
+}
+
+.funds-1 .main-account {
+    justify-content: center;
+    vertical-align: center;
+}
+
+.funds-2 .main-account {
+    width: 260px;
+    flex-wrap: wrap;
+    margin: 0 70px;
+}
+
+
+
+.square-big {
+    margin: auto;
+    width: 200px;
+    height: 200px;
+    background-color: #0d6efb;
+    border-radius: 33px;
+}
+.square-big a {
+    height: 100%;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    vertical-align: middle;
+    justify-content: center;
+    border-radius: 33px;
+    /*background-color: green;*/
+}
+.square-big a:hover,
+.square-small a:hover{
+    cursor: pointer;
+}
+.square-big i {
+    font-size: 2.7rem;
+}
+.square-big a .square-amount {
+    font-size: 1.4rem;
+}
+.square-big a .square-acc-name {
+    font-size: 0.9rem;
+    font-weight: 300;
+}
+
+.fund {
+    width: 130px;
+    padding: 10px;
+    /*height: 200px;*/
+    /*background-color: pink;*/
+    /*display: flow;*/
+}
+
+.square-small {
+    margin: 5px;
+    width: 100px;
+    height: 100px;
+    /*background-color: #0d6efb;*/
+    color: #0d6efb;
+    border: 3px solid #0d6efb;
+    border-radius: 25px;
+}
+.square-small a {
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    vertical-align: middle;
+    justify-content: center;
+    border-radius: 25px;
+    /*background-color: green;*/
+}
+.square-small i {
+    font-size: 1.35rem;
+}
+
+.sq-sm-desc {
+    /*background-color: #7aa541;*/
+    /*width: 100%;*/
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.filled {
+    color: #fff;
+    background-color: #0d6efb;
+}
+
+
+.sum {
+    /*height: 50px;*/
+    display: flex;
+    margin-bottom: 15px;
+    /*background-color: blue;*/
+}
+
+.sum-amount {
+    width: 61.8%;
+    font-weight: 600;
+    font-size: 1.5rem;
+    text-align: right;
+    color: #0d6efb;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px dashed lightgray;
+    /*background-color: #7aa541;*/
+}
+.sum-desc {
+    width: 38.2%;
+    min-width: 100px;
+    color: gray;
+    /*background-color: brown;*/
+    padding-left: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.sum-desc i {
+    display: flex;
+    /*background-color: red;*/
+}
+
+.planned {
+    background-color: red;
+}
+.history {
+    background-color: #7aa541;
+}
+/*DISPLAY ACCOUNT END*/
