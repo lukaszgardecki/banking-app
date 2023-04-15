@@ -253,8 +253,8 @@ body {
 /*LIST HEADER AND ROW END*/
 
 .currency {
-    font-size: .7rem;
-    font-weight: 400;
+    font-size: .9em;
+    font-weight: inherit;
     /*background-color: white;*/
     vertical-align: baseline;
 }
@@ -341,7 +341,7 @@ body {
 
 }
 .planned-history {
-    width: 300px;
+    width: 350px;
     /*background-color: #ff4e00;*/
 }
 
@@ -368,11 +368,16 @@ body {
 }
 
 .header-icon {
-    min-width: 40px;
+    color: gray;
     font-size: 1.6rem;
-    /*background-color: #3e61f1;*/
+    text-decoration: none;
     display: flex;
     align-self: center;
+    min-width: 40px;
+    /*background-color: #3e61f1;*/
+}
+.header-icon:hover {
+    color: gray;
 }
 
 .today-funds {
@@ -486,6 +491,7 @@ body {
     display: flex;
     flex-direction: column;
     text-align: center;
+    font-size: 0.86rem;
 }
 
 .filled {
@@ -495,7 +501,6 @@ body {
 
 
 .sum {
-    /*height: 50px;*/
     display: flex;
     margin-bottom: 15px;
     /*background-color: blue;*/
@@ -508,9 +513,8 @@ body {
     text-align: right;
     color: #0d6efb;
     padding-right: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    align-items: baseline;
+    justify-content: right;
     border-right: 1px dashed lightgray;
     /*background-color: #7aa541;*/
 }
@@ -530,9 +534,166 @@ body {
 }
 
 .planned {
-    background-color: red;
+    border-bottom: 1px dashed lightgray;
 }
-.history {
-    background-color: #7aa541;
+
+.planned, .history {
+    /*background-color: yellowgreen;*/
+    margin-left: 20px;
+    margin-right: 15px;
+    padding-top: 20px;
+    width: available;
 }
+
+.planned-header {
+    display: flex;
+    flex-direction: column;
+    /*background-color: #0d6efb;*/
+}
+
+.planned-header .head,
+.history-header .head {
+    font-size: 1.5rem;
+    /*background-color: grey;*/
+    display: flex;
+    align-items: center;
+}
+.head span,
+.head span {
+    margin-left: 10px;
+}
+
+.planned-header a,
+.history-header a {
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    text-decoration-color: #0d6efb;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    color: black;
+}
+
+
+.planned-header .desc,
+.history-header .desc {
+    font-size: 0.86rem;
+    padding-left: 40px;
+}
+
+.planned-header .icon,
+.history-header .icon {
+    min-width: 30px;
+    font-size: 1.6rem;
+    /*background-color: #f1da08;*/
+    align-self: center;
+}
+
+.planned-body {
+    /*background-color: purple;*/
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.planned-body .desc {
+    /*background-color: pink;*/
+    display: flex;
+    flex-direction: column;
+    padding: 10px 10px 0 40px;
+    width: available;
+}
+
+.planned-body .month {
+    font-size: 1.1rem;
+}
+
+.planned-body .transactions {
+    font-weight: 300;
+    font-size: 0.9rem;
+    color: gray;
+}
+
+.planned-body .amount {
+    /*background-color: cadetblue;*/
+    height: inherit;
+    align-self: center;
+    align-items: baseline;
+    vertical-align: center;
+}
+
+.planned .details,
+.history .details {
+    text-align: center;
+    padding: 20px 0;
+    /*background-color: #543800;*/
+}
+
+.details a {
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    text-decoration-color: #0d6efb;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    color: gray;
+}
+
+.history .history-element {
+    display: block;
+    /*background-color: #0d6efb;*/
+}
+
+.el-main {
+    display: inline-flex;
+    /*background-color: purple;*/
+    margin-top: 15px;
+    width: 100%;
+}
+
+.el-main .icon {
+    min-width: 30px;
+    font-size: 1.6rem;
+    /*background-color: #f1da08;*/
+    align-self: center;
+}
+.el-main .desc {
+    /*background-color: #543800;*/
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    width: inherit;
+}
+
+.history-element:not(:last-child) {
+    border-bottom: 1px solid lightgray;
+}
+
+.history-element {
+    padding-bottom:  20px;
+}
+
+.history-element .desc-account-name,
+.history-element .desc-date {
+    font-size: 0.9rem;
+    color: gray;
+}
+
+
+.history-element .desc-title {
+    font-weight: 600;
+}
+
+.el-amount {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 40px;
+}
+
+.el-amount .block {
+    font-size: 0.9rem;
+    color: gray;
+}
+
+.el-amount .amount {
+    font-weight: 600;
+}
+
 /*DISPLAY ACCOUNT END*/

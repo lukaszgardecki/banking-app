@@ -8,7 +8,7 @@
             <div class="today">
                 <div class="today-header">
                     <span class="header-title">Dzisiaj</span>
-                    <ion-icon class="header-icon" name="settings-outline"></ion-icon>
+                    <a class="header-icon" href="#"><ion-icon name="settings-outline"></ion-icon></a>
                 </div>
                 <div class="today-funds">
 
@@ -23,7 +23,7 @@
                             </div>
                         </div>
                         <div class="sum">
-                            <span id="sum-amount" class="sum-amount">2025,00 PLN</span>
+                            <span id="sum-amount" class="sum-amount">2025,00 <span class="currency">PLN</span></span>
                             <span  class="sum-desc"><i id="small-icon" class="icon-wallet"></i> <span id="sum-desc">Konta</span></span>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="sq-sm-desc">
                                     <span id="fund-1-desc">Konta</span>
-                                    <span id="fund-1-amount">2025,00 PLN</span>
+                                    <span id="fund-1-amount">2025,00 <span class="currency">PLN</span></span>
                                 </div>
                             </div>
                             <div class="fund">
@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="sq-sm-desc">
                                     <span id="fund-2-desc">Oszczędności</span>
-                                    <span id="fund-2-amount">12,805,65 PLN</span>
+                                    <span id="fund-2-amount">12,805,65 <span class="currency">PLN</span></span>
                                 </div>
                             </div>
                             <div class="fund">
@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="sq-sm-desc">
                                     <span id="fund-3-desc">Karty i płatności telefonem</span>
-                                    <span id="fund-3-amount">1720,00 PLN</span>
+                                    <span id="fund-3-amount">1720,00 <span class="currency">PLN</span></span>
                                 </div>
                             </div>
                             <div class="fund">
@@ -76,12 +76,12 @@
                                 </div>
                                 <div class="sq-sm-desc">
                                     <span id="fund-4-desc">Fundusze</span>
-                                    <span id="fund-4-amount">450,00 PLN</span>
+                                    <span id="fund-4-amount">450,00 <span class="currency">PLN</span></span>
                                 </div>
                             </div>
                         </div>
                         <div class="sum">
-                            <span class="sum-amount">2025,00 PLN</span>
+                            <span class="sum-amount">2025,00 <span class="currency">PLN</span></span>
                             <span class="sum-desc"><i class="icon-wallet"></i> Mam</span>
                         </div>
                     </div>
@@ -90,10 +90,92 @@
         </div>
         <div class="planned-history">
             <div class="planned">
-                Zaplanowane
+                <div class="planned-header">
+                    <span class="head">
+                        <ion-icon class="icon" name="calendar-number-outline"></ion-icon>
+                        <span><a href="#">Zaplanowane</a></span>
+                    </span>
+                    <span class="desc">Stałe zlecenia, przelewy oczekujące</span>
+                </div>
+                <div class="planned-body">
+                    <div class="desc">
+                        <span class="month">Styczeń 2017</span>
+                        <span class="transactions">Transakcje: 3</span>
+                    </div>
+                    <span class="amount">
+                        -360,00
+                        <span class="currency">PLN</span>
+                    </span>
+                </div>
+                <div class="details"><a href="#">Szczegóły</a></div>
             </div>
+
             <div class="history">
-                Historia
+                <div class="history-header">
+                    <span class="head">
+                        <ion-icon class="icon" name="time-outline"></ion-icon>
+                        <span><a href="#">Historia</a></span>
+                    </span>
+                </div>
+                <div class="history-body">
+                    <div class="history-element">
+                        <div class="el-main">
+                            <ion-icon class="icon" name="cart-outline"></ion-icon>
+                            <div class="desc">
+                                <span class="desc-date">14.01.2022</span>
+                                <span class="desc-title">Stacja paliw ul. Katowicka 216</span>
+                                <span class="desc-account-name">KONTO Direct</span>
+                            </div>
+                        </div>
+                        <div class="el-amount">
+                            <span class="block">blokada</span>
+                            <span class="amount">-140,00 <span class="currency">PLN</span></span>
+                        </div>
+                    </div>
+                    <div class="history-element">
+                        <div class="el-main">
+                            <ion-icon class="icon" name="cart-outline"></ion-icon>
+                            <div class="desc">
+                                <span class="desc-date">12.01.2022</span>
+                                <span class="desc-title">Operator sieci komórkowej</span>
+                                <span class="desc-account-name">KONTO Direct</span>
+                            </div>
+                        </div>
+                        <div class="el-amount">
+                            <span class="block">blokada</span>
+                            <span class="amount">-39,00 <span class="currency">PLN</span></span>
+                        </div>
+                    </div>
+                    <div class="history-element">
+                        <div class="el-main">
+                            <ion-icon class="icon" name="cart-outline"></ion-icon>
+                            <div class="desc">
+                                <span class="desc-date">10.01.2022</span>
+                                <span class="desc-title">Kawiarnia ul. Andrzeja</span>
+                                <span class="desc-account-name">KONTO Direct</span>
+                            </div>
+                        </div>
+                        <div class="el-amount">
+                            <span class="block">blokada</span>
+                            <span class="amount">-16,00 <span class="currency">PLN</span></span>
+                        </div>
+                    </div>
+                    <div class="history-element">
+                        <div class="el-main">
+                            <ion-icon class="icon" name="cart-outline"></ion-icon>
+                            <div class="desc">
+                                <span class="desc-date">8.01.2022</span>
+                                <span class="desc-title">Sklep spożywczy</span>
+                                <span class="desc-account-name">KONTO Direct</span>
+                            </div>
+                        </div>
+                        <div class="el-amount">
+                            <span class="block">blokada</span>
+                            <span class="amount">-142,68 <span class="currency">PLN</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="details"><a href="#">Wiecej transakcji</a></div>
             </div>
         </div>
 
