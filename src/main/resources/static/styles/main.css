@@ -253,8 +253,8 @@ body {
 /*LIST HEADER AND ROW END*/
 
 .currency {
-    font-size: .7rem;
-    font-weight: 400;
+    font-size: .9em;
+    font-weight: inherit;
     /*background-color: white;*/
     vertical-align: baseline;
 }
@@ -318,3 +318,391 @@ body {
     font-weight: 600;
 }
 /*LIST BODY END*/
+
+
+
+
+
+
+
+/*DISPLAY ACCOUNT START*/
+.dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    /*background-color: cadetblue;*/
+    /*height: 700px;*/
+}
+.main-content {
+    width: 800px;
+    min-width: 400px;
+    padding-right: 15px;
+    border-right: 1px solid lightgray;
+    /*background-color: orange;*/
+
+}
+.planned-history {
+    width: 350px;
+    /*background-color: #ff4e00;*/
+}
+
+.today {
+    width: 100%;
+    border-bottom: 1px solid lightgray;
+
+    /*background-color: #8b2800;*/
+}
+.today-header {
+    /*height: 100%;*/
+    width: 100%;
+    display: inline-flex;
+    /*background-color: #7aa541;*/
+}
+.header-title {
+    width: 100%;
+    height: 100%;
+    /*background-color: #f1da08;*/
+    display: flex;
+    align-self: center;
+    font-size: 1.75rem;
+    font-weight: 400;
+}
+
+.header-icon {
+    color: gray;
+    font-size: 1.6rem;
+    text-decoration: none;
+    display: flex;
+    align-self: center;
+    min-width: 40px;
+    /*background-color: #3e61f1;*/
+}
+.header-icon:hover {
+    color: gray;
+}
+
+.today-funds {
+    /*height: 300px;*/
+    /*background-color: pink;*/
+    width: 100%;
+    display: flex;
+    margin-bottom: 30px;
+}
+.funds-1 {
+    /*background-color: purple;*/
+    height: 100%;
+    width: 50%;
+    border-right: 1px dashed lightgray;
+}
+.funds-2 {
+    /*height: 100%;*/
+    width: 50%;
+    /*background-color: aqua;*/
+}
+
+.main-account {
+    height: 400px;
+    /*background-color: white;*/
+    display: flex;
+}
+
+.funds-1 .main-account {
+    justify-content: center;
+    vertical-align: center;
+}
+
+.funds-2 .main-account {
+    width: 260px;
+    flex-wrap: wrap;
+    margin: 0 70px;
+}
+
+
+
+.square-big {
+    margin: auto;
+    width: 200px;
+    height: 200px;
+    background-color: #0d6efb;
+    border-radius: 33px;
+}
+.square-big a {
+    height: 100%;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    vertical-align: middle;
+    justify-content: center;
+    border-radius: 33px;
+    /*background-color: green;*/
+}
+.square-big a:hover,
+.square-small a:hover{
+    cursor: pointer;
+}
+.square-big i {
+    font-size: 2.7rem;
+}
+.square-big a .square-amount {
+    font-size: 1.4rem;
+}
+.square-big a .square-acc-name {
+    font-size: 0.9rem;
+    font-weight: 300;
+}
+
+.fund {
+    width: 130px;
+    padding: 10px;
+    /*height: 200px;*/
+    /*background-color: pink;*/
+    /*display: flow;*/
+}
+
+.square-small {
+    margin: 5px;
+    width: 100px;
+    height: 100px;
+    /*background-color: #0d6efb;*/
+    color: #0d6efb;
+    border: 3px solid #0d6efb;
+    border-radius: 25px;
+}
+.square-small a {
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    vertical-align: middle;
+    justify-content: center;
+    border-radius: 25px;
+    /*background-color: green;*/
+}
+.square-small i {
+    font-size: 1.35rem;
+}
+
+.sq-sm-desc {
+    /*background-color: #7aa541;*/
+    /*width: 100%;*/
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-size: 0.86rem;
+}
+
+.filled {
+    color: #fff;
+    background-color: #0d6efb;
+}
+
+
+.sum {
+    display: flex;
+    margin-bottom: 15px;
+    /*background-color: blue;*/
+}
+
+.sum-amount {
+    width: 61.8%;
+    font-weight: 600;
+    font-size: 1.5rem;
+    text-align: right;
+    color: #0d6efb;
+    padding-right: 10px;
+    align-items: baseline;
+    justify-content: right;
+    border-right: 1px dashed lightgray;
+    /*background-color: #7aa541;*/
+}
+.sum-desc {
+    width: 38.2%;
+    min-width: 100px;
+    color: gray;
+    /*background-color: brown;*/
+    padding-left: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.sum-desc i {
+    display: flex;
+    /*background-color: red;*/
+}
+
+.log-info {
+    color: gray;
+    font-size: 0.8em;
+    padding: 20px 0;
+}
+.log-info span {
+    margin-right: 20px;
+}
+
+.planned {
+    border-bottom: 1px dashed lightgray;
+}
+
+.planned, .history {
+    /*background-color: yellowgreen;*/
+    margin-left: 20px;
+    margin-right: 15px;
+    padding-top: 20px;
+    width: available;
+}
+
+.planned-header {
+    display: flex;
+    flex-direction: column;
+    /*background-color: #0d6efb;*/
+}
+
+.planned-header .head,
+.history-header .head {
+    font-size: 1.5rem;
+    /*background-color: grey;*/
+    display: flex;
+    align-items: center;
+}
+.head span,
+.head span {
+    margin-left: 10px;
+}
+
+.planned-header a,
+.history-header a {
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    text-decoration-color: #0d6efb;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    color: black;
+}
+
+
+.planned-header .desc,
+.history-header .desc {
+    font-size: 0.86rem;
+    padding-left: 40px;
+}
+
+.planned-header .icon,
+.history-header .icon {
+    min-width: 30px;
+    font-size: 1.6rem;
+    /*background-color: #f1da08;*/
+    align-self: center;
+}
+
+.planned-body {
+    /*background-color: purple;*/
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.planned-body .desc {
+    /*background-color: pink;*/
+    display: flex;
+    flex-direction: column;
+    padding: 10px 10px 0 40px;
+    width: available;
+}
+
+.planned-body .month {
+    font-size: 1.1rem;
+}
+
+.planned-body .transactions {
+    font-weight: 300;
+    font-size: 0.9rem;
+    color: gray;
+}
+
+.planned-body .amount {
+    /*background-color: cadetblue;*/
+    height: inherit;
+    align-self: center;
+    align-items: baseline;
+    vertical-align: center;
+}
+
+.planned .details,
+.history .details {
+    text-align: center;
+    padding: 20px 0;
+    /*background-color: #543800;*/
+}
+
+.details a {
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    text-decoration-color: #0d6efb;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    color: gray;
+}
+
+.history .history-element {
+    display: block;
+    /*background-color: #0d6efb;*/
+}
+
+.el-main {
+    display: inline-flex;
+    /*background-color: purple;*/
+    margin-top: 15px;
+    width: 100%;
+}
+
+.el-main .icon {
+    min-width: 30px;
+    font-size: 1.6rem;
+    /*background-color: #f1da08;*/
+    align-self: center;
+}
+.el-main .desc {
+    /*background-color: #543800;*/
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    width: inherit;
+}
+
+.history-element:not(:last-child) {
+    border-bottom: 1px solid lightgray;
+}
+
+.history-element {
+    padding-bottom:  20px;
+}
+
+.history-element .desc-account-name,
+.history-element .desc-date {
+    font-size: 0.9rem;
+    color: gray;
+}
+
+
+.history-element .desc-title {
+    font-weight: 600;
+}
+
+.el-amount {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 40px;
+}
+
+.el-amount .block {
+    font-size: 0.9rem;
+    color: gray;
+}
+
+.el-amount .amount {
+    font-weight: 600;
+}
+
+/*DISPLAY ACCOUNT END*/
